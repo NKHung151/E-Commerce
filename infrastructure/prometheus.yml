@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'django-services'
+    static_configs:
+      - targets:
+          - 'user-service:8001'
+          - 'product-service:8002'
+          - 'cart-service:8003'
+          - 'order-service:8004'
+          - 'payment-service:8005'
+          - 'shipping-service:8006'
+          - 'catalog-service:8008'
+          - 'comment-rate-service:8009'
+
+  - job_name: 'fastapi-ai-service'
+    static_configs:
+      - targets:
+          - 'ai-service:8007'
