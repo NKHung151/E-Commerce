@@ -9,6 +9,18 @@ from django.db import close_old_connections
 
 logger = logging.getLogger(__name__)
 
+# Saga events are published to a direct exchange and every service binds its own
+# queue ("<service>.<event>") to it. Previously events were published straight to a
+# shared queue named after the event, so when two services consumed the same event
+# (e.g. saga-order-cancelled: product + payment) RabbitMQ load-balanced the messages
+# and each event reached only ONE of them.
+SAGA_EXCHANGE = 'saga-events'
+SERVICE_NAME = 'order-service'
+
+
+def _declare_exchange(channel):
+    channel.exchange_declare(exchange=SAGA_EXCHANGE, exchange_type='direct', durable=True)
+
 def get_rabbitmq_connection():
     rabbitmq_host = os.getenv('RABBITMQ_HOST', 'rabbitmq')
     return pika.BlockingConnection(
@@ -19,9 +31,9 @@ def publish_event(queue_name, payload):
     try:
         connection = get_rabbitmq_connection()
         channel = connection.channel()
-        channel.queue_declare(queue=queue_name, durable=True)
+        _declare_exchange(channel)
         channel.basic_publish(
-            exchange='',
+            exchange=SAGA_EXCHANGE,
             routing_key=queue_name,
             body=json.dumps(payload),
             properties=pika.BasicProperties(
@@ -77,8 +89,11 @@ def start_saga_consumer():
                 'saga-stock-failed',
                 'saga-shipping-created'
             ]
+            _declare_exchange(channel)
             for queue in queues:
-                channel.queue_declare(queue=queue, durable=True)
+                own_queue = f'{SERVICE_NAME}.{queue}'
+                channel.queue_declare(queue=own_queue, durable=True)
+                channel.queue_bind(queue=own_queue, exchange=SAGA_EXCHANGE, routing_key=queue)
             
             def callback(ch, method, properties, body):
                 close_old_connections()
@@ -120,7 +135,7 @@ def start_saga_consumer():
 
             channel.basic_qos(prefetch_count=1)
             for queue in queues:
-                channel.basic_consume(queue=queue, on_message_callback=callback)
+                channel.basic_consume(queue=f'{SERVICE_NAME}.{queue}', on_message_callback=callback)
             
             logger.info("🚀 [RabbitMQ Consumer] Waiting for Saga events...")
             channel.start_consuming()
