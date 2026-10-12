@@ -243,7 +243,6 @@ async def call_llm_logic(prompt: str) -> str:
                     print(f"Ollama Error ({response.status_code}): {error_msg}")
                     return f"Lỗi kết nối AI ({response.status_code}): {error_msg[:100]}..."
     except Exception as e:
-        import traceback
         print(f"LLM Logic Exception: {str(e)}")
         # Friendly Vietnamese fallback instead of raw error
         return "Xin lỗi, hiện tại tôi đang bận xử lý một chút. Dưới đây là một số sản phẩm tốt nhất mà tôi tìm thấy cho bạn:"

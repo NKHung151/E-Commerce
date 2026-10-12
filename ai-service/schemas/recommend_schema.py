@@ -1,11 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class RecommendRequest(BaseModel):
-    user_id: int
-    top_n: int = 10
-    context: Optional[str] = None
-
 class ProductSummary(BaseModel):
     id: int
     name: str

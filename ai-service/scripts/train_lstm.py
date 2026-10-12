@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
-    import torch
+    import torch  # noqa: F401  (fail fast if PyTorch is missing)
     from models.train_lstm import train
 except Exception as e:
     print(f"❌ PyTorch/model imports failed: {e}")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
             break
             
     if not csv_path:
-        print(f"⚠️  No behavior data found (checked .xlsx and .csv) — skipping training")
+        print("⚠️  No behavior data found (checked .xlsx and .csv) — skipping training")
         sys.exit(0)
     
     # Check data size

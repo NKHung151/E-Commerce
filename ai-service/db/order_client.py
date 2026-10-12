@@ -20,16 +20,5 @@ class OrderClient:
             print(f"OrderClient Error: {e}")
             return []
 
-    async def get_order_details(self, order_id: str, token: str = None) -> dict:
-        try:
-            headers = {"Authorization": f"Bearer {token}"} if token else {}
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                resp = await client.get(f"{self.base_url}/api/v1/orders/{order_id}/", headers=headers)
-                if resp.status_code == 200:
-                    return resp.json()
-                return {}
-        except Exception as e:
-            print(f"OrderClient Error: {e}")
-            return {}
 
 order_client = OrderClient()

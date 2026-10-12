@@ -1,6 +1,6 @@
 import json
 import httpx
-from typing import List, Optional, Dict, Any
+from typing import Optional
 from pydantic import BaseModel
 from openai import AsyncOpenAI
 from config import settings

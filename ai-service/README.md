@@ -186,14 +186,18 @@ AI-Service (FastAPI):
 │   ├── behavior_service.py    → Persist events to CSV + Neo4j
 │   ├── lstm_service.py        → Sequence-based recommendations (LSTM)
 │   ├── graph_service.py       → Graph-based recommendations (Neo4j)
-│   ├── rag_service.py         → Semantic search + LLM generation (FAISS + Ollama/OpenAI)
+│   ├── rag_service.py         → Semantic product search (FAISS)
+│   ├── indexing_service.py    → Build FAISS index + sync product nodes to Neo4j
+│   ├── intent_service.py      → Chatbot intent detection (LLM)
+│   ├── rabbitmq_consumer.py   → Consume user-behavior-queue → behavior_service
 │   ├── hybrid_service.py      → Combine all 3 sources (configurable weights)
 │   └── chatbot_service.py     → Intent detection + response generation
 │
 ├── /db
 │   ├── neo4j_client.py   → Async Neo4j driver, Cypher queries
 │   ├── faiss_client.py   → FAISS index load/search/rebuild
-│   └── product_client.py → HTTP client for product-service
+│   ├── product_client.py → HTTP client for product-service (cached catalogue)
+│   └── order_client.py   → HTTP client for order-service (chatbot order lookup)
 │
 ├── /models
 │   ├── lstm_model.py          → PyTorch LSTM architecture
@@ -201,8 +205,7 @@ AI-Service (FastAPI):
 │   └── lstm_inference.py      → Load checkpoint + predict
 │
 ├── /utils
-│   ├── embedder.py       → Sentence-Transformers wrapper (with fallback)
-│   └── normalizer.py     → Score normalization helpers
+│   └── embedder.py       → Sentence-Transformers wrapper (with fallback)
 │
 └── main.py               → FastAPI app, lifespan, CORS, routers
 ```
