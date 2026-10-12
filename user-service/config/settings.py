@@ -96,16 +96,18 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Shared with every other service, which verify tokens locally with PyJWT.
+JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'SIGNING_KEY': config('JWT_SECRET', default='shared-jwt-secret'),
+    'SIGNING_KEY': JWT_SECRET,
     'ALGORITHM': 'HS256',
     'ISSUER': 'ecommerce-user-service',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
-JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
 
 LOGGING = {
     'version': 1,
