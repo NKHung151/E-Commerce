@@ -11,6 +11,7 @@ from .serializers import (
 )
 from .permissions import IsAdminRole, IsStaffOrAdmin
 from .utils import error_response
+from django.conf import settings
 from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
@@ -87,7 +88,8 @@ class UserViewSet(_UserCrudMixin, viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def register(self, request):
         logger.info('[user-service] New user registration attempt')
-        serializer = RegisterSerializer(data=request.data)
+        serializer_class = UserCreateSerializer if settings.ALLOW_ROLE_ON_REGISTER else RegisterSerializer
+        serializer = serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             logger.info(f'[user-service] User registered: {serializer.data["username"]}')
