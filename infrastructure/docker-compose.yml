@@ -23,8 +23,11 @@ services:
   # ── Domain services ───────────────────────────────
   user-service:
     build: ../user-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
+      - DB_HOST=mysql-container
+      - DB_PORT=3306
     ports: ["8001:8001"]
     env_file: ../user-service/.env
     extra_hosts:
@@ -40,8 +43,9 @@ services:
 
   product-service:
     build: ../product-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8002:8002"]
     env_file: ../product-service/.env
     extra_hosts:
@@ -55,8 +59,9 @@ services:
 
   cart-service:
     build: ../cart-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8003:8003"]
     env_file: ../cart-service/.env
     extra_hosts:
@@ -70,8 +75,9 @@ services:
 
   order-service:
     build: ../order-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8004:8004"]
     env_file: ../order-service/.env
     extra_hosts:
@@ -85,8 +91,9 @@ services:
 
   payment-service:
     build: ../payment-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8005:8005"]
     env_file: ../payment-service/.env
     extra_hosts:
@@ -100,8 +107,9 @@ services:
 
   shipping-service:
     build: ../shipping-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8006:8006"]
     env_file: ../shipping-service/.env
     extra_hosts:
@@ -115,16 +123,16 @@ services:
 
   ai-service:
     build: ../ai-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
+      - NEO4J_URI=bolt://neo4j:7687
     ports: ["8007:8007"]
     env_file: ../ai-service/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ../ai-service/data:/app/data
-    networks:
-      - default
     command: uvicorn main:app --host 0.0.0.0 --port 8007
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8007/health', timeout=5)"]
@@ -134,8 +142,9 @@ services:
 
   catalog-service:
     build: ../catalog-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8008:8008"]
     env_file: ../catalog-service/.env
     extra_hosts:
@@ -149,8 +158,9 @@ services:
 
   comment-rate-service:
     build: ../comment-rate-service
+    networks: [default, shared-infra]
     environment:
-      - RABBITMQ_HOST=host.docker.internal
+      - RABBITMQ_HOST=rabbitmq
     ports: ["8009:8009"]
     env_file: ../comment-rate-service/.env
     extra_hosts:
@@ -171,9 +181,13 @@ services:
       - gateway
 
   # ── Message Broker ────────────────────────────────
-  # RabbitMQ is NOT started here: the project uses the shared host container
-  # `rabbitmq` (also used by other projects), reached via host.docker.internal.
-  #   docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+  # RabbitMQ, MySQL and Neo4j are NOT started here: the project uses the shared
+  # containers (also used by other projects) on the external `shared-infra` network
+  # and reaches them by container name. One-time setup:
+  #   docker network create shared-infra
+  #   docker network connect shared-infra rabbitmq   (and mysql-container, neo4j, redis)
+  # PostgreSQL is the native install on the host, reached via host.docker.internal:5432
+  # (DB_HOST in each service's .env).
 
   # ── Observability & Monitoring ─────────────────────
   prometheus:
@@ -218,3 +232,6 @@ services:
       - prometheus
       - loki
 
+networks:
+  shared-infra:
+    external: true
