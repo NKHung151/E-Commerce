@@ -14,7 +14,8 @@ def health_check(request):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    # Stable ordering is required for consistent pagination.
+    queryset = Category.objects.order_by('name')
     serializer_class = CategorySerializer
     authentication_classes = [JWTAuthentication]
 
