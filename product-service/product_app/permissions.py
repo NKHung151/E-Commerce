@@ -50,11 +50,6 @@ class IsStaffOrAdmin(BasePermission):
         return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff']
 
 
-class IsCustomerOrAbove(BasePermission):
-    def has_permission(self, request, view):
-        return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff', 'customer']
-
-
 class IsInternalService(BasePermission):
     """Service-to-service calls authenticated by a shared X-Internal-Token header."""
     def has_permission(self, request, view):

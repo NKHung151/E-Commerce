@@ -162,7 +162,7 @@ class OfficeSupplies(models.Model):
 
 
 class StockReservation(models.Model):
-    order_id = models.IntegerField(unique=True, db_index=True)
+    order_id = models.IntegerField(unique=True)
     items_json = models.TextField()  # JSON string of product_id and quantity
     created_at = models.DateTimeField(auto_now_add=True)
 

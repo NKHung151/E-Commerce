@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProductViewSet, AdminProductViewSet, BookViewSet, ElectronicsViewSet, FashionViewSet,
     HomeLivingViewSet, SportsOutdoorsViewSet, BeautyHealthViewSet, ToysGamesViewSet,
-    AutomotiveViewSet, FoodGroceryViewSet, OfficeSuppliesViewSet, health_check
+    AutomotiveViewSet, FoodGroceryViewSet, OfficeSuppliesViewSet
 )
 
 # Public/customer router (list/retrieve)
@@ -49,7 +49,6 @@ admin_router.register(r'food-grocery', FoodGroceryViewSet, basename='admin-food-
 admin_router.register(r'office-supplies', OfficeSuppliesViewSet, basename='admin-office-supplies')
 
 urlpatterns = [
-    path('health/', health_check, name='health_check'),
     path('', include(router.urls)),
     path('staff/', include(staff_router.urls)),
     path('admin/', include(admin_router.urls)),
