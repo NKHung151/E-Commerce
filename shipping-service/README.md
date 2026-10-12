@@ -6,7 +6,7 @@ Shipments are created after successful payment in the order saga.
 
 ## Port
 - **8006** (internal service port)
-- Accessed via Nginx gateway at `http://localhost:8080/api/v1/shipping/`
+- Accessed via Nginx gateway at `http://localhost:8080/api/v1/staff/shipping/` (staff/admin only)
 
 ## Database
 - **PostgreSQL** at `postgres:5432`
@@ -16,26 +16,27 @@ Shipments are created after successful payment in the order saga.
 ## Models
 - **Shipment**
   - Fields: id, order_id (unique, indexed), address, status, created_at, updated_at
-  - Status choices: processing, shipping, delivered
+  - Status choices: pending_payment, processing, shipping, delivered, cancelled
+  - Shipments are created by the saga (`saga-stock-reduced`, `saga-payment-confirmed`) and cancelled on `saga-order-cancelled`
 
 ## API Endpoints
 
 ### Shipment Operations
-- `POST /api/v1/shipping/create/` - Create shipment (IsStaffOrAdmin, called by order-service)
+- `POST /api/v1/staff/shipping/create/` - Create shipment manually (IsStaffOrAdmin)
   - Body: `{"order_id": 1, "address": "123 Main St"}`
   - Returns: Created Shipment record
   - HTTP 201: Created
   - HTTP 500: Processing error
 
-- `GET /api/v1/shipping/status/?order_id={id}` - Get shipment status (IsCustomerOrAbove)
+- `GET /api/v1/staff/shipping/status/?order_id={id}` - Get shipment status (IsStaffOrAdmin)
   - Query param: `order_id` (required)
   - Returns: Shipment record
   - HTTP 200: Found
   - HTTP 404: Not found
 
-- `PATCH /api/v1/shipping/{id}/update_status/` - Update shipment status (IsStaffOrAdmin)
+- `PATCH /api/v1/staff/shipping/{id}/update_status/` - Update shipment status (IsStaffOrAdmin)
   - Body: `{"status": "shipping"}`
-  - Status choices: processing, shipping, delivered
+  - Forward-only transitions: pending_payment → processing → shipping → delivered (cancelled from pending_payment/processing)
   - Returns: Updated Shipment record
   - HTTP 200: Updated
   - HTTP 400: Invalid status
@@ -82,7 +83,7 @@ docker-compose up shipping-service
 
 ### Create Shipment (Order Service)
 ```bash
-curl -X POST http://localhost:8080/api/v1/shipping/create/ \
+curl -X POST http://localhost:8080/api/v1/staff/shipping/create/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
@@ -93,13 +94,13 @@ curl -X POST http://localhost:8080/api/v1/shipping/create/ \
 
 ### Check Shipment Status
 ```bash
-curl -X GET http://localhost:8080/api/v1/shipping/status/?order_id=5 \
+curl -X GET http://localhost:8080/api/v1/staff/shipping/status/?order_id=5 \
   -H "Authorization: Bearer <access_token>"
 ```
 
 ### Update Shipment Status (Staff)
 ```bash
-curl -X PATCH http://localhost:8080/api/v1/shipping/1/update_status/ \
+curl -X PATCH http://localhost:8080/api/v1/staff/shipping/1/update_status/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <staff_token>" \
   -d '{"status": "shipping"}'
