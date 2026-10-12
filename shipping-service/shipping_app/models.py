@@ -7,6 +7,7 @@ class Shipment(models.Model):
         ('processing', 'Processing'),
         ('shipping', 'Shipping'),
         ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
     ]
     order_id = models.IntegerField(unique=True, db_index=True)
     address = models.TextField()
