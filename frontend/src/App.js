@@ -1,74 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import CustomerApp from './customer-app/App';
-import StaffApp from './staff-app/App';
-import AdminApp from './admin-app/App';
+import React, { Suspense, lazy } from 'react';
+import { FeedbackProvider } from './components/ui/feedback';
+import { PageLoader } from './components/ui';
 
-function App() {
-  const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true);
+// Two independent apps with separate sessions. The back office is code-split so
+// shoppers never download it.
+const ShopApp = lazy(() => import('./shop/ShopApp'));
+const BackofficeApp = lazy(() => import('./backoffice/BackofficeApp'));
 
-  useEffect(() => {
-    const path = window.location.pathname;
-    let token = null;
-    
-    // Choose token based on path to prevent role leakage
-    if (path.startsWith('/staff')) {
-      token = localStorage.getItem('staff_access_token');
-    } else if (path.startsWith('/admin')) {
-      token = localStorage.getItem('admin_access_token');
-    } else {
-      token = localStorage.getItem('access_token');
-    }
-    
-    if (token) {
-      try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split('')
-            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
-        );
-        const decoded = JSON.parse(jsonPayload);
-        
-        const deriveRole = (d) => {
-          if (!d) return null;
-          if (d.role) return d.role;
-          if (d.is_superuser || d.is_admin) return 'admin';
-          if (d.is_staff) return 'staff';
-          return 'customer';
-        };
-        
-        const userRole = deriveRole(decoded);
-        setRole(userRole);
-      } catch (e) {
-        console.error('Token parse error:', e);
-      }
-    }
-    
-    setLoading(false);
-  }, []);
+const BACKOFFICE_PREFIXES = ['/admin', '/staff'];
 
-  if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-    </div>;
-  }
-
+export default function App() {
   const path = window.location.pathname;
+  const backofficeBase = BACKOFFICE_PREFIXES.find((p) => path === p || path.startsWith(`${p}/`));
 
-  // 1. Check path first (allows staff/admin to see storefront at root)
-  if (path.startsWith('/admin')) {
-    return <AdminApp />;
-  }
-  
-  if (path.startsWith('/staff')) {
-    return <StaffApp />;
-  }
-
-  // 2. Default to CustomerApp (Storefront)
-  return <CustomerApp />;
+  return (
+    <FeedbackProvider>
+      <Suspense fallback={<PageLoader />}>
+        {backofficeBase ? <BackofficeApp basename={backofficeBase} /> : <ShopApp />}
+      </Suspense>
+    </FeedbackProvider>
+  );
 }
-
-export default App;

@@ -175,10 +175,8 @@ services:
   frontend:
     build: ../frontend
     ports: ["3000:80"]
-    environment:
-      - REACT_APP_API_URL=http://gateway:8080/api/v1
-    depends_on:
-      - gateway
+    # The SPA uses same-origin URLs; its nginx proxies /api, /recommend, /chatbot
+    # and /behavior to the gateway (see frontend/nginx.conf).
 
   # ── Message Broker ────────────────────────────────
   # RabbitMQ, MySQL and Neo4j are NOT started here: the project uses the shared
