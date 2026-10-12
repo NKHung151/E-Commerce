@@ -161,6 +161,7 @@ class OrderViewSet(viewsets.ViewSet):
             from order_app.rabbitmq_saga import publish_event
             payload = {
                 "order_id": order.id,
+                "user_id": order.user_id,
                 "total_price": str(order.total_price),
                 "address": order.address,
                 "payment_method": order.payment_method,
