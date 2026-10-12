@@ -16,7 +16,7 @@ export function Logo({ to, tone = 'dark', subtitle, className }) {
           tone === 'light' ? 'bg-white/20 text-white' : 'bg-brand-600 text-white shadow-sm shadow-brand-600/30'
         )}
       >
-        P
+        {APP_NAME.charAt(0)}
       </span>
       <span className={cx('text-lg font-bold tracking-tight', tone === 'light' ? 'text-white' : 'text-slate-900')}>
         {APP_NAME}

@@ -1,6 +1,6 @@
-# E-Commerce Microservices Platform
+# Novamart — E-Commerce Microservices Platform
 
-Đây là dự án Tiểu luận môn học **Kiến trúc và Thiết kế Phần mềm** (PTIT). Dự án xây dựng một nền tảng thương mại điện tử sử dụng kiến trúc Microservices, bao gồm nhiều dịch vụ độc lập kết hợp với nhau thông qua API Gateway và Message Broker.
+**Novamart** là nền tảng thương mại điện tử sử dụng kiến trúc Microservices, bao gồm nhiều dịch vụ độc lập kết hợp với nhau thông qua API Gateway và Message Broker.
 
 ## 🏗 Kiến trúc Hệ thống (Architecture)
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { APP_NAME } from '../../config';
 import { Logo } from './Logo';
 
 /** Split-screen layout for login / register pages (shop and back office). */
@@ -10,7 +11,7 @@ export function AuthShell({ title, subtitle, children, aside, tone = 'from-brand
         <div className="absolute -bottom-40 -left-20 h-96 w-96 rounded-full bg-fuchsia-400/20 blur-3xl" />
         <Logo tone="light" className="relative" />
         <div className="relative max-w-md">{aside}</div>
-        <p className="relative text-sm text-white/60">© {new Date().getFullYear()} PTIT — Kiến trúc & Thiết kế phần mềm</p>
+        <p className="relative text-sm text-white/60">© {new Date().getFullYear()} {APP_NAME}. Mua sắm thông minh mỗi ngày.</p>
       </div>
       <div className="flex items-center justify-center bg-white px-6 py-12">
         <div className="w-full max-w-sm">

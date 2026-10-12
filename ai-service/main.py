@@ -71,7 +71,7 @@ async def lifespan(app: FastAPI):
         pass
     print("🛑 AI-service shutting down")
 
-app = FastAPI(title="AI Service — ecom-final", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="AI Service — Novamart", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

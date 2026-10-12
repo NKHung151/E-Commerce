@@ -1,4 +1,4 @@
-# Frontend — PTIT Shop
+# Frontend — Novamart
 
 React 18 + React Router 6 + Tailwind CSS. One bundle, two apps with separate sessions:
 

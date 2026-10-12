@@ -40,7 +40,7 @@ This starts:
 
 ## Project Structure
 ```
-ecom-final/
+E-Commerce/
 ├── gateway/               # Nginx reverse proxy
 │   ├── nginx.conf
 │   ├── Dockerfile

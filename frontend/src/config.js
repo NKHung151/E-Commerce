@@ -3,4 +3,4 @@
 export const GATEWAY_URL = (process.env.REACT_APP_GATEWAY_URL || '').replace(/\/$/, '');
 export const API_URL = `${GATEWAY_URL}/api/v1`;
 
-export const APP_NAME = 'PTIT Shop';
+export const APP_NAME = 'Novamart';

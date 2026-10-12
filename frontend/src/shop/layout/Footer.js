@@ -16,7 +16,7 @@ export default function Footer() {
         <div>
           <Logo to="/" />
           <p className="mt-3 max-w-xs text-sm text-slate-500">
-            Đồ án Kiến trúc & Thiết kế phần mềm — nền tảng thương mại điện tử theo kiến trúc microservices.
+            Mua sắm trực tuyến hàng chính hãng: giao hàng nhanh, thanh toán linh hoạt và trợ lý AI tư vấn 24/7.
           </p>
         </div>
         <div>
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-400">
-        © {new Date().getFullYear()} {APP_NAME}. PTIT.
+        © {new Date().getFullYear()} {APP_NAME}. Bảo lưu mọi quyền.
       </div>
     </footer>
   );
