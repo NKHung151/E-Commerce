@@ -39,11 +39,6 @@ class JWTAuthentication(BaseAuthentication):
         return 'Bearer realm="api"'
 
 
-class IsAdminRole(BasePermission):
-    def has_permission(self, request, view):
-        return getattr(request, 'auth_payload', {}).get('role') == 'admin'
-
-
 class IsStaffOrAdmin(BasePermission):
     def has_permission(self, request, view):
         return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff']

@@ -9,7 +9,7 @@ class Order(models.Model):
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
-    user_id = models.IntegerField(db_index=True)
+    user_id = models.IntegerField()
     total_price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
     address = models.TextField(blank=True)

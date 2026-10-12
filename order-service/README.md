@@ -161,5 +161,5 @@ curl -X PATCH http://localhost:8080/api/v1/orders/5/update_status/ \
 ## Notes
 - Decimal precision: max_digits=12, decimal_places=2
 - Pagination: default 10 items per page
-- Saga retries use exponential backoff (tenacity library)
-- All inter-service calls forward JWT token
+- Fetching products from product-service is retried (tenacity, 3 attempts)
+- Payment, stock and shipping steps are driven by saga events over RabbitMQ (exchange `saga-events`)
