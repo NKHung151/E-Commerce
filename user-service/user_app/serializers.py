@@ -33,8 +33,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(UserCreateSerializer):
-    """Public self-registration: role is forced to 'customer'
-    (unless settings.ALLOW_ROLE_ON_REGISTER is enabled, see views.register)."""
+    """Public self-registration: role is always forced to 'customer'."""
     class Meta(UserCreateSerializer.Meta):
         read_only_fields = ('role',)
 

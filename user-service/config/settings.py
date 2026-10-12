@@ -107,10 +107,6 @@ SIMPLE_JWT = {
 
 JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
 
-# Dev/demo only: let /auth/register/ honour the `role` field (admin/staff/customer).
-# Keep False in production, otherwise anyone can self-register as admin.
-ALLOW_ROLE_ON_REGISTER = config('ALLOW_ROLE_ON_REGISTER', default=False, cast=bool)
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
