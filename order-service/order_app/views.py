@@ -1,5 +1,7 @@
 import logging
 from decimal import Decimal
+from django.db import transaction
+from django.db.models import Q
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -16,6 +18,28 @@ logger = logging.getLogger(__name__)
 
 def health_check(request):
     return JsonResponse({"status": "ok", "service": "order-service"})
+
+
+MAX_ITEM_QUANTITY = 999
+MAX_ORDER_LINES = 50
+PAYMENT_METHODS = ('card', 'bank', 'cash')  # values sent by the checkout page
+
+# Allowed manual status transitions (staff/admin).
+VALID_TRANSITIONS = {
+    'pending': ['pending', 'processing', 'cancelled'],
+    'processing': ['processing', 'shipped', 'cancelled'],
+    'shipped': ['shipped', 'delivered'],
+    'delivered': ['delivered'],
+    'cancelled': ['cancelled']
+}
+
+
+def _parse_quantity(value):
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        return None
+    return value if 1 <= value <= MAX_ITEM_QUANTITY else None
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -36,7 +60,7 @@ class OrderViewSet(viewsets.ViewSet):
     def create(self, request):
         """
         Create an order with Saga orchestration.
-        
+
         Saga flow:
         1. Validate products exist and have sufficient stock
         2. Resolve prices from product-service (NEVER from client body)
@@ -50,35 +74,47 @@ class OrderViewSet(viewsets.ViewSet):
         user_id = request.auth_payload['user_id']
         items_data = request.data.get('items', [])
         address = request.data.get('address', '')
-        token = request.auth_header if hasattr(request, 'auth_header') else None
 
-        if not items_data:
+        if not items_data or not isinstance(items_data, list):
             return error_response('items list is required', 400)
+        if len(items_data) > MAX_ORDER_LINES:
+            return error_response(f'An order can contain at most {MAX_ORDER_LINES} lines', 400)
 
         logger.info(f'[order-service] Creating order for user {user_id}')
+
+        # Merge duplicate lines so the stock check sees the real requested quantity.
+        requested = {}
+        for item in items_data:
+            if not isinstance(item, dict) or not item.get('product_id'):
+                return error_response('product_id required for each item', 400)
+            quantity = _parse_quantity(item.get('quantity', 1))
+            if quantity is None:
+                return error_response(f'quantity must be an integer between 1 and {MAX_ITEM_QUANTITY}', 400)
+            try:
+                product_id = int(item['product_id'])
+            except (TypeError, ValueError):
+                return error_response('product_id must be an integer', 400)
+            requested[product_id] = requested.get(product_id, 0) + quantity
 
         # Step 1 & 2: Validate products and resolve prices
         total_price = Decimal('0')
         order_items_data = []
 
-        for item in items_data:
-            product_id = item.get('product_id')
-            quantity = item.get('quantity', 1)
-
-            if not product_id:
-                return error_response('product_id required for each item', 400)
-
+        for product_id, quantity in requested.items():
             # Get product from product-service
             try:
                 product = services.get_product(product_id)
             except Exception as e:
                 logger.error(f'[order-service] Failed to fetch product {product_id}: {e}')
-                return error_response(f'Failed to fetch product {product_id}', 500)
+                return error_response(f'Product service unavailable while fetching product {product_id}', 503)
 
             if product is None:
                 return error_response(f'Product {product_id} not found', 400)
 
-            # Check stock
+            if not product.get('is_available', True):
+                return error_response(f'Product {product_id} is not available', 400)
+
+            # Check stock (the authoritative check happens atomically in product-service via the saga)
             if product['stock'] < quantity:
                 return error_response(
                     f'Insufficient stock for product {product_id}: available {product["stock"]}, requested {quantity}',
@@ -97,24 +133,28 @@ class OrderViewSet(viewsets.ViewSet):
         logger.info(f'[order-service] Validated all products for order total: ${total_price}')
 
         # Step 3: Create Order
-        try:
-            payment_method = request.data.get('payment_method', 'card')
-            order = Order.objects.create(
-                user_id=user_id,
-                total_price=total_price,
-                status='pending',
-                address=address,
-                payment_method=payment_method
-            )
+        payment_method = request.data.get('payment_method', 'card')
+        if payment_method not in PAYMENT_METHODS:
+            return error_response(f'Unsupported payment_method: {payment_method}', 400)
 
-            # Create OrderItems
-            for item_data in order_items_data:
-                OrderItem.objects.create(order=order, **item_data)
+        try:
+            # Order and its items are written together or not at all.
+            with transaction.atomic():
+                order = Order.objects.create(
+                    user_id=user_id,
+                    total_price=total_price,
+                    status='pending',
+                    address=address,
+                    payment_method=payment_method
+                )
+                items = OrderItem.objects.bulk_create(
+                    [OrderItem(order=order, **item_data) for item_data in order_items_data]
+                )
 
             logger.info(f'[order-service] Created Order {order.id} with status=pending, payment_method={payment_method}')
         except Exception as e:
             logger.error(f'[order-service] Failed to create order: {e}')
-            return error_response(f'Failed to create order: {str(e)}', 500)
+            return error_response('Failed to create order', 500)
 
         # Step 4: Publish Saga Event (RabbitMQ)
         try:
@@ -130,7 +170,7 @@ class OrderViewSet(viewsets.ViewSet):
                         "quantity": item.quantity,
                         "unit_price": str(item.unit_price)
                     }
-                    for item in order.items.all()
+                    for item in items
                 ]
             }
             publish_event('saga-order-created', payload)
@@ -140,10 +180,7 @@ class OrderViewSet(viewsets.ViewSet):
 
         # Track behavior
         for item_data in order_items_data:
-            try:
-                track_behavior(user_id=user_id, product_id=item_data['product_id'], action='purchase')
-            except Exception:
-                pass
+            track_behavior(user_id=user_id, product_id=item_data['product_id'], action='purchase')
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -154,27 +191,21 @@ class OrderViewSet(viewsets.ViewSet):
 
         logger.info(f'[order-service] Listing orders for user {user_id} (role: {role})')
 
-        if role in ('admin', 'staff'):
-            orders = Order.objects.all().order_by('-id')
-        else:
-            orders = Order.objects.filter(user_id=user_id).order_by('-id')
+        orders = Order.objects.prefetch_related('items').order_by('-id')
+        if role not in ('admin', 'staff'):
+            orders = orders.filter(user_id=user_id)
 
         search_query = request.query_params.get('search', None)
         if search_query:
-            from django.db.models import Q
             q_clean = search_query.strip()
             if q_clean.startswith('#'):
                 q_clean = q_clean[1:]
-            
+
             if q_clean.isdigit():
                 orders = orders.filter(Q(id=int(q_clean)) | Q(user_id=int(q_clean)))
             else:
                 orders = orders.filter(Q(status__icontains=q_clean) | Q(address__icontains=q_clean))
 
-        # Apply pagination
-        page = request.query_params.get('page', 1)
-        page_size = request.query_params.get('page_size', 10)
-        
         paginator = self.pagination_class()
         paginated_orders = paginator.paginate_queryset(orders, request)
         serializer = OrderSerializer(paginated_orders, many=True)
@@ -187,15 +218,15 @@ class OrderViewSet(viewsets.ViewSet):
         logger.info(f'[order-service] Retrieving Order {pk} for user {user_id}')
 
         try:
-            order = Order.objects.get(pk=pk)
-            
+            order = Order.objects.prefetch_related('items').get(pk=pk)
+
             # Enforce ownership
             if role not in ('admin', 'staff') and order.user_id != user_id:
                 return error_response('Permission denied', 403)
 
             serializer = OrderSerializer(order)
             return Response(serializer.data)
-        except Order.DoesNotExist:
+        except (Order.DoesNotExist, ValueError):
             return error_response('Order not found', 404)
 
     @action(detail=True, methods=['patch'])
@@ -212,22 +243,15 @@ class OrderViewSet(viewsets.ViewSet):
             order = Order.objects.get(pk=pk)
             if new_status not in dict(Order.STATUS_CHOICES):
                 return error_response(f'Invalid status: {new_status}', 400)
-            
+
             old_status = order.status
-            
+
             # State Machine Validation
-            VALID_TRANSITIONS = {
-                'pending': ['pending', 'processing', 'cancelled'],
-                'processing': ['processing', 'shipped', 'cancelled'],
-                'shipped': ['shipped', 'delivered'],
-                'delivered': ['delivered'],
-                'cancelled': ['cancelled']
-            }
             if new_status not in VALID_TRANSITIONS.get(old_status, []):
                 return error_response(f'Invalid state transition from {old_status} to {new_status}', 400)
 
             order.status = new_status
-            order.save()
+            order.save(update_fields=['status', 'updated_at'])
 
             if old_status != new_status:
                 try:
@@ -246,5 +270,5 @@ class OrderViewSet(viewsets.ViewSet):
 
             serializer = OrderSerializer(order)
             return Response(serializer.data)
-        except Order.DoesNotExist:
+        except (Order.DoesNotExist, ValueError):
             return error_response('Order not found', 404)

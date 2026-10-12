@@ -2,6 +2,7 @@ import pika
 import json
 import logging
 import os
+import sys
 import threading
 import time
 from django.db import close_old_connections
@@ -32,8 +33,24 @@ def publish_event(queue_name, payload):
     except Exception as e:
         logger.error(f"[RabbitMQ] Failed to publish to {queue_name}: {e}")
 
+def _should_start_consumer():
+    """Start the consumer only in the process that actually serves requests.
+
+    - `manage.py runserver` with autoreload: only the child process (RUN_MAIN=true),
+      not the file-watcher parent, otherwise two consumers run.
+    - Other management commands (migrate, shell, test, ...): never.
+    - WSGI servers (gunicorn, uwsgi): always.
+    """
+    argv = sys.argv
+    if argv and argv[0].endswith('manage.py'):
+        if len(argv) > 1 and argv[1] == 'runserver':
+            return os.environ.get('RUN_MAIN') == 'true' or '--noreload' in argv
+        return False
+    return True
+
+
 def start_saga_consumer():
-    def _run():
+    def _consume_once():
         rabbitmq_host = os.getenv('RABBITMQ_HOST', 'rabbitmq')
         max_retries = 10
         retry_delay = 5
@@ -79,14 +96,22 @@ def start_saga_consumer():
                         ch.basic_ack(delivery_tag=method.delivery_tag)
                         return
                     
+                    # Only move forward from states where the event makes sense, so a late
+                    # or redelivered event cannot resurrect a cancelled order or cancel a delivered one.
                     if routing_key in ('saga-payment-failed', 'saga-payment-refunded', 'saga-stock-failed'):
-                        order.status = 'cancelled'
-                        order.save()
-                        logger.info(f"Order {order_id} cancelled due to event: {routing_key}")
+                        if order.status in ('pending', 'processing'):
+                            order.status = 'cancelled'
+                            order.save(update_fields=['status', 'updated_at'])
+                            logger.info(f"Order {order_id} cancelled due to event: {routing_key}")
+                        else:
+                            logger.info(f"Ignoring {routing_key} for Order {order_id} in status {order.status}")
                     elif routing_key == 'saga-shipping-created':
-                        order.status = 'processing'
-                        order.save()
-                        logger.info(f"Order {order_id} set to processing (Saga completed successfully)")
+                        if order.status == 'pending':
+                            order.status = 'processing'
+                            order.save(update_fields=['status', 'updated_at'])
+                            logger.info(f"Order {order_id} set to processing (Saga completed successfully)")
+                        else:
+                            logger.info(f"Ignoring {routing_key} for Order {order_id} in status {order.status}")
                     
                     ch.basic_ack(delivery_tag=method.delivery_tag)
                 except Exception as e:
@@ -105,9 +130,12 @@ def start_saga_consumer():
                 connection.close()
             except Exception:
                 pass
-            time.sleep(5)
-            _run()
 
-    if os.environ.get('RUN_MAIN') == 'true' or not os.environ.get('RUN_MAIN'):
-        # In Docker runserver or celery, RUN_MAIN is set. If not, start anyway (for other runtime environments)
+    def _run():
+        # Reconnect forever instead of recursing (the old self-call grew the stack on every failure).
+        while True:
+            _consume_once()
+            time.sleep(5)
+
+    if _should_start_consumer():
         threading.Thread(target=_run, daemon=True).start()
