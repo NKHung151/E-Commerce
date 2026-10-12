@@ -3,9 +3,8 @@ from django.http import JsonResponse
 import requests
 from django.conf import settings
 from django.db.models import Count, Sum
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from .models import Comment
 from .serializers import CommentSerializer
 from .permissions import JWTAuthentication, IsCustomerOrAbove, IsCommentOwnerOrAdmin
