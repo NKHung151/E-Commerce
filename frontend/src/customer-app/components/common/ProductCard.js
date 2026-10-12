@@ -19,13 +19,9 @@ export const ProductCard = ({ product, showAddToCart = true }) => {
     }
     try {
       const unitPrice = Number(product.price ?? product.unit_price ?? product.price_amount ?? product.cost ?? 0) || 0;
+      // add_to_cart behaviour is tracked server-side by cart-service (tracking it here too double-counted it)
       await addItem(product.id, 1, unitPrice);
-      
-      // TRACK BEHAVIOR: add_to_cart
-      if (isAuthenticated && user?.id) {
-        aiService.trackBehavior(user.id, product.id, 'add_to_cart');
-      }
-      
+
       alert('Product added to cart!');
     } catch (error) {
       alert('Error adding product to cart');

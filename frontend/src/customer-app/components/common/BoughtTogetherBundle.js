@@ -73,9 +73,9 @@ export const BoughtTogetherBundle = ({ currentProduct }) => {
     try {
       // Add each item in sequence
       for (const item of allBundleItems) {
+        // add_to_cart behaviour is tracked server-side by cart-service. The old client-side
+        // call double-counted it and attributed it to user 1 (`currentProduct.userId || 1`).
         await addItem(item.id, 1, item.price);
-        // Track each add behavior
-        aiService.trackBehavior(currentProduct.userId || 1, item.id, 'add_to_cart');
       }
       alert('All products in the combo have been added to the cart!');
     } catch (e) {
