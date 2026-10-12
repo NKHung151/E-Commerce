@@ -42,13 +42,3 @@ class JWTAuthentication(BaseAuthentication):
 class IsAdminRole(BasePermission):
     def has_permission(self, request, view):
         return getattr(request, 'auth_payload', {}).get('role') == 'admin'
-
-
-class IsStaffOrAdmin(BasePermission):
-    def has_permission(self, request, view):
-        return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff']
-
-
-class IsCustomerOrAbove(BasePermission):
-    def has_permission(self, request, view):
-        return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff', 'customer']
