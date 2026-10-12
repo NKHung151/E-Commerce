@@ -1,3 +1,4 @@
+import hmac
 import jwt
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
@@ -47,3 +48,11 @@ class IsStaffOrAdmin(BasePermission):
 class IsCustomerOrAbove(BasePermission):
     def has_permission(self, request, view):
         return getattr(request, 'auth_payload', {}).get('role') in ['admin', 'staff', 'customer']
+
+
+class IsInternalService(BasePermission):
+    """Service-to-service calls authenticated by a shared X-Internal-Token header."""
+    def has_permission(self, request, view):
+        expected = getattr(settings, 'INTERNAL_SERVICE_TOKEN', '')
+        provided = request.headers.get('X-Internal-Token', '')
+        return bool(expected) and hmac.compare_digest(provided, expected)

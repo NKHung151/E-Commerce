@@ -1,11 +1,55 @@
+import logging
 import requests
 from django.conf import settings
+from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from rest_framework import serializers
 from .models import (
     Product, Book, Electronics, Fashion,
     HomeLiving, SportsOutdoors, BeautyHealth, ToysGames,
     Automotive, FoodGrocery, OfficeSupplies
 )
+
+logger = logging.getLogger(__name__)
+
+# Reverse one-to-one relations from Product to its category-specific detail model.
+DETAIL_RELATIONS = (
+    'book', 'electronics', 'fashion', 'home_living', 'sports_outdoors',
+    'beauty_health', 'toys_games', 'automotive', 'food_grocery', 'office_supplies',
+)
+
+CATEGORY_NAME_CACHE_TTL = 300
+CATEGORY_NAME_FAILURE_TTL = 30
+
+
+def get_detail_object(product):
+    """Return the category-specific detail row of a product, or None."""
+    for rel in DETAIL_RELATIONS:
+        try:
+            return getattr(product, rel)
+        except ObjectDoesNotExist:
+            continue
+    return None
+
+
+def fetch_category_name(category_id):
+    """Resolve a category name from catalog-service, cached to avoid one HTTP call per product."""
+    cache_key = f'catalog:category_name:{category_id}'
+    name = cache.get(cache_key)
+    if name is not None:
+        return name
+    try:
+        resp = requests.get(f"{settings.CATALOG_SERVICE_URL}/api/v1/categories/{category_id}/", timeout=2)
+        if resp.status_code == 200:
+            name = resp.json().get('name', '')
+            cache.set(cache_key, name, CATEGORY_NAME_CACHE_TTL)
+            return name
+    except requests.RequestException as e:
+        logger.warning(f'[product-service] Could not reach catalog-service: {e}')
+    # Short negative cache so an unavailable catalog-service is not hammered.
+    cache.set(cache_key, '', CATEGORY_NAME_FAILURE_TTL)
+    return ''
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -21,199 +65,132 @@ class ProductSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'views', 'created_at', 'updated_at')
 
+    def validate_stock(self, value):
+        if value < 0:
+            raise serializers.ValidationError('Stock cannot be negative')
+        return value
+
+    def validate_price(self, value):
+        if value < 0:
+            raise serializers.ValidationError('Price cannot be negative')
+        return value
+
     def get_category_name(self, obj):
         if not obj.category:
             return ""
-        try:
-            resp = requests.get(f"{settings.CATALOG_SERVICE_URL}/api/v1/categories/{obj.category}/", timeout=2)
-            if resp.status_code == 200:
-                return resp.json().get('name', '')
-        except Exception:
-            pass
-        return ""
+        return fetch_category_name(obj.category)
 
     def get_details(self, obj):
-        for rel in ['book', 'electronics', 'fashion', 'home_living', 'sports_outdoors', 
-                    'beauty_health', 'toys_games', 'automotive', 'food_grocery', 'office_supplies']:
-            if hasattr(obj, rel):
-                try:
-                    related_obj = getattr(obj, rel)
-                    if related_obj:
-                        data = {}
-                        for field in related_obj._meta.fields:
-                            if field.name not in ['id', 'product', 'product_id']:
-                                data[field.name] = getattr(related_obj, field.name)
-                        return data
-                except Exception:
-                    pass
-        return {}
+        detail = get_detail_object(obj)
+        if detail is None:
+            return {}
+        return {
+            field.name: getattr(detail, field.name)
+            for field in detail._meta.fields
+            if field.name not in ('id', 'product')
+        }
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         details = self.initial_data.get('details')
         instance = super().update(instance, validated_data)
-        
+
         if details and isinstance(details, dict):
-            for rel in ['book', 'electronics', 'fashion', 'home_living', 'sports_outdoors', 
-                        'beauty_health', 'toys_games', 'automotive', 'food_grocery', 'office_supplies']:
-                if hasattr(instance, rel):
-                    try:
-                        related_obj = getattr(instance, rel)
-                        if related_obj:
-                            for key, val in details.items():
-                                if hasattr(related_obj, key):
-                                    setattr(related_obj, key, val)
-                            related_obj.save()
-                            break
-                    except Exception:
-                        pass
+            detail = get_detail_object(instance)
+            if detail is not None:
+                editable = {f.name for f in detail._meta.fields if f.name not in ('id', 'product')}
+                for key, val in details.items():
+                    if key in editable:
+                        setattr(detail, key, val)
+                detail.save()
         return instance
 
 
-class BookSerializer(serializers.ModelSerializer):
+class ProductDetailSerializer(serializers.ModelSerializer):
+    """Base serializer for category-specific models nesting a writable Product."""
     product = ProductSerializer()
 
+    @transaction.atomic
+    def create(self, validated_data):
+        product_data = validated_data.pop('product')
+        product = Product.objects.create(**product_data)
+        return self.Meta.model.objects.create(product=product, **validated_data)
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        product_data = validated_data.pop('product', None)
+        if product_data:
+            for key, val in product_data.items():
+                setattr(instance.product, key, val)
+            instance.product.save()
+        return super().update(instance, validated_data)
+
+
+class BookSerializer(ProductDetailSerializer):
     class Meta:
         model = Book
         fields = ('id', 'product', 'author', 'publisher', 'isbn')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        book = Book.objects.create(product=product, **validated_data)
-        return book
 
-
-class ElectronicsSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class ElectronicsSerializer(ProductDetailSerializer):
     class Meta:
         model = Electronics
         fields = ('id', 'product', 'brand', 'warranty')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        electronics = Electronics.objects.create(product=product, **validated_data)
-        return electronics
 
-
-class FashionSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class FashionSerializer(ProductDetailSerializer):
     class Meta:
         model = Fashion
         fields = ('id', 'product', 'size', 'color')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        fashion = Fashion.objects.create(product=product, **validated_data)
-        return fashion
 
-
-class HomeLivingSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class HomeLivingSerializer(ProductDetailSerializer):
     class Meta:
         model = HomeLiving
         fields = ('id', 'product', 'material', 'dimensions')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = HomeLiving.objects.create(product=product, **validated_data)
-        return item
 
-
-class SportsOutdoorsSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class SportsOutdoorsSerializer(ProductDetailSerializer):
     class Meta:
         model = SportsOutdoors
         fields = ('id', 'product', 'sport_type', 'weight')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = SportsOutdoors.objects.create(product=product, **validated_data)
-        return item
 
-
-class BeautyHealthSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class BeautyHealthSerializer(ProductDetailSerializer):
     class Meta:
         model = BeautyHealth
         fields = ('id', 'product', 'ingredient', 'volume')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = BeautyHealth.objects.create(product=product, **validated_data)
-        return item
 
-
-class ToysGamesSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class ToysGamesSerializer(ProductDetailSerializer):
     class Meta:
         model = ToysGames
         fields = ('id', 'product', 'age_range', 'players')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = ToysGames.objects.create(product=product, **validated_data)
-        return item
 
-
-class AutomotiveSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class AutomotiveSerializer(ProductDetailSerializer):
     class Meta:
         model = Automotive
         fields = ('id', 'product', 'vehicle_type', 'compatibility')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = Automotive.objects.create(product=product, **validated_data)
-        return item
 
-
-class FoodGrocerySerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class FoodGrocerySerializer(ProductDetailSerializer):
     class Meta:
         model = FoodGrocery
         fields = ('id', 'product', 'expiry_days', 'weight')
         read_only_fields = ('id',)
 
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = FoodGrocery.objects.create(product=product, **validated_data)
-        return item
 
-
-class OfficeSuppliesSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+class OfficeSuppliesSerializer(ProductDetailSerializer):
     class Meta:
         model = OfficeSupplies
         fields = ('id', 'product', 'pack_size', 'material')
         read_only_fields = ('id',)
-
-    def create(self, validated_data):
-        product_data = validated_data.pop('product')
-        product = Product.objects.create(**product_data)
-        item = OfficeSupplies.objects.create(product=product, **validated_data)
-        return item

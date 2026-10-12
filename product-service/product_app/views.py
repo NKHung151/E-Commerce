@@ -1,6 +1,10 @@
 import logging
-from django.db.models import Q
-from rest_framework import viewsets, status
+from decimal import Decimal, InvalidOperation
+
+import requests
+from django.conf import settings
+from django.db.models import Q, F, Case, When
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -11,17 +15,20 @@ from .models import (
     Automotive, FoodGrocery, OfficeSupplies
 )
 from .serializers import (
-    ProductSerializer, BookSerializer,
+    DETAIL_RELATIONS, ProductSerializer, BookSerializer,
     ElectronicsSerializer, FashionSerializer,
     HomeLivingSerializer, SportsOutdoorsSerializer, BeautyHealthSerializer,
     ToysGamesSerializer, AutomotiveSerializer, FoodGrocerySerializer,
     OfficeSuppliesSerializer
 )
-from .permissions import JWTAuthentication, IsStaffOrAdmin, IsAdminRole, IsCustomerOrAbove
+from .permissions import JWTAuthentication, IsStaffOrAdmin, IsAdminRole, IsInternalService
 from .utils import error_response, track_behavior
 from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
+
+# ai-service caps top_n at 50 (see ai-service/routers/recommend.py)
+AI_RECOMMEND_TOP_N = 50
 
 
 def health_check(request):
@@ -34,8 +41,22 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
 
+def _parse_positive_int(value):
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        return None
+    return value if value > 0 else None
+
+
+def _parse_decimal(value):
+    try:
+        return Decimal(str(value))
+    except (InvalidOperation, ValueError):
+        return None
+
+
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [JWTAuthentication]
     pagination_class = StandardResultsSetPagination
@@ -43,9 +64,26 @@ class ProductViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update']:
             return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
+        if self.action == 'destroy':
             return [IsAdminRole()]
+        if self.action in ['update_rating', 'reduce_stock', 'rollback_stock']:
+            # Internal mutations: only other services (shared token) or staff/admin.
+            return [(IsInternalService | IsStaffOrAdmin)()]
         return [AllowAny()]
+
+    def _personalized_ids(self, user_id):
+        try:
+            resp = requests.get(
+                f"{settings.AI_SERVICE_URL}/recommend",
+                params={'user_id': user_id, 'top_n': AI_RECOMMEND_TOP_N},
+                timeout=3,
+            )
+            if resp.status_code == 200:
+                return [p['id'] for p in resp.json().get('products', [])]
+            logger.warning(f"[product-service] ai-service returned {resp.status_code} for user {user_id}")
+        except (requests.RequestException, ValueError, KeyError) as e:
+            logger.error(f"[product-service] Error fetching AI recommendations for user {user_id}: {e}")
+        return []
 
     def get_queryset(self):
         """
@@ -56,135 +94,116 @@ class ProductViewSet(viewsets.ModelViewSet):
         - max_price: Maximum price
         - user_id: Personalized recommendation sorting
         """
-        queryset = Product.objects.all()
-        
-        # Personalized sorting using AI-Service
-        user_id = self.request.query_params.get('user_id', None)
-        if user_id:
-            import requests
-            from django.db.models import Case, When
-            try:
-                # Fetch personalized product IDs
-                resp = requests.get(f"http://ai-service:8007/api/v1/recommend?user_id={user_id}&top_n=500", timeout=3)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    ordered_ids = [p['id'] for p in data.get('products', [])]
-                    if ordered_ids:
-                        # Order by AI score first, then by the default `-views`
-                        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(ordered_ids)])
-                        queryset = queryset.order_by(preserved, '-views')
-            except Exception as e:
-                logger.error(f"[product-service] Error fetching AI recommendations for user {user_id}: {e}")
+        # Prefetch detail relations in the same query to avoid N+1 lookups in the serializer.
+        queryset = Product.objects.select_related(*DETAIL_RELATIONS)
 
-        # Search by name and description
-        search_query = self.request.query_params.get('search', None)
+        # Only listing needs filters / personalized ordering.
+        if self.action != 'list':
+            return queryset
+
+        params = self.request.query_params
+
+        user_id = params.get('user_id')
+        if user_id:
+            ordered_ids = self._personalized_ids(user_id)
+            if ordered_ids:
+                # Order by AI score first, then by the default `-views`
+                preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(ordered_ids)],
+                                 default=len(ordered_ids))
+                queryset = queryset.order_by(preserved, '-views', '-id')
+
+        search_query = params.get('search')
         if search_query:
             queryset = queryset.filter(
-                Q(name__icontains=search_query) | 
+                Q(name__icontains=search_query) |
                 Q(description__icontains=search_query)
             )
             logger.info(f'[product-service] Searching products with query: {search_query}')
-        
-        # Filter by category
-        category_id = self.request.query_params.get('category_id', None)
+
+        category_id = _parse_positive_int(params.get('category_id'))
         if category_id:
             queryset = queryset.filter(category=category_id)
-            logger.info(f'[product-service] Filtering products by category: {category_id}')
-        
-        # Filter by price range
-        min_price = self.request.query_params.get('min_price', None)
-        max_price = self.request.query_params.get('max_price', None)
-        
+
+        min_price = params.get('min_price')
         if min_price:
-            try:
-                queryset = queryset.filter(price__gte=float(min_price))
-                logger.info(f'[product-service] Filtering by min_price: {min_price}')
-            except ValueError:
+            value = _parse_decimal(min_price)
+            if value is not None:
+                queryset = queryset.filter(price__gte=value)
+            else:
                 logger.warning(f'[product-service] Invalid min_price value: {min_price}')
-        
+
+        max_price = params.get('max_price')
         if max_price:
-            try:
-                queryset = queryset.filter(price__lte=float(max_price))
-                logger.info(f'[product-service] Filtering by max_price: {max_price}')
-            except ValueError:
+            value = _parse_decimal(max_price)
+            if value is not None:
+                queryset = queryset.filter(price__lte=value)
+            else:
                 logger.warning(f'[product-service] Invalid max_price value: {max_price}')
-        
+
         return queryset
 
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all products')
-        return super().list(request, *args, **kwargs)
-
     def retrieve(self, request, *args, **kwargs):
-        product_id = kwargs.get("pk")
-        logger.info(f'[product-service] Retrieved product {product_id}')
-        
-        if request.query_params.get('increment_view') == 'true':
-            # Track view behavior if user is authenticated
-            user = getattr(request, 'user', None)
-            user_id = None
-            if isinstance(user, dict):
-                user_id = user.get('user_id')
-            elif user and hasattr(user, 'id') and getattr(user, 'is_authenticated', False):
-                user_id = user.id
+        product = self.get_object()
+        logger.info(f'[product-service] Retrieved product {product.id}')
 
+        if request.query_params.get('increment_view') == 'true':
+            user = getattr(request, 'user', None)
+            user_id = user.get('user_id') if isinstance(user, dict) else None
             if user_id:
-                track_behavior(user_id=user_id, product_id=product_id, action='view')
-                
-            # Increment views
-            from django.db.models import F
-            product = self.get_object()
-            product.views = F('views') + 1
-            product.save(update_fields=['views'])
-            product.refresh_from_db()
-            
-        return super().retrieve(request, *args, **kwargs)
+                track_behavior(user_id=user_id, product_id=product.id, action='view')
+
+            # Atomic increment without an extra SELECT round-trip.
+            Product.objects.filter(pk=product.pk).update(views=F('views') + 1)
+            product.views += 1
+
+        return Response(self.get_serializer(product).data)
 
     @action(detail=True, methods=['post'])
     def update_rating(self, request, pk=None):
         """Update product rating (called internally by comment-rate-service)"""
-        try:
-            rating = float(request.data.get('rating', 0))
-        except ValueError:
-            return error_response('Invalid rating format', 400)
-            
-        product = self.get_object()
-        product.rating = rating
-        product.save(update_fields=['rating'])
-        
-        logger.info(f'[product-service] Updated rating for product {product.id} to {rating}')
-        return Response({'status': 'rating updated', 'new_rating': rating})
+        rating = _parse_decimal(request.data.get('rating', 0))
+        if rating is None or not (0 <= rating <= 5):
+            return error_response('Rating must be a number between 0 and 5', 400)
+
+        updated = Product.objects.filter(pk=pk).update(rating=rating)
+        if not updated:
+            return error_response('Product not found', 404)
+
+        logger.info(f'[product-service] Updated rating for product {pk} to {rating}')
+        return Response({'status': 'rating updated', 'new_rating': float(rating)})
 
     @action(detail=True, methods=['post'])
     def reduce_stock(self, request, pk=None):
         """Reduce product stock (called by order-service)"""
-        quantity = int(request.data.get('quantity', 0))
-        if quantity <= 0:
+        quantity = _parse_positive_int(request.data.get('quantity'))
+        if quantity is None:
             return error_response('Invalid quantity', 400)
 
-        product = self.get_object()
-        if product.stock < quantity:
-            return error_response(f'Insufficient stock for product {product.id}', 400)
+        # Conditional UPDATE is atomic in the DB, so concurrent orders cannot oversell.
+        updated = Product.objects.filter(pk=pk, stock__gte=quantity).update(stock=F('stock') - quantity)
+        if not updated:
+            if not Product.objects.filter(pk=pk).exists():
+                return error_response('Product not found', 404)
+            return error_response(f'Insufficient stock for product {pk}', 400)
 
-        product.stock -= quantity
-        product.save()
-        
-        logger.info(f'[product-service] Reduced stock for product {product.id} by {quantity}. New stock: {product.stock}')
-        return Response({'status': 'stock reduced', 'new_stock': product.stock})
+        new_stock = Product.objects.values_list('stock', flat=True).get(pk=pk)
+        logger.info(f'[product-service] Reduced stock for product {pk} by {quantity}. New stock: {new_stock}')
+        return Response({'status': 'stock reduced', 'new_stock': new_stock})
 
     @action(detail=True, methods=['post'])
     def rollback_stock(self, request, pk=None):
         """Restore product stock (compensation in Saga)"""
-        quantity = int(request.data.get('quantity', 0))
-        if quantity <= 0:
+        quantity = _parse_positive_int(request.data.get('quantity'))
+        if quantity is None:
             return error_response('Invalid quantity', 400)
 
-        product = self.get_object()
-        product.stock += quantity
-        product.save()
-        
-        logger.info(f'[product-service] Restored stock for product {product.id} by {quantity}. New stock: {product.stock}')
-        return Response({'status': 'stock restored', 'new_stock': product.stock})
+        updated = Product.objects.filter(pk=pk).update(stock=F('stock') + quantity)
+        if not updated:
+            return error_response('Product not found', 404)
+
+        new_stock = Product.objects.values_list('stock', flat=True).get(pk=pk)
+        logger.info(f'[product-service] Restored stock for product {pk} by {quantity}. New stock: {new_stock}')
+        return Response({'status': 'stock restored', 'new_stock': new_stock})
 
 
 class AdminProductViewSet(ProductViewSet):
@@ -194,316 +213,101 @@ class AdminProductViewSet(ProductViewSet):
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [IsAdminRole()]
-        return [AllowAny()]
+        return super().get_permissions()
 
 
-class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+class ProductCategoryViewSet(viewsets.ModelViewSet):
+    """Base viewset for category-specific product models (Book, Electronics, ...).
+
+    Subclasses set `model`, `serializer_class` and `search_fields`
+    (extra model fields searched in addition to product name/description).
+    """
+    model = None
+    search_fields = ()
     authentication_classes = [JWTAuthentication]
     pagination_class = StandardResultsSetPagination
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update']:
             return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
+        if self.action == 'destroy':
             return [IsAdminRole()]
         return [AllowAny()]
 
     def get_queryset(self):
-        """
-        Support search by:
-        - search: Search in product name, description, author
-        - isbn: Filter by ISBN
-        """
-        queryset = Book.objects.all()
-        
-        search_query = self.request.query_params.get('search', None)
+        queryset = self.model.objects.select_related('product').order_by('-product__views', '-id')
+        search_query = self.request.query_params.get('search')
         if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(author__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching books with query: {search_query}')
-        
-        isbn = self.request.query_params.get('isbn', None)
+            condition = Q(product__name__icontains=search_query) | Q(product__description__icontains=search_query)
+            for field in self.search_fields:
+                condition |= Q(**{f'{field}__icontains': search_query})
+            queryset = queryset.filter(condition)
+            logger.info(f'[product-service] Searching {self.model._meta.verbose_name_plural} with query: {search_query}')
+        return queryset
+
+
+class BookViewSet(ProductCategoryViewSet):
+    model = Book
+    serializer_class = BookSerializer
+    search_fields = ('author',)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        isbn = self.request.query_params.get('isbn')
         if isbn:
             queryset = queryset.filter(isbn__icontains=isbn)
-            logger.info(f'[product-service] Filtering books by ISBN: {isbn}')
-        
         return queryset
 
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all books')
-        return super().list(request, *args, **kwargs)
 
-
-class ElectronicsViewSet(viewsets.ModelViewSet):
-    queryset = Electronics.objects.all()
+class ElectronicsViewSet(ProductCategoryViewSet):
+    model = Electronics
     serializer_class = ElectronicsSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = Electronics.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(brand__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching electronics with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all electronics')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('brand',)
 
 
-class FashionViewSet(viewsets.ModelViewSet):
-    queryset = Fashion.objects.all()
+class FashionViewSet(ProductCategoryViewSet):
+    model = Fashion
     serializer_class = FashionSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = Fashion.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(color__icontains=search_query) |
-                Q(size__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching fashion items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all fashion items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('color', 'size')
 
 
-class HomeLivingViewSet(viewsets.ModelViewSet):
-    queryset = HomeLiving.objects.all()
+class HomeLivingViewSet(ProductCategoryViewSet):
+    model = HomeLiving
     serializer_class = HomeLivingSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = HomeLiving.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(material__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching home & living items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all home & living items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('material',)
 
 
-class SportsOutdoorsViewSet(viewsets.ModelViewSet):
-    queryset = SportsOutdoors.objects.all()
+class SportsOutdoorsViewSet(ProductCategoryViewSet):
+    model = SportsOutdoors
     serializer_class = SportsOutdoorsSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = SportsOutdoors.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(sport_type__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching sports & outdoors items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all sports & outdoors items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('sport_type',)
 
 
-class BeautyHealthViewSet(viewsets.ModelViewSet):
-    queryset = BeautyHealth.objects.all()
+class BeautyHealthViewSet(ProductCategoryViewSet):
+    model = BeautyHealth
     serializer_class = BeautyHealthSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = BeautyHealth.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(ingredient__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching beauty & health items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all beauty & health items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('ingredient',)
 
 
-class ToysGamesViewSet(viewsets.ModelViewSet):
-    queryset = ToysGames.objects.all()
+class ToysGamesViewSet(ProductCategoryViewSet):
+    model = ToysGames
     serializer_class = ToysGamesSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = ToysGames.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(age_range__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching toys & games items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all toys & games items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('age_range',)
 
 
-class AutomotiveViewSet(viewsets.ModelViewSet):
-    queryset = Automotive.objects.all()
+class AutomotiveViewSet(ProductCategoryViewSet):
+    model = Automotive
     serializer_class = AutomotiveSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = Automotive.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(vehicle_type__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching automotive items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all automotive items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('vehicle_type',)
 
 
-class FoodGroceryViewSet(viewsets.ModelViewSet):
-    queryset = FoodGrocery.objects.all()
+class FoodGroceryViewSet(ProductCategoryViewSet):
+    model = FoodGrocery
     serializer_class = FoodGrocerySerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = FoodGrocery.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching food & grocery items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all food & grocery items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ()
 
 
-class OfficeSuppliesViewSet(viewsets.ModelViewSet):
-    queryset = OfficeSupplies.objects.all()
+class OfficeSuppliesViewSet(ProductCategoryViewSet):
+    model = OfficeSupplies
     serializer_class = OfficeSuppliesSerializer
-    authentication_classes = [JWTAuthentication]
-    pagination_class = StandardResultsSetPagination
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return [IsStaffOrAdmin()]
-        elif self.action == 'destroy':
-            return [IsAdminRole()]
-        return [AllowAny()]
-
-    def get_queryset(self):
-        queryset = OfficeSupplies.objects.all()
-        search_query = self.request.query_params.get('search', None)
-        if search_query:
-            queryset = queryset.filter(
-                Q(product__name__icontains=search_query) |
-                Q(product__description__icontains=search_query) |
-                Q(material__icontains=search_query)
-            )
-            logger.info(f'[product-service] Searching office supplies items with query: {search_query}')
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        logger.info('[product-service] Listing all office supplies items')
-        return super().list(request, *args, **kwargs)
+    search_fields = ('material',)

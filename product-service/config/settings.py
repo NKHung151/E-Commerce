@@ -5,7 +5,7 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='phu-dong-ninh-binh')
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
@@ -91,6 +91,7 @@ REST_FRAMEWORK = {
 JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
 CATALOG_SERVICE_URL = config('CATALOG_SERVICE_URL', default='http://catalog-service:8008')
 AI_SERVICE_URL = config('AI_SERVICE_URL', default='http://ai-service:8007')
+INTERNAL_SERVICE_TOKEN = config('INTERNAL_SERVICE_TOKEN', default='internal-service-secret')
 
 LOGGING = {
     'version': 1,
