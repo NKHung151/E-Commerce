@@ -1,6 +1,6 @@
 import numpy as np
 from db.faiss_client import faiss_client
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 from utils.embedder import embedder
 from config import settings
 
@@ -17,7 +17,7 @@ async def generate_rag_response(query: str, product_ids: list) -> str:
         return "I couldn't find specific products matching your query. Please try different keywords."
 
     product_context = "\n".join([
-        f"- {p['name']} | Price: {float(p.get('price', 0)):,.0f} VND | Category: {p['category']['name'] if isinstance(p.get('category'), dict) else 'General'}"
+        f"- {p['name']} | Price: {float(p.get('price', 0)):,.0f} VND | Category: {category_name(p)}"
         for p in products
     ])
 
@@ -35,10 +35,10 @@ Answer in the same language the customer used. Be specific about product names a
 async def _call_llm(prompt: str) -> str:
     if settings.LLM_PROVIDER == "openai":
         try:
-            import openai
-            client = openai
-            client.api_key = settings.OPENAI_API_KEY
-            resp = client.ChatCompletion.create(
+            # openai>=1.0 removed openai.ChatCompletion; the old call always raised.
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+            resp = await client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=200

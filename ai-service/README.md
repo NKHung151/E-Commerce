@@ -110,9 +110,10 @@ Response:
 
 ### Admin Endpoints
 
-**Rebuild FAISS index (re-embed all products):**
+**Rebuild FAISS index (re-embed all products, requires an admin JWT):**
 ```bash
 POST /admin/rebuild-index
+Authorization: Bearer <admin access token>
 
 Response:
 {
@@ -150,7 +151,7 @@ This:
 
 **Or call via API:**
 ```bash
-curl -X POST http://localhost:8007/admin/rebuild-index
+curl -X POST http://localhost:8007/admin/rebuild-index -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
 
 ### 2. Initialize Neo4j Graph (optional, automatic on first event)
@@ -263,19 +264,19 @@ LSTM_CHECKPOINT_PATH=data/checkpoints/lstm_checkpoint.pt
 BEHAVIOR_CSV_PATH=data/user_behavior.csv
 
 # Hybrid weights (must sum to ~1.0)
-LSTM_WEIGHT=0.4
-GRAPH_WEIGHT=0.4
-RAG_WEIGHT=0.2
+LSTM_WEIGHT=0.15
+GRAPH_WEIGHT=0.15
+RAG_WEIGHT=0.7
 ```
 
 ### Hybrid Recommendation Weights
 
 Adjust in `.env` or `config.py`:
-- **LSTM_WEIGHT** (0.4): Sequence-based predictions
-- **GRAPH_WEIGHT** (0.4): Collaborative + similarity
-- **RAG_WEIGHT** (0.2): Semantic relevance
+- **LSTM_WEIGHT** (0.15): Sequence-based predictions
+- **GRAPH_WEIGHT** (0.15): Collaborative + similarity
+- **RAG_WEIGHT** (0.7): Semantic relevance (content-based, dominant by default)
 
-Example: For content-based system, increase RAG_WEIGHT to 0.5-0.6.
+Example: For a more collaborative system, raise GRAPH_WEIGHT and lower RAG_WEIGHT.
 
 ---
 

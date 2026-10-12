@@ -1,3 +1,5 @@
+import asyncio
+import logging
 import time
 import os
 import random
@@ -24,6 +26,19 @@ REQUEST_LATENCY = Histogram(
     ['method', 'endpoint']
 )
 
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s %(name)s %(message)s')
+
+# Fault injection is opt-in (see Django services' middleware for the rationale).
+FAULT_INJECTION_ENABLED = os.getenv("FAULT_INJECTION_ENABLED", "false").lower() in ("1", "true", "yes")
+MAX_SIMULATED_DELAY = 10.0
+
+
+def _parse_float(value) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -39,14 +54,14 @@ async def lifespan(app: FastAPI):
         lstm_inference.load()
     except Exception as e:
         print(f"⚠️ LSTM load failed: {e}")
-    
+
     # Start RabbitMQ consumer
     try:
-        start_consumer()
+        start_consumer(asyncio.get_running_loop())
         print("✅ RabbitMQ behavior tracking consumer started")
     except Exception as e:
         print(f"⚠️ Failed to start RabbitMQ consumer: {e}")
-        
+
     print("✅ AI-service startup complete")
     yield
     # Shutdown
@@ -73,49 +88,35 @@ async def observability_and_fault_middleware(request: Request, call_next):
         return await call_next(request)
 
     # 1. Fault Simulation (Delay & Error)
-    delay = 0.0
-    if "x-simulate-delay" in request.headers:
-        try:
-            delay = float(request.headers["x-simulate-delay"])
-        except ValueError:
-            pass
-    else:
-        env_delay = os.getenv("FAULT_SIMULATE_DELAY")
-        if env_delay:
-            try:
-                delay = float(env_delay)
-            except ValueError:
-                pass
+    if FAULT_INJECTION_ENABLED:
+        if "x-simulate-delay" in request.headers:
+            delay = _parse_float(request.headers["x-simulate-delay"])
+        else:
+            delay = _parse_float(os.getenv("FAULT_SIMULATE_DELAY"))
+        if delay > 0:
+            # asyncio.sleep: time.sleep here blocked the whole event loop, i.e. every request.
+            await asyncio.sleep(min(delay, MAX_SIMULATED_DELAY))
 
-    if delay > 0:
-        time.sleep(delay)
+        if "x-simulate-error" in request.headers:
+            should_fail = True
+        else:
+            rate = _parse_float(os.getenv("FAULT_SIMULATE_ERROR_RATE"))
+            should_fail = rate > 0 and random.random() < rate
 
-    should_fail = False
-    if "x-simulate-error" in request.headers:
-        should_fail = True
-    else:
-        error_rate = os.getenv("FAULT_SIMULATE_ERROR_RATE")
-        if error_rate:
-            try:
-                rate = float(error_rate)
-                if random.random() < rate:
-                    should_fail = True
-            except ValueError:
-                pass
-
-    if should_fail:
-        return JSONResponse(
-            content={"error": "Simulated system fault (observability testing)", "code": 500},
-            status_code=500
-        )
+        if should_fail:
+            return JSONResponse(
+                content={"error": "Simulated system fault (observability testing)", "code": 500},
+                status_code=500
+            )
 
     # 2. Track metrics
-    start_time = time.time()
+    start_time = time.perf_counter()
     response = await call_next(request)
-    latency = time.time() - start_time
+    latency = time.perf_counter() - start_time
 
-    # Record metrics
-    endpoint = request.url.path
+    # Label by route template, not raw path, to keep metric cardinality bounded.
+    route = request.scope.get("route")
+    endpoint = getattr(route, "path", None) or "unmatched"
     REQUEST_COUNT.labels(
         method=request.method,
         endpoint=endpoint,

@@ -1,19 +1,26 @@
+import asyncio
+import logging
 from db.neo4j_client import neo4j_client
+from services.behavior_service import get_user_history
+
+logger = logging.getLogger(__name__)
 
 async def get_graph_scores(user_id: int) -> dict:
-    collab = await neo4j_client.recommend_collaborative(user_id, limit=15)
-    similar = await neo4j_client.recommend_similar(user_id, limit=15)
+    # Independent graph queries run concurrently.
+    collab, similar = await asyncio.gather(
+        neo4j_client.recommend_collaborative(user_id, limit=15),
+        neo4j_client.recommend_similar(user_id, limit=15),
+    )
     
     # Also fetch bought together for the last product they viewed
     bought_together = {}
     try:
-        from services.lstm_service import _get_user_history
-        history = _get_user_history(user_id)
+        history = get_user_history(user_id, limit=10)
         if history:
             last_pid = history[-1]
             bought_together = await neo4j_client.recommend_bought_together(last_pid, limit=10)
     except Exception as e:
-        print(f"Error fetching bought together in graph scores: {e}")
+        logger.warning(f"Error fetching bought together in graph scores: {e}")
 
     merged = {}
     for pid, score in collab.items():

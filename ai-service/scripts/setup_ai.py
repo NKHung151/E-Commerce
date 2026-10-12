@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from db.neo4j_client import neo4j_client
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 from db.faiss_client import faiss_client
 from utils.embedder import embedder
 import numpy as np
@@ -33,14 +33,14 @@ async def setup_faiss_index():
         # Prepare texts and metadata
         texts, ids, metadata = [], [], {}
         for p in products:
-            desc = f"{p['name']} {p['category']['name'] if isinstance(p.get('category'), dict) else ''}"
+            desc = f"{p['name']} {category_name(p, '')}"
             texts.append(desc)
             ids.append(p["id"])
             metadata[p["id"]] = {
                 "name": p["name"],
                 "price": p.get("price", 0),
                 "image": p.get("image"),
-                "category": p["category"]["name"] if isinstance(p.get("category"), dict) else ""
+                "category": category_name(p, "")
             }
 
         print(f"🤖 Embedding {len(texts)} product descriptions...")

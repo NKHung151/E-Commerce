@@ -1,36 +1,53 @@
+import asyncio
+import time
 import httpx
 from config import settings
+
+ALL_PRODUCTS_CACHE_TTL = 60  # seconds
+PAGE_SIZE = 100  # product-service max_page_size
+
+
+def category_name(product: dict, default: str = "General") -> str:
+    """product-service returns `category` as an int id plus `category_name`;
+    older payloads used a nested {"id", "name"} dict. Support both."""
+    cat = product.get("category")
+    if isinstance(cat, dict):
+        return cat.get("name") or default
+    return product.get("category_name") or default
+
+
+def category_id(product: dict):
+    cat = product.get("category")
+    return cat.get("id") if isinstance(cat, dict) else cat
+
 
 class ProductClient:
     def __init__(self):
         self.base_url = settings.PRODUCT_SERVICE_URL
+        self._all_cache = None
+        self._all_cache_at = 0.0
+        self._all_lock = asyncio.Lock()
 
-    async def get_all_products(self) -> list:
+    def _internal_url(self, next_url: str) -> str:
+        # DRF builds absolute `next` links from the Host header, which may be the
+        # gateway's public name; rewrite it to the internal product-service URL.
+        for public in ("http://localhost:8080", "http://gateway:8080"):
+            if next_url.startswith(public):
+                return self.base_url + next_url[len(public):]
+        return next_url
+
+    async def _fetch_all_products(self) -> list:
         all_products = []
-        url = f"{self.base_url}/api/v1/products/"
+        url = f"{self.base_url}/api/v1/products/?page_size={PAGE_SIZE}"
         async with httpx.AsyncClient(timeout=30.0) as client:
             while url:
-                # Sometimes base_url inside container might resolve to localhost/gateway/etc. 
-                # Let's ensure url resolves correctly. If it returns absolute URL with host gateway/localhost, 
-                # we should use it but we might need to swap the host if it's not accessible.
-                # Usually Django PAGINATION returns full URL including domain name.
-                # If Django returns host name that is not accessible from ai-service container, 
-                # we should replace that part of the URL with settings.PRODUCT_SERVICE_URL or relative path.
                 resp = await client.get(url)
                 resp.raise_for_status()
                 data = resp.json()
                 if isinstance(data, dict) and "results" in data:
                     all_products.extend(data["results"])
-                    # If 'next' contains the gateway hostname from outside (e.g. localhost:8080),
-                    # we should replace it with settings.PRODUCT_SERVICE_URL or gateway internal IP if needed.
-                    # Let's inspect 'next' URL first.
                     next_url = data.get("next")
-                    if next_url and "localhost:8080" in next_url:
-                        next_url = next_url.replace("http://localhost:8080", settings.PRODUCT_SERVICE_URL)
-                    elif next_url and "gateway:8080" in next_url:
-                        # Map gateway:8080 to product-service internal URL
-                        next_url = next_url.replace("http://gateway:8080/api/v1", self.base_url + "/api/v1")
-                    url = next_url
+                    url = self._internal_url(next_url) if next_url else None
                 elif isinstance(data, list):
                     all_products.extend(data)
                     url = None
@@ -38,23 +55,38 @@ class ProductClient:
                     break
         return all_products
 
+    async def get_all_products(self) -> list:
+        """Full catalogue, cached briefly: several fallback paths call this per request."""
+        async with self._all_lock:
+            if self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL:
+                return self._all_cache
+            self._all_cache = await self._fetch_all_products()
+            self._all_cache_at = time.monotonic()
+            return self._all_cache
 
-    async def get_product(self, product_id: int) -> dict:
+    async def get_product(self, product_id: int):
+        """Return the product dict, or None if it does not exist."""
         async with httpx.AsyncClient(timeout=10.0) as client:
             resp = await client.get(f"{self.base_url}/api/v1/products/{product_id}/")
+            if resp.status_code == 404:
+                return None
             resp.raise_for_status()
             return resp.json()
 
     async def get_products_by_ids(self, product_ids: list) -> list:
-        results = []
+        """Fetch products concurrently (was one sequential request per id), keeping input order."""
         async with httpx.AsyncClient(timeout=10.0) as client:
-            for pid in product_ids:
+            async def _one(pid):
                 try:
                     resp = await client.get(f"{self.base_url}/api/v1/products/{pid}/")
                     if resp.status_code == 200:
-                        results.append(resp.json())
-                except Exception:
+                        return resp.json()
+                except httpx.HTTPError:
                     pass
-        return results
+                return None
+
+            results = await asyncio.gather(*(_one(pid) for pid in product_ids))
+        return [p for p in results if p is not None]
+
 
 product_client = ProductClient()

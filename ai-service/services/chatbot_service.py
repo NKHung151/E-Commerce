@@ -4,7 +4,7 @@ from typing import Optional, List, Dict
 from openai import AsyncOpenAI
 from config import settings
 from services.rag_service import get_rag_scores
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 
 from services.intent_service import get_intent
 from db.order_client import order_client
@@ -124,7 +124,7 @@ async def handle_product_search(message: str, max_price: Optional[float] = None)
     formatted_products = []
     for p in products:
         price = float(p.get('price', 0))
-        cat_name = p['category']['name'] if isinstance(p.get('category'), dict) else 'General'
+        cat_name = category_name(p)
         # KHÔNG đưa ID vào context để tránh AI in ra
         product_context += f"- {p['name']}: {price:,.0f} VNĐ (Loại: {cat_name})\n"
         formatted_products.append({

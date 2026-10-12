@@ -1,9 +1,15 @@
+import logging
 from typing import Optional
 from fastapi import APIRouter, Query
-from schemas.recommend_schema import RecommendResponse, ProductSummary
-from services.hybrid_service import get_recommendations
+from schemas.recommend_schema import RecommendResponse
+from services.hybrid_service import get_recommendations, to_summaries
+from db.neo4j_client import neo4j_client
+from db.product_client import product_client, category_id
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
 
 @router.get("", response_model=RecommendResponse)
 async def recommend(
@@ -15,71 +21,55 @@ async def recommend(
     return RecommendResponse(user_id=user_id, products=products, source=source)
 
 
+async def _from_graph(scores: dict, source: str) -> Optional[RecommendResponse]:
+    if not scores:
+        return None
+    products = await product_client.get_products_by_ids(list(scores.keys()))
+    if not products:
+        return None
+    return RecommendResponse(user_id=None, products=to_summaries(products, score_map=scores), source=source)
+
+
+async def _same_category(product_id: int, top_n: int, fill_with_any: bool):
+    """Products sharing the target's category (fallback when the graph has no data).
+
+    Returns (products, error_source); error_source is set when no answer is possible.
+    """
+    target = await product_client.get_product(product_id)
+    if not target:
+        return [], "not_found"
+
+    target_category = category_id(target)
+    if not target_category and not fill_with_any:
+        return [], "no_category"
+
+    others = [p for p in await product_client.get_all_products() if p["id"] != product_id]
+    candidates = [p for p in others if target_category and category_id(p) == target_category]
+    if fill_with_any and len(candidates) < top_n:
+        candidates = others
+    return candidates[:top_n], None
+
+
 @router.get("/similar", response_model=RecommendResponse)
 async def get_similar_products(
     product_id: int = Query(...),
     top_n: int = Query(10, ge=1, le=50)
 ):
     try:
-        from db.neo4j_client import neo4j_client
-        from db.product_client import product_client
-        
-        sim_scores = await neo4j_client.recommend_similar_p2p(product_id, limit=top_n)
-        if sim_scores:
-            products = await product_client.get_products_by_ids(list(sim_scores.keys()))
-            if products:
-                summaries = []
-                for p in products:
-                    img = p.get("image_url") or p.get("image") or f"https://placehold.co/600x400?text={p['name'].replace(' ', '+')}"
-                    summaries.append(ProductSummary(
-                        id=p["id"],
-                        name=p["name"],
-                        price=p.get("price", 0),
-                        image=img,
-                        category=p["category"]["name"] if isinstance(p.get("category"), dict) else "General",
-                        score=sim_scores.get(p["id"], 1.0)
-                    ))
-                return RecommendResponse(user_id=None, products=summaries, source="graph-similar")
+        response = await _from_graph(
+            await neo4j_client.recommend_similar_p2p(product_id, limit=top_n), "graph-similar")
+        if response:
+            return response
     except Exception as e:
-        print(f"Error fetching similarity from Neo4j: {e}")
+        logger.warning(f"Error fetching similarity from Neo4j: {e}")
 
     try:
-        from db.product_client import product_client
-        target_product = await product_client.get_product(product_id)
-        if not target_product:
-            return RecommendResponse(user_id=None, products=[], source="not_found")
-        
-        category_id = None
-        if isinstance(target_product.get("category"), dict):
-            category_id = target_product["category"].get("id")
-        
-        if not category_id:
-            return RecommendResponse(user_id=None, products=[], source="no_category")
-            
-        all_products = await product_client.get_all_products()
-        similar_products = [
-            p for p in all_products
-            if p["id"] != product_id and (
-                (isinstance(p.get("category"), dict) and p["category"].get("id") == category_id) or
-                (p.get("category") == target_product.get("category"))
-            )
-        ]
-        similar_products = similar_products[:top_n]
-        
-        summaries = []
-        for p in similar_products:
-            img = p.get("image_url") or p.get("image") or f"https://placehold.co/600x400?text={p['name'].replace(' ', '+')}"
-            summaries.append(ProductSummary(
-                id=p["id"],
-                name=p["name"],
-                price=p.get("price", 0),
-                image=img,
-                category=p["category"]["name"] if isinstance(p.get("category"), dict) else "General",
-                score=0.9
-            ))
-        return RecommendResponse(user_id=None, products=summaries, source="category-fallback")
+        products, error = await _same_category(product_id, top_n, fill_with_any=False)
+        if error:
+            return RecommendResponse(user_id=None, products=[], source=error)
+        return RecommendResponse(user_id=None, products=to_summaries(products, score=0.9), source="category-fallback")
     except Exception as e:
-        print(f"Error in similar fallback: {e}")
+        logger.error(f"Error in similar fallback: {e}")
         return RecommendResponse(user_id=None, products=[], source="error")
 
 
@@ -89,63 +79,18 @@ async def get_bought_together(
     top_n: int = Query(5, ge=1, le=50)
 ):
     try:
-        from db.neo4j_client import neo4j_client
-        from db.product_client import product_client
-        
-        bought_scores = await neo4j_client.recommend_bought_together(product_id, limit=top_n)
-        if bought_scores:
-            products = await product_client.get_products_by_ids(list(bought_scores.keys()))
-            if products:
-                summaries = []
-                for p in products:
-                    img = p.get("image_url") or p.get("image") or f"https://placehold.co/600x400?text={p['name'].replace(' ', '+')}"
-                    summaries.append(ProductSummary(
-                        id=p["id"],
-                        name=p["name"],
-                        price=p.get("price", 0),
-                        image=img,
-                        category=p["category"]["name"] if isinstance(p.get("category"), dict) else "General",
-                        score=bought_scores.get(p["id"], 1.0)
-                    ))
-                return RecommendResponse(user_id=None, products=summaries, source="graph-bought-together")
+        response = await _from_graph(
+            await neo4j_client.recommend_bought_together(product_id, limit=top_n), "graph-bought-together")
+        if response:
+            return response
     except Exception as e:
-        print(f"Error fetching bought together from Neo4j: {e}")
+        logger.warning(f"Error fetching bought together from Neo4j: {e}")
 
     try:
-        from db.product_client import product_client
-        target_product = await product_client.get_product(product_id)
-        if not target_product:
-            return RecommendResponse(user_id=None, products=[], source="not_found")
-        
-        category_id = None
-        if isinstance(target_product.get("category"), dict):
-            category_id = target_product["category"].get("id")
-        
-        all_products = await product_client.get_all_products()
-        candidates = [
-            p for p in all_products
-            if p["id"] != product_id and (
-                (isinstance(p.get("category"), dict) and p["category"].get("id") == category_id) if category_id else True
-            )
-        ]
-        
-        if len(candidates) < top_n:
-            candidates = [p for p in all_products if p["id"] != product_id]
-            
-        candidates = candidates[:top_n]
-        
-        summaries = []
-        for p in candidates:
-            img = p.get("image_url") or p.get("image") or f"https://placehold.co/600x400?text={p['name'].replace(' ', '+')}"
-            summaries.append(ProductSummary(
-                id=p["id"],
-                name=p["name"],
-                price=p.get("price", 0),
-                image=img,
-                category=p["category"]["name"] if isinstance(p.get("category"), dict) else "General",
-                score=0.5
-            ))
-        return RecommendResponse(user_id=None, products=summaries, source="category-fallback")
+        products, error = await _same_category(product_id, top_n, fill_with_any=True)
+        if error:
+            return RecommendResponse(user_id=None, products=[], source=error)
+        return RecommendResponse(user_id=None, products=to_summaries(products, score=0.5), source="category-fallback")
     except Exception as e:
-        print(f"Error in bought together fallback: {e}")
+        logger.error(f"Error in bought together fallback: {e}")
         return RecommendResponse(user_id=None, products=[], source="error")

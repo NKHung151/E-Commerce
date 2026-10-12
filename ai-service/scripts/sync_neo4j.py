@@ -7,7 +7,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from db.neo4j_client import neo4j_client
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 from config import settings
 
 async def sync_data():
@@ -66,7 +66,7 @@ async def sync_data():
             
     if products:
         for p in products:
-            cat_name = p['category']['name'] if isinstance(p.get('category'), dict) else "General"
+            cat_name = category_name(p)
             await neo4j_client.merge_product(
                 product_id=p['id'],
                 name=p['name'],

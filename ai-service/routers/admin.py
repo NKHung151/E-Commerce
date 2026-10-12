@@ -1,11 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from middleware.auth import require_roles
 from db.faiss_client import faiss_client
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 from db.neo4j_client import neo4j_client
 from utils.embedder import embedder
 import numpy as np
 
-router = APIRouter()
+# Index rebuilds are expensive and rewrite the graph: admin JWT required
+# (ai-service port 8007 is published by docker-compose, so this was open to anyone).
+router = APIRouter(dependencies=[Depends(require_roles("admin"))])
 
 
 @router.post("/rebuild-index")
@@ -15,17 +18,17 @@ async def rebuild_index():
     texts, ids, metadata = [], [], {}
 
     for p in products:
-        desc = f"{p['name']} {p['category']['name'] if isinstance(p.get('category'), dict) else ''}"
+        desc = f"{p['name']} {category_name(p, '')}"
         texts.append(desc)
         ids.append(p["id"])
         metadata[p["id"]] = {
             "name": p["name"], "price": p["price"],
-            "image": p.get("image"), "category":
-            p["category"]["name"] if isinstance(p.get("category"), dict) else ""
+            "image": p.get("image_url") or p.get("image"), "category":
+            category_name(p, "")
         }
         await neo4j_client.merge_product(
             p["id"], p["name"],
-            p["category"]["name"] if isinstance(p.get("category"), dict) else "",
+            category_name(p, ""),
             p["price"]
         )
 

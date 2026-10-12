@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.append(os.getcwd())
 
 from config import settings
-from db.product_client import product_client
+from db.product_client import product_client, category_name
 from db.faiss_client import faiss_client
 from utils.embedder import embedder
 
@@ -35,7 +35,7 @@ async def reindex():
     
     print("🧠 Generating embeddings (this may take a moment)...")
     for p in products:
-        cat_name = p['category']['name'] if isinstance(p.get('category'), dict) else 'General'
+        cat_name = category_name(p)
         description = p.get('description', '')
         
         # Rich text for embedding

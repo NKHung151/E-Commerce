@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     SHIPPING_SERVICE_URL: str = "http://shipping-service:8006"
 
     # JWT
-    JWT_SECRET: str = "your-shared-jwt-secret"
+    JWT_SECRET: str = "shared-jwt-secret"  # must match user-service
     JWT_ALGORITHM: str = "HS256"
 
     # LLM (choose one)
@@ -47,9 +47,9 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     # Hybrid weights
-    LSTM_WEIGHT: float = 0.4
-    GRAPH_WEIGHT: float = 0.4
-    RAG_WEIGHT: float = 0.2
+    LSTM_WEIGHT: float = 0.15
+    GRAPH_WEIGHT: float = 0.15
+    RAG_WEIGHT: float = 0.7
 
     class Config:
         env_file = ".env"
