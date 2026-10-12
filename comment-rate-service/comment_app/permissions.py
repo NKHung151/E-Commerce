@@ -55,7 +55,8 @@ class IsCommentOwnerOrAdmin(BasePermission):
     """
     def has_permission(self, request, view):
         # Must be authenticated to perform write/delete
-        return getattr(request, 'auth_payload', {}) is not None
+        # (the old check `getattr(...) is not None` was always True, even for anonymous users)
+        return bool(getattr(request, 'auth_payload', None))
 
     def has_object_permission(self, request, view, obj):
         # Admin role gets free pass

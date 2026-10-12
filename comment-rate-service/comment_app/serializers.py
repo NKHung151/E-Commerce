@@ -11,6 +11,18 @@ class CommentSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'user_id', 'username', 'created_at', 'updated_at')
 
+    def validate_comment_text(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError('Comment cannot be empty')
+        return value
+
+    def update(self, instance, validated_data):
+        # A review cannot be moved to another product (the old product's rating
+        # would never be recomputed).
+        validated_data.pop('product_id', None)
+        return super().update(instance, validated_data)
+
     def create(self, validated_data):
         request = self.context.get('request')
         # request.user is the decoded JWT payload dictionary returned by JWTAuthentication
