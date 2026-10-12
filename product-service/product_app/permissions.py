@@ -16,7 +16,7 @@ class JWTAuthentication(BaseAuthentication):
         auth_header = request.headers.get('Authorization')
         if not auth_header or not auth_header.startswith('Bearer '):
             return None
-        token = auth_header.split(' ')[1]
+        token = auth_header.split(' ', 1)[1].strip()
         try:
             payload = jwt.decode(
                 token,
@@ -33,6 +33,11 @@ class JWTAuthentication(BaseAuthentication):
             raise AuthenticationFailed(f'Invalid token: {str(e)}')
         request.auth_payload = payload
         return (payload, token)
+
+    def authenticate_header(self, request):
+        # Makes DRF answer 401 (not 403) for missing/expired tokens, which is what the
+        # frontend's refresh-token interceptor listens for.
+        return 'Bearer realm="api"'
 
 
 class IsAdminRole(BasePermission):
