@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FiCreditCard, FiDollarSign, FiHome, FiLock } from 'react-icons/fi';
-import { orderApi } from '../../api/shop';
-import { PAYMENT_METHODS } from '../../lib/constants';
-import { formatPrice } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { Alert, Button, Card, Field, Input, PageHeader, PageLoader, Textarea, cx } from '../../components/ui';
-import { useToast } from '../../components/ui/feedback';
-import { ProductImage } from '../../components/ui/product';
-import { useCart } from '../CartContext';
-import { OrderSummary } from './CartPage';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { Alert, Button, Card, cx, Field, Input, PageHeader, PageLoader, ProductImage, Textarea, useToast } from '../../shared/ui';
+import { PAYMENT_METHODS } from '../../shared/utils/constants';
+import { formatPrice, joinAddress } from '../../shared/utils/format';
+import { linePrice } from '../../shared/utils/products';
+import { orderApi } from '../api';
+import OrderSummary from '../components/OrderSummary';
+import { useCart } from '../context/CartContext';
 
 const METHOD_ICONS = { card: FiCreditCard, bank: FiHome, cash: FiDollarSign };
 
@@ -32,11 +31,9 @@ export default function CheckoutPage() {
     setError('');
     setSubmitting(true);
     try {
-      // order-service stores a single address string; keep recipient details in it.
-      const address = `${form.fullName.trim()} · ${form.phone.trim()} · ${form.address.trim()}`;
       const order = await orderApi.create({
         items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
-        address,
+        address: joinAddress(form.fullName, form.phone, form.address),
         payment_method: method,
       });
       await clear().catch(() => {});
@@ -129,7 +126,7 @@ export default function CheckoutPage() {
                   <span className="text-xs text-slate-400">× {i.quantity}</span>
                 </span>
                 <span className="text-sm font-medium text-slate-900">
-                  {formatPrice(Number(i.product?.price ?? i.unit_price) * i.quantity)}
+                  {formatPrice(linePrice(i) * i.quantity)}
                 </span>
               </li>
             ))}

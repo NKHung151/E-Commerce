@@ -1,13 +1,11 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import { authApi, shopTokens } from '../api/shop';
-import { AuthProvider, useAuth } from '../lib/auth';
-import { PageLoader } from '../components/ui';
-import { CartProvider } from './CartContext';
-import { Footer, Header } from './layout';
-import ChatWidget from './ChatWidget';
-import HomePage from './pages/HomePage';
+import { AuthProvider, useAuth } from '../shared/auth/AuthProvider';
+import { authApi, shopTokens } from './api';
+import { CartProvider } from './context/CartContext';
+import ShopLayout from './layout/ShopLayout';
 import { LoginPage, RegisterPage } from './pages/AuthPages';
+import HomePage from './pages/HomePage';
 
 const CatalogPage = lazy(() => import('./pages/CatalogPage'));
 const ProductPage = lazy(() => import('./pages/ProductPage'));
@@ -21,21 +19,6 @@ function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => window.scrollTo(0, 0), [pathname]);
   return null;
-}
-
-function ShopLayout() {
-  return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
-      </main>
-      <Footer />
-      <ChatWidget />
-    </div>
-  );
 }
 
 function RequireAuth() {

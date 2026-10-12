@@ -1,19 +1,18 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
 import { FiChevronRight, FiPackage } from 'react-icons/fi';
-import { orderApi } from '../../api/shop';
-import { ORDER_STATUS, PAYMENT_METHODS } from '../../lib/constants';
-import { formatDateTime, formatPrice } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Button, Card, EmptyState, ErrorState, PageHeader, Skeleton, StatusBadge } from '../../components/ui';
-import Pagination from '../../components/ui/Pagination';
+import { Link } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { pageOf, useAsync, useQueryParams } from '../../shared/hooks';
+import { Button, Card, EmptyState, ErrorState, PageHeader, Pagination, Skeleton, StatusBadge } from '../../shared/ui';
+import { ORDER_STATUS, PAYMENT_METHODS } from '../../shared/utils/constants';
+import { countItems, formatDateTime, formatPrice } from '../../shared/utils/format';
+import { orderApi } from '../api';
 
 const PAGE_SIZE = 10;
 
 export default function OrdersPage() {
-  const [params, setParams] = useSearchParams();
-  const page = Number(params.get('page')) || 1;
+  const [query, setQuery] = useQueryParams();
+  const page = pageOf(query);
   const { data, loading, error, reload } = useAsync(() => orderApi.list({ page, page_size: PAGE_SIZE }), [page]);
 
   return (
@@ -40,7 +39,6 @@ export default function OrdersPage() {
         <>
           <div className="space-y-3">
             {data.results.map((o) => {
-              const itemCount = o.items.reduce((n, i) => n + i.quantity, 0);
               return (
                 <Link
                   key={o.id}
@@ -56,7 +54,7 @@ export default function OrdersPage() {
                       <StatusBadge map={ORDER_STATUS} value={o.status} />
                     </div>
                     <p className="mt-1 text-sm text-slate-500">
-                      {formatDateTime(o.created_at)} · {itemCount} sản phẩm · {PAYMENT_METHODS[o.payment_method]?.label || o.payment_method}
+                      {formatDateTime(o.created_at)} · {countItems(o.items)} sản phẩm · {PAYMENT_METHODS[o.payment_method]?.label || o.payment_method}
                     </p>
                   </div>
                   <div className="text-right">
@@ -67,7 +65,7 @@ export default function OrdersPage() {
               );
             })}
           </div>
-          <Pagination className="mt-6" page={page} pageSize={PAGE_SIZE} count={data.count} onChange={(p) => setParams({ page: p })} />
+          <Pagination className="mt-6" page={page} pageSize={PAGE_SIZE} count={data.count} onChange={(p) => setQuery({ page: p })} />
         </>
       )}
     </div>

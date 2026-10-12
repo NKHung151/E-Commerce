@@ -1,41 +1,57 @@
-import React, { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { FiEdit2, FiPackage, FiPlus, FiSearch, FiTrash2 } from 'react-icons/fi';
-import { categoryApi, productApi } from '../../api/backoffice';
-import { useAuth } from '../../lib/auth';
-import { formatPrice } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync, useDebounced } from '../../lib/useAsync';
-import { Badge, Button, Card, EmptyState, ErrorState, Input, PageHeader, Select, Skeleton } from '../../components/ui';
-import { useConfirm, useToast } from '../../components/ui/feedback';
-import Pagination from '../../components/ui/Pagination';
-import { ProductImage, Stars } from '../../components/ui/product';
+import React, { useEffect, useState } from 'react';
+import { FiEdit2, FiPackage, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { pageOf, useAsync, useDebounced, useQueryParams } from '../../shared/hooks';
+import {
+  Badge,
+  Button,
+  Card,
+  EmptyState,
+  ErrorState,
+  PageHeader,
+  Pagination,
+  SearchInput,
+  Select,
+  SkeletonList,
+  Stars,
+  useConfirm,
+  useToast,
+} from '../../shared/ui';
+import { formatPrice } from '../../shared/utils/format';
+import { categoryApi, productApi } from '../api';
+import ProductCell from '../components/ProductCell';
 
 const PAGE_SIZE = 15;
 const LOW_STOCK = 5;
+
+function StockBadge({ stock }) {
+  if (stock <= 0) return <Badge tone="red">Hết hàng</Badge>;
+  if (stock <= LOW_STOCK) return <Badge tone="amber">{stock}</Badge>;
+  return stock;
+}
 
 export default function ProductsPage() {
   const { user } = useAuth();
   const toast = useToast();
   const confirm = useConfirm();
-  const [params, setParams] = useSearchParams();
-  const [search, setSearch] = useState(params.get('search') || '');
-  const query = useDebounced(search);
-  const category = params.get('category') || '';
-  const page = Number(params.get('page')) || 1;
+  // ?q=&category=&page=
+  const [query, setQuery] = useQueryParams();
+  const { category, q = '' } = query;
+  const page = pageOf(query);
+  const [text, setText] = useState(q);
+  const debounced = useDebounced(text);
 
-  const setParam = (key, value) => {
-    const next = new URLSearchParams(params);
-    if (value) next.set(key, value);
-    else next.delete(key);
-    if (key !== 'page') next.delete('page');
-    setParams(next);
-  };
+  useEffect(() => {
+    if (debounced !== q) setQuery({ q: debounced.trim() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounced]);
 
   const { data: categories } = useAsync(() => categoryApi.list(), [], { initial: [] });
   const { data, loading, error, reload } = useAsync(
-    () => productApi.list({ page, page_size: PAGE_SIZE, search: query || undefined, category_id: category || undefined }),
-    [page, query, category]
+    () => productApi.list({ page, page_size: PAGE_SIZE, search: q || undefined, category_id: category }),
+    [page, q, category]
   );
 
   const remove = async (product) => {
@@ -55,33 +71,20 @@ export default function ProductsPage() {
     }
   };
 
+  const addButton = (
+    <Button as={Link} to="/products/new">
+      <FiPlus /> Thêm sản phẩm
+    </Button>
+  );
+
   return (
     <>
-      <PageHeader
-        title="Sản phẩm"
-        subtitle={data ? `${data.count} sản phẩm` : undefined}
-        actions={
-          <Button as={Link} to="/products/new">
-            <FiPlus /> Thêm sản phẩm
-          </Button>
-        }
-      />
+      <PageHeader title="Sản phẩm" subtitle={data ? `${data.count} sản phẩm` : undefined} actions={addButton} />
 
       <Card className="overflow-hidden">
         <div className="flex flex-col gap-3 border-b border-slate-100 p-4 sm:flex-row">
-          <div className="relative flex-1">
-            <FiSearch className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <Input
-              className="pl-10"
-              placeholder="Tìm theo tên hoặc mô tả…"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                if (page !== 1) setParam('page', '');
-              }}
-            />
-          </div>
-          <Select className="sm:w-56" value={category} onChange={(e) => setParam('category', e.target.value)}>
+          <SearchInput className="flex-1" placeholder="Tìm theo tên hoặc mô tả…" value={text} onChange={(e) => setText(e.target.value)} />
+          <Select className="sm:w-56" value={category || ''} onChange={(e) => setQuery({ category: e.target.value })}>
             <option value="">Tất cả danh mục</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -94,21 +97,13 @@ export default function ProductsPage() {
         {error ? (
           <ErrorState message={errorMessage(error)} onRetry={reload} />
         ) : loading ? (
-          <div className="space-y-2 p-4">
-            {Array.from({ length: 8 }, (_, i) => (
-              <Skeleton key={i} className="h-14" />
-            ))}
-          </div>
+          <SkeletonList rows={8} rowClassName="h-14" />
         ) : !data.results.length ? (
           <EmptyState
             icon={FiPackage}
             title="Không có sản phẩm"
-            description={query || category ? 'Không có sản phẩm khớp bộ lọc.' : 'Hãy thêm sản phẩm đầu tiên.'}
-            action={
-              <Button as={Link} to="/products/new">
-                <FiPlus /> Thêm sản phẩm
-              </Button>
-            }
+            description={q || category ? 'Không có sản phẩm khớp bộ lọc.' : 'Hãy thêm sản phẩm đầu tiên.'}
+            action={addButton}
           />
         ) : (
           <div className="overflow-x-auto">
@@ -128,17 +123,7 @@ export default function ProductsPage() {
                 {data.results.map((p) => (
                   <tr key={p.id}>
                     <td>
-                      <div className="flex items-center gap-3">
-                        <span className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                          <ProductImage src={p.image_url} name={p.name} id={p.id} className="text-base" />
-                        </span>
-                        <div className="max-w-xs">
-                          <Link to={`/products/${p.id}/edit`} className="block truncate font-medium text-slate-900 hover:text-brand-700">
-                            {p.name}
-                          </Link>
-                          <span className="text-xs text-slate-400">#{p.id}{p.sku && ` · ${p.sku}`}</span>
-                        </div>
-                      </div>
+                      <ProductCell product={p} meta={`#${p.id}${p.sku ? ` · ${p.sku}` : ''}`} />
                     </td>
                     <td>{p.category_name || <span className="text-slate-400">—</span>}</td>
                     <td className="text-right font-medium text-slate-900">
@@ -146,13 +131,7 @@ export default function ProductsPage() {
                       {Number(p.discount) > 0 && <span className="ml-1.5 text-xs text-rose-500">-{Math.round(p.discount)}%</span>}
                     </td>
                     <td className="text-right">
-                      {p.stock <= 0 ? (
-                        <Badge tone="red">Hết hàng</Badge>
-                      ) : p.stock <= LOW_STOCK ? (
-                        <Badge tone="amber">{p.stock}</Badge>
-                      ) : (
-                        p.stock
-                      )}
+                      <StockBadge stock={p.stock} />
                     </td>
                     <td>
                       <Stars value={p.rating} size="h-3.5 w-3.5" />
@@ -178,7 +157,7 @@ export default function ProductsPage() {
         )}
         {data && (
           <div className="border-t border-slate-100 p-4">
-            <Pagination page={page} pageSize={PAGE_SIZE} count={data.count} onChange={(p) => setParam('page', String(p))} />
+            <Pagination page={page} pageSize={PAGE_SIZE} count={data.count} onChange={(p) => setQuery({ page: p })} />
           </div>
         )}
       </Card>

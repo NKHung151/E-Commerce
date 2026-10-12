@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FiChevronRight, FiLogOut, FiPackage, FiShoppingBag } from 'react-icons/fi';
-import { authApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { ROLES } from '../../lib/constants';
-import { formatDate } from '../../lib/format';
-import { useAsync } from '../../lib/useAsync';
-import { Button, Card, PageHeader, Skeleton, StatusBadge } from '../../components/ui';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Avatar, Button, Card, PageHeader, Skeleton, StatusBadge } from '../../shared/ui';
+import { ROLES } from '../../shared/utils/constants';
+import { formatDate } from '../../shared/utils/format';
+import { authApi } from '../api';
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
@@ -23,9 +23,7 @@ export default function ProfilePage() {
       <PageHeader title="Tài khoản" />
       <Card className="p-6">
         <div className="flex items-center gap-4">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-2xl font-bold text-brand-700">
-            {profile.username.charAt(0).toUpperCase()}
-          </span>
+          <Avatar name={profile.username} size="lg" />
           <div className="min-w-0">
             <h2 className="truncate text-lg font-semibold text-slate-900">{profile.username}</h2>
             <p className="truncate text-sm text-slate-500">{profile.email}</p>

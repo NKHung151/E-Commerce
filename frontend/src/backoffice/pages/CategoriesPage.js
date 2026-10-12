@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FiEdit2, FiLayers, FiPlus, FiTrash2 } from 'react-icons/fi';
-import { categoryApi, productApi } from '../../api/backoffice';
-import { useAuth } from '../../lib/auth';
-import { formatDate } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Badge, Button, Card, EmptyState, ErrorState, Field, Input, PageHeader, Skeleton } from '../../components/ui';
-import { Modal, useConfirm, useToast } from '../../components/ui/feedback';
-import { PRODUCT_TYPES } from '../../lib/constants';
+import { Link } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Badge, Button, Card, EmptyState, ErrorState, Field, Input, Modal, PageHeader, Skeleton, useConfirm, useToast } from '../../shared/ui';
+import { PRODUCT_TYPES } from '../../shared/utils/constants';
+import { formatDate } from '../../shared/utils/format';
+import { categoryApi, productApi } from '../api';
 
 export default function CategoriesPage() {
   const { user } = useAuth();

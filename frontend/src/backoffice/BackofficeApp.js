@@ -1,8 +1,8 @@
 import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { authApi, backofficeTokens } from '../api/backoffice';
-import { AuthProvider, useAuth } from '../lib/auth';
-import Layout from './Layout';
+import { AuthProvider, useAuth } from '../shared/auth/AuthProvider';
+import { authApi, backofficeTokens } from './api';
+import Layout from './layout/Layout';
 import LoginPage from './pages/LoginPage';
 
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));

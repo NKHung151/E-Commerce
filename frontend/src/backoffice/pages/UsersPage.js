@@ -1,81 +1,15 @@
 import React, { useMemo, useState } from 'react';
-import { FiEdit2, FiPlus, FiSearch, FiTrash2, FiUsers } from 'react-icons/fi';
-import { userApi } from '../../api/backoffice';
-import { useAuth } from '../../lib/auth';
-import { ROLES } from '../../lib/constants';
-import { formatDate } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Alert, Button, Card, EmptyState, ErrorState, Field, Input, PageHeader, Select, Skeleton, StatusBadge } from '../../components/ui';
-import { Modal, useConfirm, useToast } from '../../components/ui/feedback';
-import Pagination from '../../components/ui/Pagination';
+import { FiEdit2, FiPlus, FiTrash2, FiUsers } from 'react-icons/fi';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Avatar, Button, Card, EmptyState, ErrorState, PageHeader, Pagination, SearchInput, Select, SkeletonList, StatusBadge, useConfirm, useToast } from '../../shared/ui';
+import { ROLES } from '../../shared/utils/constants';
+import { formatDate } from '../../shared/utils/format';
+import { userApi } from '../api';
+import UserFormModal from '../components/UserFormModal';
 
 const PAGE_SIZE = 15;
-const EMPTY = { username: '', email: '', role: 'customer', password: '' };
-
-function UserForm({ user, onSaved, onClose }) {
-  const isNew = !user.id;
-  const [form, setForm] = useState(isNew ? EMPTY : { username: user.username, email: user.email, role: user.role, password: '' });
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const submit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    setError('');
-    try {
-      const { username, email, role } = form;
-      const saved = isNew ? await userApi.create(form) : await userApi.update(user.id, { username, email, role });
-      onSaved(saved, isNew);
-    } catch (err) {
-      setError(errorMessage(err));
-      setSaving(false);
-    }
-  };
-
-  return (
-    <Modal
-      open
-      title={isNew ? 'Thêm người dùng' : `Sửa ${user.username}`}
-      onClose={onClose}
-      footer={
-        <>
-          <Button variant="secondary" onClick={onClose}>
-            Huỷ
-          </Button>
-          <Button type="submit" form="user-form" loading={saving}>
-            Lưu
-          </Button>
-        </>
-      }
-    >
-      <form id="user-form" onSubmit={submit} className="space-y-4">
-        {error && <Alert>{error}</Alert>}
-        <Field label="Tên đăng nhập" required>
-          <Input value={form.username} onChange={set('username')} required autoFocus />
-        </Field>
-        <Field label="Email" required>
-          <Input type="email" value={form.email} onChange={set('email')} required />
-        </Field>
-        <Field label="Vai trò">
-          <Select value={form.role} onChange={set('role')}>
-            {Object.entries(ROLES).map(([key, r]) => (
-              <option key={key} value={key}>
-                {r.label}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        {isNew && (
-          <Field label="Mật khẩu" hint="Tối thiểu 6 ký tự" required>
-            <Input type="password" value={form.password} onChange={set('password')} required minLength={6} autoComplete="new-password" />
-          </Field>
-        )}
-      </form>
-    </Modal>
-  );
-}
 
 export default function UsersPage() {
   const { user: me } = useAuth();
@@ -134,10 +68,8 @@ export default function UsersPage() {
 
       <Card className="overflow-hidden">
         <div className="flex flex-col gap-3 border-b border-slate-100 p-4 sm:flex-row">
-          <div className="relative flex-1">
-            <FiSearch className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <Input
-              className="pl-10"
+          <SearchInput
+            className="flex-1"
               placeholder="Tìm theo tên đăng nhập hoặc email…"
               value={search}
               onChange={(e) => {
@@ -145,7 +77,6 @@ export default function UsersPage() {
                 setPage(1);
               }}
             />
-          </div>
           <Select
             className="sm:w-48"
             value={role}
@@ -166,11 +97,7 @@ export default function UsersPage() {
         {error ? (
           <ErrorState message={errorMessage(error)} onRetry={reload} />
         ) : loading ? (
-          <div className="space-y-2 p-4">
-            {Array.from({ length: 8 }, (_, i) => (
-              <Skeleton key={i} className="h-12" />
-            ))}
-          </div>
+          <SkeletonList rows={8} />
         ) : !visible.length ? (
           <EmptyState icon={FiUsers} title="Không có người dùng" />
         ) : (
@@ -189,9 +116,7 @@ export default function UsersPage() {
                   <tr key={u.id}>
                     <td>
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
-                          {u.username.charAt(0).toUpperCase()}
-                        </span>
+                        <Avatar name={u.username} />
                         <div>
                           <p className="font-medium text-slate-900">
                             {u.username} {u.id === me.id && <span className="text-xs text-slate-400">(bạn)</span>}
@@ -227,7 +152,7 @@ export default function UsersPage() {
         </div>
       </Card>
 
-      {editing && <UserForm user={editing} onSaved={onSaved} onClose={() => setEditing(null)} />}
+      {editing && <UserFormModal user={editing} onSaved={onSaved} onClose={() => setEditing(null)} />}
     </>
   );
 }

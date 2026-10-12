@@ -1,28 +1,20 @@
 import React, { useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { FiCpu, FiShield, FiTruck } from 'react-icons/fi';
-import { authApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { errorMessage } from '../../lib/http';
-import { Alert, Button, Field, Input } from '../../components/ui';
-import { useToast } from '../../components/ui/feedback';
-import AuthShell from '../../components/AuthShell';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { Alert, AuthAside, AuthShell, Button, Field, Input, useToast } from '../../shared/ui';
+import { authApi } from '../api';
 
 const ASIDE = (
-  <>
-    <h2 className="text-4xl font-bold leading-tight">Mua sắm thông minh hơn với trợ lý AI.</h2>
-    <ul className="mt-8 space-y-4 text-white/90">
-      <li className="flex items-center gap-3">
-        <FiCpu className="h-5 w-5" /> Gợi ý sản phẩm theo sở thích của bạn
-      </li>
-      <li className="flex items-center gap-3">
-        <FiTruck className="h-5 w-5" /> Theo dõi đơn hàng theo thời gian thực
-      </li>
-      <li className="flex items-center gap-3">
-        <FiShield className="h-5 w-5" /> Thanh toán an toàn, hoàn tiền tự động
-      </li>
-    </ul>
-  </>
+  <AuthAside
+    heading="Mua sắm thông minh hơn với trợ lý AI."
+    points={[
+      { icon: FiCpu, text: 'Gợi ý sản phẩm theo sở thích của bạn' },
+      { icon: FiTruck, text: 'Theo dõi đơn hàng theo thời gian thực' },
+      { icon: FiShield, text: 'Thanh toán an toàn, hoàn tiền tự động' },
+    ]}
+  />
 );
 
 export function LoginPage() {

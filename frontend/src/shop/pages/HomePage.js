@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCpu, FiRefreshCw, FiShield, FiTruck } from 'react-icons/fi';
-import { aiApi, catalogApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { useAsync } from '../../lib/useAsync';
-import { Button, Skeleton } from '../../components/ui';
-import { ProductSection } from '../components/ProductCard';
-import { categoryMeta } from '../categoryIcons';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Button, Skeleton } from '../../shared/ui';
+import { aiApi, catalogApi } from '../api';
+import { categoryMeta } from '../categoryMeta';
+import { ProductSection } from '../components/ProductGrid';
 
 function Hero() {
   return (

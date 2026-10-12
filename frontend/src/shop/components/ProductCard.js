@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
-import { aiApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { errorMessage } from '../../lib/http';
-import { Skeleton, cx } from '../../components/ui';
-import { useToast } from '../../components/ui/feedback';
-import { Price, ProductImage, Stars } from '../../components/ui/product';
-import { useCart } from '../CartContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { cx, Price, ProductImage, Skeleton, Stars, useToast } from '../../shared/ui';
+import { aiApi } from '../api';
+import { useCart } from '../context/CartContext';
 
 /**
  * Works with both product-service products and AI ProductSummary objects
@@ -107,33 +105,5 @@ export function ProductCardSkeleton() {
         <Skeleton className="mt-4 h-5 w-1/2" />
       </div>
     </div>
-  );
-}
-
-export function ProductGrid({ products, loading, skeletons = 8, className }) {
-  return (
-    <div className={cx('grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4', className)}>
-      {products.map((p) => (
-        <ProductCard key={p.id} product={p} />
-      ))}
-      {loading && Array.from({ length: skeletons }, (_, i) => <ProductCardSkeleton key={`s${i}`} />)}
-    </div>
-  );
-}
-
-/** Titled horizontal section; renders nothing when there is nothing to show. */
-export function ProductSection({ title, subtitle, products, loading, action }) {
-  if (!loading && !products?.length) return null;
-  return (
-    <section className="mt-12">
-      <div className="mb-5 flex items-end justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight text-slate-900">{title}</h2>
-          {subtitle && <p className="mt-1 text-sm text-slate-500">{subtitle}</p>}
-        </div>
-        {action}
-      </div>
-      <ProductGrid products={products || []} loading={loading} skeletons={4} />
-    </section>
   );
 }

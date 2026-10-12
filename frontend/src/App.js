@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { FeedbackProvider } from './components/ui/feedback';
-import { PageLoader } from './components/ui';
+import { FeedbackProvider, PageLoader } from './shared/ui';
 
 // Two independent apps with separate sessions. The back office is code-split so
 // shoppers never download it.

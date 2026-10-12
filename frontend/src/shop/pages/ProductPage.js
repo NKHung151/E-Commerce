@@ -1,40 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { FiCheck, FiChevronRight, FiPackage, FiShoppingBag, FiZap } from 'react-icons/fi';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FiCheck, FiChevronRight, FiMinus, FiPackage, FiPlus, FiShoppingBag, FiZap } from 'react-icons/fi';
-import { aiApi, catalogApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { DETAIL_LABELS } from '../../lib/constants';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Badge, Button, EmptyState, PageLoader } from '../../components/ui';
-import { useToast } from '../../components/ui/feedback';
-import { Price, ProductImage, Stars } from '../../components/ui/product';
-import { useCart } from '../CartContext';
-import { ProductSection } from '../components/ProductCard';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Badge, Button, EmptyState, PageLoader, Price, ProductImage, QuantityStepper, Stars, useToast } from '../../shared/ui';
+import { DETAIL_LABELS } from '../../shared/utils/constants';
+import { aiApi, catalogApi } from '../api';
+import { categoryMeta } from '../categoryMeta';
+import { ProductSection } from '../components/ProductGrid';
 import Reviews from '../components/Reviews';
-import { categoryMeta } from '../categoryIcons';
-
-function QuantityStepper({ value, max, onChange }) {
-  const btn = 'flex h-11 w-11 items-center justify-center text-slate-600 hover:bg-slate-100 disabled:opacity-40';
-  return (
-    <div className="inline-flex items-center overflow-hidden rounded-xl ring-1 ring-slate-200">
-      <button className={btn} onClick={() => onChange(value - 1)} disabled={value <= 1} aria-label="Giảm">
-        <FiMinus />
-      </button>
-      <input
-        type="number"
-        className="h-11 w-14 border-0 text-center text-sm font-semibold focus:ring-0"
-        value={value}
-        min={1}
-        max={max}
-        onChange={(e) => onChange(Math.max(1, Math.min(max, Number(e.target.value) || 1)))}
-      />
-      <button className={btn} onClick={() => onChange(value + 1)} disabled={value >= max} aria-label="Tăng">
-        <FiPlus />
-      </button>
-    </div>
-  );
-}
+import { useCart } from '../context/CartContext';
 
 export default function ProductPage() {
   const { id } = useParams();

@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { FiSave } from 'react-icons/fi';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiSave } from 'react-icons/fi';
-import { categoryApi, productApi } from '../../api/backoffice';
-import { PRODUCT_TYPES } from '../../lib/constants';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Alert, Button, Card, CardHeader, ErrorState, Field, Input, PageHeader, PageLoader, Select, Textarea, cx } from '../../components/ui';
-import { useToast } from '../../components/ui/feedback';
-import { ProductImage } from '../../components/ui/product';
+import { errorMessage } from '../../shared/api/client';
+import { useAsync } from '../../shared/hooks';
+import { Alert, Button, Card, CardHeader, ErrorState, Field, Input, PageHeader, PageLoader, ProductImage, Select, Textarea, Toggle, useToast } from '../../shared/ui';
+import { PRODUCT_TYPES } from '../../shared/utils/constants';
+import { categoryApi, productApi } from '../api';
 
 const EMPTY = {
   name: '',
@@ -20,23 +18,6 @@ const EMPTY = {
   category: '',
   is_available: true,
 };
-
-function Toggle({ checked, onChange, label }) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      onClick={() => onChange(!checked)}
-      className="flex items-center gap-3 text-sm text-slate-700"
-    >
-      <span className={cx('relative h-6 w-11 rounded-full transition-colors', checked ? 'bg-brand-600' : 'bg-slate-300')}>
-        <span className={cx('absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform', checked ? 'translate-x-5' : 'translate-x-0.5')} />
-      </span>
-      {label}
-    </button>
-  );
-}
 
 export default function ProductFormPage() {
   const { id } = useParams();
@@ -118,11 +99,7 @@ export default function ProductFormPage() {
   return (
     <form onSubmit={submit}>
       <PageHeader
-        back={
-          <Link to="/products" className="mb-2 inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900">
-            <FiArrowLeft /> Sản phẩm
-          </Link>
-        }
+        back={{ to: '/products', label: 'Sản phẩm' }}
         title={isEdit ? 'Sửa sản phẩm' : 'Thêm sản phẩm'}
         subtitle={isEdit ? `#${id} · ${product?.name}` : 'Điền thông tin chung và thông số theo danh mục'}
         actions={

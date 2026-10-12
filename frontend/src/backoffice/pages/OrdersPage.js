@@ -1,31 +1,40 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { FiSearch, FiShoppingCart } from 'react-icons/fi';
-import { orderApi } from '../../api/backoffice';
-import { ORDER_STATUS, PAYMENT_METHODS } from '../../lib/constants';
-import { formatDateTime, formatPrice } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync, useDebounced } from '../../lib/useAsync';
-import { Card, EmptyState, ErrorState, Input, PageHeader, Skeleton, StatusBadge, cx } from '../../components/ui';
-import Pagination from '../../components/ui/Pagination';
+import React, { useEffect, useState } from 'react';
+import { FiShoppingCart } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { pageOf, useAsync, useDebounced, useQueryParams } from '../../shared/hooks';
+import { Card, cx, EmptyState, ErrorState, PageHeader, Pagination, SearchInput, SkeletonList, StatusBadge } from '../../shared/ui';
+import { ORDER_STATUS, PAYMENT_METHODS } from '../../shared/utils/constants';
+import { countItems, formatDateTime, formatPrice } from '../../shared/utils/format';
+import { orderApi } from '../api';
 
 const PAGE_SIZE = 15;
 
 export default function OrdersPage() {
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
-  const status = ORDER_STATUS[params.get('search')] ? params.get('search') : '';
-  const [text, setText] = useState(status ? '' : params.get('search') || '');
-  const query = useDebounced(text);
-  const page = Number(params.get('page')) || 1;
-  // order-service's `search` matches id / user id (digits) or status / address (text).
-  const search = status || query.trim().replace(/^#/, '');
+  // ?status=pending (tab) or ?q=123 (free text); the dashboard links to ?status=…
+  const [query, setQuery] = useQueryParams();
+  const status = ORDER_STATUS[query.status] ? query.status : '';
+  const page = pageOf(query);
+  const [text, setText] = useState(query.q || '');
+  const debounced = useDebounced(text);
 
+  useEffect(() => {
+    if (debounced !== (query.q || '')) setQuery({ q: debounced.trim(), status: '' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounced]);
+
+  // order-service `search` matches id / user id (digits) or status / address (text).
+  const search = status || (query.q || '').replace(/^#/, '');
   const { data, loading, error, reload } = useAsync(
     () => orderApi.list({ page, page_size: PAGE_SIZE, search: search || undefined }),
     [page, search]
   );
 
+  const selectTab = (key) => {
+    setText('');
+    setQuery({ status: key, q: '' });
+  };
   const tab = (key) =>
     cx(
       'whitespace-nowrap border-b-2 px-1 pb-3 text-sm font-medium transition-colors',
@@ -37,31 +46,18 @@ export default function OrdersPage() {
       <PageHeader title="Đơn hàng" subtitle={data ? `${data.count} đơn hàng` : undefined} />
       <Card className="overflow-hidden">
         <div className="space-y-4 border-b border-slate-100 px-4 pt-4">
-          <div className="relative max-w-md">
-            <FiSearch className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <Input
-              className="pl-10"
-              placeholder="Mã đơn, mã khách hàng hoặc địa chỉ…"
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value);
-                setParams({});
-              }}
-            />
-          </div>
+          <SearchInput
+            className="max-w-md"
+            placeholder="Mã đơn, mã khách hàng hoặc địa chỉ…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
           <div className="-mb-px flex gap-6 overflow-x-auto scrollbar-none">
-            <button className={tab('')} onClick={() => setParams({})}>
+            <button className={tab('')} onClick={() => selectTab('')}>
               Tất cả
             </button>
             {Object.entries(ORDER_STATUS).map(([key, s]) => (
-              <button
-                key={key}
-                className={tab(key)}
-                onClick={() => {
-                  setText('');
-                  setParams({ search: key });
-                }}
-              >
+              <button key={key} className={tab(key)} onClick={() => selectTab(key)}>
                 {s.label}
               </button>
             ))}
@@ -71,11 +67,7 @@ export default function OrdersPage() {
         {error ? (
           <ErrorState message={errorMessage(error)} onRetry={reload} />
         ) : loading ? (
-          <div className="space-y-2 p-4">
-            {Array.from({ length: 8 }, (_, i) => (
-              <Skeleton key={i} className="h-12" />
-            ))}
-          </div>
+          <SkeletonList rows={8} />
         ) : !data.results.length ? (
           <EmptyState icon={FiShoppingCart} title="Không có đơn hàng" description={search ? 'Không có đơn khớp bộ lọc.' : undefined} />
         ) : (
@@ -102,7 +94,7 @@ export default function OrdersPage() {
                     </td>
                     <td>User #{o.user_id}</td>
                     <td className="text-slate-500">{formatDateTime(o.created_at)}</td>
-                    <td>{o.items.reduce((n, i) => n + i.quantity, 0)}</td>
+                    <td>{countItems(o.items)}</td>
                     <td>{PAYMENT_METHODS[o.payment_method]?.label || o.payment_method}</td>
                     <td>
                       <StatusBadge map={ORDER_STATUS} value={o.status} />
@@ -116,12 +108,7 @@ export default function OrdersPage() {
         )}
         {data && (
           <div className="border-t border-slate-100 p-4">
-            <Pagination
-              page={page}
-              pageSize={PAGE_SIZE}
-              count={data.count}
-              onChange={(p) => setParams({ ...(status ? { search: status } : {}), page: String(p) })}
-            />
+            <Pagination page={page} pageSize={PAGE_SIZE} count={data.count} onChange={(p) => setQuery({ page: p })} />
           </div>
         )}
       </Card>

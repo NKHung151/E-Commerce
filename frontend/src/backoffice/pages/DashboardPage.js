@@ -1,32 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FiArrowRight, FiClock, FiDollarSign, FiPackage, FiShoppingCart, FiUsers } from 'react-icons/fi';
-import { orderApi, productApi, userApi } from '../../api/backoffice';
-import { useAuth } from '../../lib/auth';
-import { ORDER_STATUS, PAYMENT_METHODS } from '../../lib/constants';
-import { formatDateTime, formatPrice } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Card, CardHeader, EmptyState, ErrorState, PageHeader, Skeleton, StatusBadge } from '../../components/ui';
+import { Link } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Card, CardHeader, EmptyState, ErrorState, PageHeader, Skeleton, SkeletonList, StatusBadge } from '../../shared/ui';
+import { ORDER_STATUS, PAYMENT_METHODS } from '../../shared/utils/constants';
+import { formatDateTime, formatPrice } from '../../shared/utils/format';
+import { orderApi, productApi, userApi } from '../api';
+import StatCard from '../components/StatCard';
 
 const SAMPLE = 100; // orders used for revenue / status breakdown
-
-function Stat({ icon: Icon, label, value, hint, tone }) {
-  return (
-    <Card className="p-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm text-slate-500">{label}</p>
-          <p className="mt-2 text-2xl font-bold tracking-tight text-slate-900">{value}</p>
-          {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
-        </div>
-        <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${tone}`}>
-          <Icon className="h-5 w-5" />
-        </span>
-      </div>
-    </Card>
-  );
-}
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -56,9 +40,9 @@ export default function DashboardPage() {
           Array.from({ length: 4 }, (_, i) => <Skeleton key={i} className="h-28" />)
         ) : (
           <>
-            <Stat icon={FiDollarSign} label="Doanh thu" value={formatPrice(data.revenue)} hint={sampled} tone="bg-emerald-50 text-emerald-600" />
-            <Stat icon={FiShoppingCart} label="Đơn hàng" value={data.orders.count} tone="bg-brand-50 text-brand-600" />
-            <Stat
+            <StatCard icon={FiDollarSign} label="Doanh thu" value={formatPrice(data.revenue)} hint={sampled} tone="bg-emerald-50 text-emerald-600" />
+            <StatCard icon={FiShoppingCart} label="Đơn hàng" value={data.orders.count} tone="bg-brand-50 text-brand-600" />
+            <StatCard
               icon={FiClock}
               label="Chờ xử lý"
               value={data.byStatus.pending || 0}
@@ -66,9 +50,9 @@ export default function DashboardPage() {
               tone="bg-amber-50 text-amber-600"
             />
             {isAdmin ? (
-              <Stat icon={FiUsers} label="Người dùng" value={data.users} tone="bg-violet-50 text-violet-600" />
+              <StatCard icon={FiUsers} label="Người dùng" value={data.users} tone="bg-violet-50 text-violet-600" />
             ) : (
-              <Stat icon={FiPackage} label="Sản phẩm" value={data.products} tone="bg-violet-50 text-violet-600" />
+              <StatCard icon={FiPackage} label="Sản phẩm" value={data.products} tone="bg-violet-50 text-violet-600" />
             )}
           </>
         )}
@@ -85,11 +69,7 @@ export default function DashboardPage() {
             }
           />
           {loading ? (
-            <div className="space-y-2 p-5">
-              {Array.from({ length: 5 }, (_, i) => (
-                <Skeleton key={i} className="h-10" />
-              ))}
-            </div>
+            <SkeletonList rows={5} rowClassName="h-10" className="space-y-2 p-5" />
           ) : !data.orders.results.length ? (
             <EmptyState icon={FiShoppingCart} title="Chưa có đơn hàng" />
           ) : (
@@ -135,7 +115,7 @@ export default function DashboardPage() {
               const n = data?.byStatus[key] || 0;
               const total = data?.orders.results.length || 0;
               return (
-                <Link key={key} to={`/orders?search=${key}`} className="block">
+                <Link key={key} to={`/orders?status=${key}`} className="block">
                   <div className="mb-1.5 flex justify-between text-sm">
                     <span className="text-slate-600">{s.label}</span>
                     <span className="font-medium text-slate-900">{loading ? '…' : n}</span>

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FiMessageSquare, FiTrash2 } from 'react-icons/fi';
-import { reviewApi } from '../../api/shop';
-import { useAuth } from '../../lib/auth';
-import { formatDate } from '../../lib/format';
-import { errorMessage } from '../../lib/http';
-import { useAsync } from '../../lib/useAsync';
-import { Button, Card, EmptyState, Skeleton, Textarea } from '../../components/ui';
-import { useConfirm, useToast } from '../../components/ui/feedback';
-import { StarInput, Stars } from '../../components/ui/product';
+import { Link } from 'react-router-dom';
+import { errorMessage } from '../../shared/api/client';
+import { useAuth } from '../../shared/auth/AuthProvider';
+import { useAsync } from '../../shared/hooks';
+import { Avatar, Button, Card, EmptyState, Skeleton, StarInput, Stars, Textarea, useConfirm, useToast } from '../../shared/ui';
+import { formatDate } from '../../shared/utils/format';
+import { reviewApi } from '../api';
 
 function Summary({ reviews }) {
   const total = reviews.length;
@@ -116,9 +114,7 @@ export default function Reviews({ productId }) {
         )}
         {reviews.map((r) => (
           <div key={r.id} className="flex gap-4 py-5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
-              {(r.username || '?').charAt(0).toUpperCase()}
-            </span>
+            <Avatar name={r.username} />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <span className="text-sm font-semibold text-slate-900">{r.username}</span>

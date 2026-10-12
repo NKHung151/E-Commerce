@@ -1,49 +1,13 @@
 import React, { useEffect } from 'react';
+import { FiCheckCircle, FiMapPin, FiPackage, FiRefreshCw } from 'react-icons/fi';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiCheck, FiCheckCircle, FiMapPin, FiPackage, FiRefreshCw, FiXCircle } from 'react-icons/fi';
-import { catalogApi, orderApi } from '../../api/shop';
-import { ORDER_FLOW, ORDER_STATUS, PAYMENT_METHODS, PAYMENT_STATUS } from '../../lib/constants';
-import { formatDateTime, formatPrice } from '../../lib/format';
-import { useAsync } from '../../lib/useAsync';
-import { Button, Card, CardHeader, EmptyState, PageLoader, StatusBadge, cx } from '../../components/ui';
-import { ProductImage } from '../../components/ui/product';
-
-function Timeline({ status }) {
-  if (status === 'cancelled') {
-    return (
-      <div className="flex items-center gap-3 rounded-2xl bg-rose-50 p-4 text-sm text-rose-700">
-        <FiXCircle className="h-5 w-5 shrink-0" />
-        Đơn hàng đã bị huỷ. Nếu bạn đã thanh toán, tiền sẽ được hoàn lại và tồn kho được trả về.
-      </div>
-    );
-  }
-  const current = ORDER_FLOW.indexOf(status);
-  return (
-    <ol className="grid grid-cols-4 gap-2">
-      {ORDER_FLOW.map((step, i) => {
-        const done = i <= current;
-        return (
-          <li key={step} className="flex flex-col items-center text-center">
-            <div className="relative flex w-full items-center justify-center">
-              {i > 0 && (
-                <span className={cx('absolute right-1/2 top-1/2 h-0.5 w-full -translate-y-1/2', i <= current ? 'bg-brand-500' : 'bg-slate-200')} />
-              )}
-              <span
-                className={cx(
-                  'relative z-10 flex h-9 w-9 items-center justify-center rounded-full ring-4 ring-white',
-                  done ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-400'
-                )}
-              >
-                {done ? <FiCheck className="h-4 w-4" /> : i + 1}
-              </span>
-            </div>
-            <span className={cx('mt-2 text-xs font-medium', done ? 'text-slate-900' : 'text-slate-400')}>{ORDER_STATUS[step].label}</span>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
+import { useAsync } from '../../shared/hooks';
+import { BackLink, Button, Card, CardHeader, cx, EmptyState, PageLoader, ProductImage, StatusBadge } from '../../shared/ui';
+import { ORDER_STATUS, PAYMENT_METHODS, PAYMENT_STATUS } from '../../shared/utils/constants';
+import { addressLines, formatDateTime, formatPrice } from '../../shared/utils/format';
+import { attachProducts } from '../../shared/utils/products';
+import { catalogApi, orderApi } from '../api';
+import OrderTimeline from '../components/OrderTimeline';
 
 export default function OrderPage() {
   const { id } = useParams();
@@ -53,8 +17,7 @@ export default function OrderPage() {
   const order = useAsync(
     async () => {
       const o = await orderApi.get(id);
-      const products = await Promise.all(o.items.map((i) => catalogApi.product(i.product_id).catch(() => null)));
-      return { ...o, items: o.items.map((i, k) => ({ ...i, product: products[k] })) };
+      return { ...o, items: await attachProducts(o.items, (pid) => catalogApi.product(pid)) };
     },
     [id]
   );
@@ -92,9 +55,7 @@ export default function OrderPage() {
 
   return (
     <div className="container-page max-w-5xl py-8">
-      <Link to="/orders" className="mb-4 inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900">
-        <FiArrowLeft /> Đơn hàng của tôi
-      </Link>
+      <BackLink to="/orders">Đơn hàng của tôi</BackLink>
 
       {justPlaced && (
         <div className="mb-6 flex items-start gap-3 rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-200">
@@ -132,7 +93,7 @@ export default function OrderPage() {
       </div>
 
       <Card className="mb-6 p-6">
-        <Timeline status={o.status} />
+        <OrderTimeline status={o.status} />
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
@@ -179,7 +140,7 @@ export default function OrderPage() {
             <h3 className="flex items-center gap-2 font-semibold text-slate-900">
               <FiMapPin className="text-slate-400" /> Giao đến
             </h3>
-            <p className="mt-2 whitespace-pre-line text-sm text-slate-600">{o.address?.split(' · ').join('\n') || '—'}</p>
+            <p className="mt-2 whitespace-pre-line text-sm text-slate-600">{addressLines(o.address)}</p>
           </Card>
         </div>
       </div>
