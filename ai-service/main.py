@@ -13,6 +13,7 @@ from routers import recommend, chatbot, behavior, admin
 from db.neo4j_client import neo4j_client
 from db.faiss_client import faiss_client
 from models.lstm_inference import lstm_inference
+from services import llm
 from services.rabbitmq_consumer import start_consumer
 
 REQUEST_COUNT = Counter(
@@ -27,6 +28,8 @@ REQUEST_LATENCY = Histogram(
 )
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s %(name)s %(message)s')
+logger = logging.getLogger('ai-service')
+logging.getLogger('pika').setLevel(logging.WARNING)  # pika logs every connection step at INFO
 
 # Fault injection is opt-in (see Django services' middleware for the rationale).
 FAULT_INJECTION_ENABLED = os.getenv("FAULT_INJECTION_ENABLED", "false").lower() in ("1", "true", "yes")
@@ -42,34 +45,24 @@ def _parse_float(value) -> float:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    try:
-        await neo4j_client.connect()
-    except Exception as e:
-        print(f"⚠️ Neo4j connect failed: {e}")
-    try:
-        faiss_client.load_index()
-    except Exception as e:
-        print(f"⚠️ FAISS load failed: {e}")
-    try:
-        lstm_inference.load()
-    except Exception as e:
-        print(f"⚠️ LSTM load failed: {e}")
-
-    # Start RabbitMQ consumer
-    try:
-        start_consumer(asyncio.get_running_loop())
-        print("✅ RabbitMQ behavior tracking consumer started")
-    except Exception as e:
-        print(f"⚠️ Failed to start RabbitMQ consumer: {e}")
-
-    print("✅ AI-service startup complete")
+    # Every component is optional: the service degrades (fewer recommendation
+    # sources) instead of failing to start.
+    for name, start in (("Neo4j", neo4j_client.connect), ("FAISS index", faiss_client.load_index),
+                        ("LSTM model", lstm_inference.load)):
+        try:
+            result = start()
+            if asyncio.iscoroutine(result):
+                await result
+        except Exception as e:
+            logger.warning(f"{name} unavailable: {e}")
+    start_consumer(asyncio.get_running_loop())
+    logger.info("AI-service startup complete")
     yield
-    # Shutdown
-    try:
-        await neo4j_client.close()
-    except Exception:
-        pass
-    print("🛑 AI-service shutting down")
+    for close in (neo4j_client.close, llm.close):
+        try:
+            await close()
+        except Exception:
+            pass
 
 app = FastAPI(title="AI Service — Novamart", version="1.0.0", lifespan=lifespan)
 

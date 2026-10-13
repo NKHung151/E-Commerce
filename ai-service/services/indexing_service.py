@@ -4,6 +4,7 @@ Single implementation used by POST /admin/rebuild-index and scripts/setup_ai.py.
 (There used to be three copies that embedded different text, so search quality
 depended on which one ran last.)
 """
+import asyncio
 import logging
 
 from db.faiss_client import faiss_client
@@ -40,13 +41,16 @@ async def build_product_index(sync_graph: bool = True) -> int:
         }
         for p in products
     }
-    vectors = embedder.encode_batch([product_document(p) for p in products])
-    faiss_client.rebuild(vectors, ids, metadata)
+    # Embedding the catalogue is CPU-heavy: run it in a worker thread so the API stays responsive.
+    vectors = await asyncio.to_thread(embedder.encode_batch, [product_document(p) for p in products])
+    await asyncio.to_thread(faiss_client.rebuild, vectors, ids, metadata)
 
     if sync_graph:
         await neo4j_client.create_constraints()
-        for p in products:
-            await neo4j_client.merge_product(p["id"], p["name"], category_name(p), p.get("price", 0))
+        await neo4j_client.merge_products([
+            {"id": p["id"], "name": p["name"], "category": category_name(p), "price": float(p.get("price", 0))}
+            for p in products
+        ])
 
     logger.info(f"Indexed {len(ids)} products")
     return len(ids)

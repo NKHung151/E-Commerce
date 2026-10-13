@@ -9,7 +9,7 @@
 ### Prerequisites
 - Docker & Docker Compose (for containerized deployment)
 - Python 3.11+ (for local development)
-- Neo4j running at `bolt://my-neo4j:7687` (credentials: `neo4j` / `12345678`)
+- Neo4j running at `bolt://neo4j:7687` (credentials: `neo4j` / `12345678`)
 
 ### Build & Run with Docker
 
@@ -154,13 +154,15 @@ This:
 curl -X POST http://localhost:8007/admin/rebuild-index -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
 
-### 2. Initialize Neo4j Graph (optional, automatic on first event)
+### 2. Rebuild the Neo4j graph from the behaviour log (optional)
 
 ```bash
-python scripts/setup_ai.py
+python scripts/sync_neo4j.py
 ```
 
-Creates User and Product node constraints in Neo4j.
+Imports `data/user_behavior.csv` into Neo4j in batches (User -[VIEW|ADD_TO_CART|BUY]-> Product),
+then computes `SIMILAR_TO` edges between products co-purchased by at least two users.
+New events are added to the graph automatically as they arrive.
 
 ### 3. Train LSTM Model (after 100+ behavior events)
 
@@ -168,7 +170,8 @@ Creates User and Product node constraints in Neo4j.
 python scripts/train_lstm.py
 ```
 
-Trains sequence model on `data/user_behavior.csv`, saves checkpoint to `data/checkpoints/lstm_checkpoint.pt`.
+Trains the sequence model on `data/user_behavior.csv` and saves the best epoch to
+`data/checkpoints/lstm_checkpoint.pt` (plots in `data/plots/` if matplotlib is installed).
 
 ---
 
@@ -178,36 +181,38 @@ Trains sequence model on `data/user_behavior.csv`, saves checkpoint to `data/che
 AI-Service (FastAPI):
 ├── /routers
 │   ├── behavior.py      → POST /behavior/track — record user actions
-│   ├── recommend.py     → GET /recommend — hybrid recommendations
-│   ├── chatbot.py       → POST /chatbot — NLP chatbot
-│   └── admin.py         → POST /admin/rebuild-index, GET /admin/stats
+│   ├── recommend.py     → GET /recommend, /recommend/similar, /recommend/bought-together
+│   ├── chatbot.py       → POST /chatbot — shopping assistant
+│   └── admin.py         → POST /admin/rebuild-index, GET /admin/stats (admin JWT)
 │
 ├── /services
-│   ├── behavior_service.py    → Persist events to CSV + Neo4j
-│   ├── lstm_service.py        → Sequence-based recommendations (LSTM)
-│   ├── graph_service.py       → Graph-based recommendations (Neo4j)
+│   ├── behavior_service.py    → Persist events (CSV log + Neo4j), cached user history
+│   ├── rabbitmq_consumer.py   → user-behavior-queue → behavior_service (on the FastAPI loop)
+│   ├── lstm_service.py        → Next-item scores from the LSTM
+│   ├── graph_service.py       → Collaborative / similar / bought-together scores (Neo4j)
 │   ├── rag_service.py         → Semantic product search (FAISS)
+│   ├── hybrid_service.py      → Weighted blend of the three sources + fallback
 │   ├── indexing_service.py    → Build FAISS index + sync product nodes to Neo4j
-│   ├── intent_service.py      → Chatbot intent detection (LLM)
-│   ├── rabbitmq_consumer.py   → Consume user-behavior-queue → behavior_service
-│   ├── hybrid_service.py      → Combine all 3 sources (configurable weights)
-│   └── chatbot_service.py     → Intent detection + response generation
+│   ├── intent_service.py      → Chatbot intent: keyword rules, then LLM; price extraction
+│   ├── chatbot_service.py     → Intent dispatch, grounded product answers
+│   └── llm.py                 → Shared OpenAI / Ollama client
 │
 ├── /db
-│   ├── neo4j_client.py   → Async Neo4j driver, Cypher queries
+│   ├── neo4j_client.py   → Async Neo4j driver, Cypher queries (single + batched writes)
 │   ├── faiss_client.py   → FAISS index load/search/rebuild
 │   ├── product_client.py → HTTP client for product-service (cached catalogue)
 │   └── order_client.py   → HTTP client for order-service (chatbot order lookup)
 │
 ├── /models
 │   ├── lstm_model.py          → PyTorch LSTM architecture
-│   ├── train_lstm.py          → Training pipeline (LSTM only)
-│   └── lstm_inference.py      → Load checkpoint + predict
+│   ├── train_lstm.py          → Training pipeline
+│   └── lstm_inference.py      → Load checkpoint + predict (skips already-seen products)
 │
 ├── /utils
-│   └── embedder.py       → Sentence-Transformers wrapper (with fallback)
+│   ├── embedder.py       → Sentence-Transformers wrapper (with fallback)
+│   └── scores.py         → Score normalisation
 │
-└── main.py               → FastAPI app, lifespan, CORS, routers
+└── main.py               → FastAPI app, lifespan, metrics, routers
 ```
 
 ---
@@ -216,25 +221,28 @@ AI-Service (FastAPI):
 
 ### Recommendation Pipeline (GET /recommend)
 
-1. **LSTM Service** → Load user behavior history from CSV, predict next products
-2. **Graph Service** → Query Neo4j: collaborative filtering + similar products
-3. **RAG Service** → Semantic search via FAISS (if query provided)
-4. **Hybrid** → Weighted average: `0.4×LSTM + 0.4×Graph + 0.2×RAG`
-5. **Fallback** → If all empty, return trending (recently added) products
+1. **History** → the user's interactions from the behaviour log (parsed once per file change)
+2. **LSTM** → probability of each product being the *next* one, given the last 10 interactions
+3. **Graph** → Neo4j: users who bought the same things, `SIMILAR_TO` products, items bought
+   together with the last viewed product
+4. **RAG** → FAISS similarity to the `context` query or to the last viewed product's name
+5. **Hybrid** → each source normalised to 0..1, then `0.15×LSTM + 0.15×Graph + 0.7×RAG`
+6. **Fallback** → no source at all (anonymous / new user): newest products
 
 ### Chatbot Pipeline (POST /chatbot)
 
-1. **Intent Detection** → Classify: product_search | price_inquiry | greeting | general
-2. **RAG Search** → Embed user message, find similar products via FAISS
-3. **LLM Generation** → Ollama/OpenAI generates conversational response
-4. **Product Cards** → Fetch product details and return as suggestions
+1. **Intent** → keyword rules (orders, account, payment, policy, specs), otherwise the LLM;
+   a price bound ("dưới 15 triệu") is always extracted locally
+2. **Static answers** → account / payment questions answered from fixed, accurate text
+3. **Orders** → latest order of the logged-in user (JWT forwarded to order-service)
+4. **Products** → FAISS search, price filter, LLM answers only from those products;
+   cards are shown only for products the answer actually mentions
+5. **LLM unavailable** → a friendly fallback text plus the search results
 
-### Behavior Tracking (POST /behavior/track)
+### Behavior Tracking (RabbitMQ `user-behavior-queue` or POST /behavior/track)
 
-1. Append event to `data/user_behavior.csv`
-2. Ensure User + Product nodes exist in Neo4j
-3. Create/update relationship edge (VIEW, PURCHASE, ADD_TO_CART, etc.)
-4. Event cached for next LSTM training run
+1. Append event to `data/user_behavior.csv` (history + LSTM training data)
+2. One Cypher query upserts User + Product and increments the relationship counter
 
 ---
 
@@ -244,7 +252,7 @@ AI-Service (FastAPI):
 
 ```env
 # Neo4j
-NEO4J_URI=bolt://my-neo4j:7687
+NEO4J_URI=bolt://neo4j:7687
 NEO4J_USER=neo4j
 NEO4J_PASSWORD=12345678
 
@@ -334,7 +342,7 @@ httpx.post("http://ai-service:8007/behavior/track", json={
 
 ### Neo4j Connection Failed
 ```
-neo4j.exceptions.ServiceUnavailable: Unable to connect to bolt://my-neo4j:7687
+neo4j.exceptions.ServiceUnavailable: Unable to connect to bolt://neo4j:7687
 ```
 **Fix:** Ensure Neo4j container is running: `docker ps | grep neo4j`
 

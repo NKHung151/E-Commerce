@@ -46,18 +46,17 @@ async def record_in_graph(user_id: int, product_id, action):
     if not (user_id and product_id):
         return
     try:
-        await neo4j_client.merge_user(user_id)
-        try:
-            product = await product_client.get_product(product_id)
-        except Exception as pe:
-            logger.warning(f"Failed to get product details, merging minimal node: {pe}")
-            product = None
-        if product:
-            await neo4j_client.merge_product(product["id"], product["name"], category_name(product), product["price"])
-        else:
-            await neo4j_client.merge_product(product_id, f"Product {product_id}", "General", 0.0)
-
-        await neo4j_client.record_action(user_id, product_id, _action_value(action))
+        product = await product_client.get_product(product_id)
+    except Exception as e:
+        logger.warning(f"Failed to get product details, recording a minimal node: {e}")
+        product = None
+    try:
+        await neo4j_client.record_event(
+            user_id, product_id, _action_value(action),
+            name=product and product["name"],
+            category=product and category_name(product),
+            price=product and float(product["price"]),
+        )
     except Exception as e:
         logger.warning(f"Failed to write event to Neo4j: {e}")
 

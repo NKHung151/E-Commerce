@@ -1,4 +1,7 @@
 from config import settings
+import logging
+
+logger = logging.getLogger(__name__)
 try:
     from sentence_transformers import SentenceTransformer
 except Exception:
@@ -12,7 +15,7 @@ class Embedder:
             try:
                 self.model = SentenceTransformer(settings.EMBEDDING_MODEL)
             except Exception as e:
-                print(f"⚠️ Embedder failed to load model: {e}")
+                logger.warning(f"Embedder failed to load model: {e}")
 
     def encode(self, text: str) -> np.ndarray:
         if self.model is None:

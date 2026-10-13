@@ -1,6 +1,14 @@
 from neo4j import AsyncGraphDatabase
 from config import settings
 
+# Behaviour action -> relationship type in the graph.
+REL_TYPES = {
+    "view": "VIEW",
+    "click": "VIEW",
+    "add_to_cart": "ADD_TO_CART",
+    "purchase": "BUY",
+}
+
 class Neo4jClient:
     def __init__(self):
         self._driver = None
@@ -17,6 +25,8 @@ class Neo4jClient:
             await self._driver.close()
 
     async def run(self, query: str, **params):
+        if self._driver is None:
+            raise RuntimeError("Neo4j is not connected")
         async with self._driver.session() as session:
             result = await session.run(query, **params)
             return await result.data()
@@ -25,35 +35,61 @@ class Neo4jClient:
         await self.run("CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.id IS UNIQUE")
         await self.run("CREATE CONSTRAINT IF NOT EXISTS FOR (p:Product) REQUIRE p.id IS UNIQUE")
 
-    async def merge_user(self, user_id: int):
-        await self.run("MERGE (u:User {id: $user_id}) RETURN u", user_id=user_id)
+    async def merge_products(self, products: list, batch_size: int = 1000):
+        """Upsert product nodes in batches: products are dicts {id, name, category, price}."""
+        for i in range(0, len(products), batch_size):
+            await self.run(
+                """
+                UNWIND $rows AS row
+                MERGE (p:Product {id: row.id})
+                SET p.name = row.name, p.category = row.category, p.price = row.price
+                """,
+                rows=products[i:i + batch_size],
+            )
 
-    async def merge_product(self, product_id: int, name: str, category: str, price: float):
+    async def record_event(self, user_id: int, product_id: int, action: str,
+                           name: str = None, category: str = None, price: float = None):
+        """Upsert user + product and count the interaction, in one round trip.
+
+        (Previously three separate queries: merge_user, merge_product, record_action.)
+        Product properties are only overwritten when known.
+        """
+        rel_type = REL_TYPES.get(action, "INTERACT")  # whitelisted: safe to interpolate
         await self.run(
-            """
-            MERGE (p:Product {id: $product_id})
-            SET p.name = $name, p.category = $category, p.price = $price
-            RETURN p
-            """,
-            product_id=product_id, name=name, category=category, price=price
-        )
-
-    async def record_action(self, user_id: int, product_id: int, action: str):
-        rel_map = {
-            "view": "VIEW",
-            "add_to_cart": "ADD_TO_CART",
-            "purchase": "BUY",
-            "click": "VIEW"
-        }
-        rel_type = rel_map.get(action, "INTERACT")
-        query = f"""
-            MATCH (u:User {{id: $user_id}})
-            MATCH (p:Product {{id: $product_id}})
+            f"""
+            MERGE (u:User {{id: $user_id}})
+            MERGE (p:Product {{id: $product_id}})
+            ON CREATE SET p.name = coalesce($name, 'Product ' + toString($product_id)),
+                          p.category = coalesce($category, 'General'), p.price = coalesce($price, 0.0)
+            ON MATCH SET p.name = coalesce($name, p.name), p.category = coalesce($category, p.category),
+                         p.price = coalesce($price, p.price)
             MERGE (u)-[r:{rel_type}]->(p)
             ON CREATE SET r.count = 1, r.last_at = timestamp()
             ON MATCH  SET r.count = r.count + 1, r.last_at = timestamp()
-        """
-        await self.run(query, user_id=user_id, product_id=product_id)
+            """,
+            user_id=user_id, product_id=product_id, name=name, category=category, price=price,
+        )
+
+    async def record_events(self, rows: list, batch_size: int = 2000):
+        """Bulk version for imports: rows of {user_id, product_id, action}, grouped per relationship type."""
+        by_type = {}
+        for row in rows:
+            by_type.setdefault(REL_TYPES.get(row["action"], "INTERACT"), []).append(
+                {"user_id": int(row["user_id"]), "product_id": int(row["product_id"])})
+        for rel_type, items in by_type.items():
+            for i in range(0, len(items), batch_size):
+                await self.run(
+                    f"""
+                    UNWIND $rows AS row
+                    MERGE (u:User {{id: row.user_id}})
+                    MERGE (p:Product {{id: row.product_id}})
+                    ON CREATE SET p.name = 'Product ' + toString(row.product_id), p.category = 'General', p.price = 0.0
+                    MERGE (u)-[r:{rel_type}]->(p)
+                    ON CREATE SET r.count = 1, r.last_at = timestamp()
+                    ON MATCH  SET r.count = r.count + 1, r.last_at = timestamp()
+                    """,
+                    rows=items[i:i + batch_size],
+                )
 
     async def recommend_collaborative(self, user_id: int, limit: int = 10):
         result = await self.run(

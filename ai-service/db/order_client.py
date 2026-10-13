@@ -1,23 +1,26 @@
+import logging
+
 import httpx
 from config import settings
 
+logger = logging.getLogger(__name__)
+
+
 class OrderClient:
     def __init__(self):
-        self.base_url = settings.ORDER_SERVICE_URL if hasattr(settings, 'ORDER_SERVICE_URL') else "http://order-service:8004"
+        self.base_url = settings.ORDER_SERVICE_URL
 
-    async def get_user_orders(self, user_id: int, token: str = None) -> list:
+    async def get_user_orders(self, token: str) -> list:
+        """Orders of the user identified by `token` (order-service filters by the JWT), newest first."""
         try:
-            headers = {"Authorization": f"Bearer {token}"} if token else {}
             async with httpx.AsyncClient(timeout=10.0) as client:
-                # Gọi trực tiếp vào endpoint list của order-service (nó đã tự filter theo user trong token)
-                resp = await client.get(f"{self.base_url}/api/v1/orders/", headers=headers)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    # DRF pagination trả về results
-                    return data.get("results", data) if isinstance(data, dict) else data
+                resp = await client.get(f"{self.base_url}/api/v1/orders/", headers={"Authorization": f"Bearer {token}"})
+            if resp.status_code != 200:
                 return []
-        except Exception as e:
-            print(f"OrderClient Error: {e}")
+            data = resp.json()
+            return data.get("results", []) if isinstance(data, dict) else data
+        except httpx.HTTPError as e:
+            logger.warning(f"order-service unreachable: {e}")
             return []
 
 

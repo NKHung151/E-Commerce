@@ -1,7 +1,11 @@
+import logging
+
 import torch
 from pathlib import Path
 from models.lstm_model import LSTMRecommender
 from config import settings
+
+logger = logging.getLogger(__name__)
 
 class LSTMInference:
     def __init__(self):
@@ -13,7 +17,7 @@ class LSTMInference:
     def load(self):
         path = Path(settings.LSTM_CHECKPOINT_PATH)
         if not path.exists():
-            print("⚠️  LSTM checkpoint not found — using fallback")
+            logger.info("LSTM checkpoint not found — LSTM scores disabled")
             return
         ckpt = torch.load(path, map_location="cpu")
         self.product2idx = ckpt.get("product2idx", {})
@@ -22,7 +26,7 @@ class LSTMInference:
         self.model.load_state_dict(ckpt.get("model_state", {}))
         self.model.eval()
         self.loaded = True
-        print(f"✅ LSTM loaded: {ckpt.get('num_products', 0)} products")
+        logger.info(f"LSTM loaded: {ckpt.get('num_products', 0)} products")
 
     def predict(self, product_history: list[int], top_n: int = 10) -> dict:
         if not self.loaded or not product_history:
@@ -37,11 +41,13 @@ class LSTMInference:
             logits = self.model(x)[0]
             probs = torch.softmax(logits, dim=-1)
 
-        top_indices = torch.topk(probs, k=min(top_n * 2, len(probs))).indices.tolist()
+        # Over-fetch so that products already in the history can be skipped.
+        seen = set(product_history)
+        top_indices = torch.topk(probs, k=min(top_n + len(seen), len(probs))).indices.tolist()
         scores = {}
         for idx in top_indices:
-            pid = self.idx2product.get(idx + 1)
-            if pid is not None:
+            pid = self.idx2product.get(idx + 1)  # model output i <-> product index i + 1 (0 = padding)
+            if pid is not None and pid not in seen:
                 scores[pid] = float(probs[idx])
             if len(scores) >= top_n:
                 break

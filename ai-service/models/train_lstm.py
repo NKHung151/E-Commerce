@@ -4,7 +4,6 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, Dataset
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
 import os
 import sys
@@ -46,26 +45,24 @@ class UserBehaviorDataset(Dataset):
         return self.sequences[idx], self.targets[idx]
 
 def prepare_data(file_path: Path):
-    if file_path.suffix == '.xlsx':
-        df = pd.read_excel(file_path)
-    else:
-        df = pd.read_csv(file_path)
-    
+    df = pd.read_csv(file_path)
+
     df = df[df['product_id'].notna()]
     df['product_id'] = df['product_id'].astype(int)
-    
+
     unique_products = sorted(df['product_id'].unique())
-    product_to_idx = {pid: i + 1 for i, pid in enumerate(unique_products)}
+    # Plain ints (not numpy.int64) so the checkpoint stays portable; index 0 = padding.
+    product_to_idx = {int(pid): i + 1 for i, pid in enumerate(unique_products)}
     num_products = len(unique_products)
-    
+
     if 'timestamp' in df.columns:
         df = df.sort_values(['user_id', 'timestamp'])
-    
+
     user_sequences = df.groupby('user_id')['product_id'].apply(list)
-    
+
     X, y = [], []
     seq_len = settings.LSTM_SEQUENCE_LENGTH
-    
+
     for seq in user_sequences:
         if len(seq) < 2: continue
         idx_seq = [product_to_idx[pid] for pid in seq]
@@ -76,14 +73,14 @@ def prepare_data(file_path: Path):
                 window = [0] * (seq_len - len(window)) + window
             X.append(window)
             y.append(idx_seq[i] - 1)
-            
+
     X, y = np.array(X), np.array(y)
     indices = np.arange(len(X))
     np.random.shuffle(indices)
-    
+
     split = int(0.8 * len(X))
     train_idx, val_idx = indices[:split], indices[split:]
-    
+
     return (X[train_idx], y[train_idx]), (X[val_idx], y[val_idx]), num_products, product_to_idx
 
 def calculate_accuracy(outputs, targets):
@@ -93,27 +90,24 @@ def calculate_accuracy(outputs, targets):
 
 def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
     print("🚀 Starting LSTM Recommender Training...")
-    
-    # Locate data file
-    data_path = Path(settings.BEHAVIOR_EXCEL_PATH)
+
+    data_path = Path(settings.BEHAVIOR_CSV_PATH)
     if not data_path.exists():
-        data_path = Path(settings.BEHAVIOR_CSV_PATH)
-        
-    if not data_path.exists():
-        raise FileNotFoundError(f"Behavior data file not found at {settings.BEHAVIOR_CSV_PATH} or {settings.BEHAVIOR_EXCEL_PATH}")
+        raise FileNotFoundError(f"Behavior data file not found at {data_path}")
 
     (X_train, y_train), (X_val, y_val), num_products, product_to_idx = prepare_data(data_path)
-    
+
     train_loader = DataLoader(UserBehaviorDataset(X_train, y_train), batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(UserBehaviorDataset(X_val, y_val), batch_size=batch_size)
-    
+
     model = LSTMRecommender(num_products=num_products)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     early_stopping = EarlyStopping(patience=5)
-    
+
     history = {'train_loss': [], 'val_loss': [], 'val_acc': []}
-    
+    best_val_loss, best_state = float('inf'), None
+
     for epoch in range(epochs):
         model.train()
         train_loss = 0
@@ -124,7 +118,7 @@ def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
-            
+
         model.eval()
         val_loss, val_acc = 0, 0
         with torch.no_grad():
@@ -132,36 +126,53 @@ def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
                 outputs = model(batch_X)
                 val_loss += criterion(outputs, batch_y).item()
                 val_acc += calculate_accuracy(outputs, batch_y)
-                
+
         avg_train_loss = train_loss / len(train_loader)
         avg_val_loss = val_loss / len(val_loader)
         avg_val_acc = val_acc / len(val_loader)
-        
+
         history['train_loss'].append(avg_train_loss)
         history['val_loss'].append(avg_val_loss)
         history['val_acc'].append(avg_val_acc)
-        
+
         print(f"Epoch [{epoch+1}/{epochs}] - Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f} | Val Acc: {avg_val_acc:.2%}")
-        
+
+        # Keep the weights of the best epoch, not the last one (which early stopping
+        # only reaches after `patience` epochs without improvement).
+        if avg_val_loss < best_val_loss:
+            best_val_loss = avg_val_loss
+            best_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
+
         early_stopping(avg_val_loss)
         if early_stopping.early_stop:
             print(f"Early stopping at epoch {epoch+1}")
             break
-            
+
     # Save checkpoint
     os.makedirs(Path(settings.LSTM_CHECKPOINT_PATH).parent, exist_ok=True)
     checkpoint = {
         "num_products": num_products,
         "product2idx": product_to_idx,
-        "model_state": model.state_dict()
+        "model_state": best_state or model.state_dict(),
     }
     torch.save(checkpoint, settings.LSTM_CHECKPOINT_PATH)
     print(f"💾 LSTM model checkpoint saved to {settings.LSTM_CHECKPOINT_PATH}")
-    
-    # Save training plots
+
+    save_plots(history)
+
+
+def save_plots(history):
+    """Loss / accuracy curves; optional because matplotlib is not part of the service image."""
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("matplotlib not installed — skipping training plots")
+        return
     os.makedirs("data/plots", exist_ok=True)
     plt.figure(figsize=(10, 5))
-    
+
     plt.subplot(1, 2, 1)
     plt.plot(history['train_loss'], label='Train Loss')
     plt.plot(history['val_loss'], label='Val Loss')
@@ -170,7 +181,7 @@ def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
     plt.ylabel('Loss')
     plt.legend()
     plt.grid(True)
-    
+
     plt.subplot(1, 2, 2)
     plt.plot(history['val_acc'], color='green', label='Val Accuracy')
     plt.title('Validation Accuracy')
@@ -178,7 +189,7 @@ def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
     plt.ylabel('Accuracy')
     plt.legend()
     plt.grid(True)
-    
+
     plt.tight_layout()
     plt.savefig("data/plots/lstm_training.png")
     plt.close()

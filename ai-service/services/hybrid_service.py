@@ -8,6 +8,7 @@ from services.behavior_service import get_user_history
 from db.product_client import product_client, category_name
 from schemas.recommend_schema import ProductSummary
 from config import settings
+from utils.scores import normalize
 
 logger = logging.getLogger(__name__)
 
@@ -40,15 +41,12 @@ async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, que
         lstm_scores, graph_scores = await asyncio.gather(
             get_lstm_scores(user_id), _safe_graph_scores(user_id))
 
-    rag_scores = await get_rag_scores(rag_query or "popular products", top_k=top_n)
-    if rag_scores:
-        max_rag = max(rag_scores.values()) or 1
-        rag_scores = {k: v / max_rag for k, v in rag_scores.items()}
+    # Content similarity only makes sense for a real query (explicit context or the
+    # last viewed product). The old placeholder query "popular products" still got
+    # the 0.7 weight and drowned out the LSTM / graph signals.
+    rag_scores = normalize(await get_rag_scores(rag_query, top_k=top_n)) if rag_query else {}
 
-    sources = []
-    if lstm_scores: sources.append("lstm")
-    if graph_scores: sources.append("graph")
-    if rag_scores and rag_query: sources.append("rag")
+    sources = [name for name, scores in (("lstm", lstm_scores), ("graph", graph_scores), ("rag", rag_scores)) if scores]
 
     if not sources:
         logger.info("No behaviour sources found. Falling back to latest products.")

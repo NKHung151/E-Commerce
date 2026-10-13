@@ -1,14 +1,25 @@
-import json
-import httpx
+"""Chatbot intent classification: keyword rules first, LLM for the rest."""
+import logging
+import re
 from typing import Optional
-from pydantic import BaseModel
-from openai import AsyncOpenAI
-from config import settings
+
+from pydantic import BaseModel, Field
+
+from services import llm
+
+logger = logging.getLogger(__name__)
+
+INTENTS = (
+    "product_discovery", "product_details", "promotion", "order_management", "payment",
+    "user_account", "service_info", "personalized_recommendation", "policy_faq", "fallback",
+)
+
 
 class IntentResult(BaseModel):
     intent: str
     confidence: float
-    entities: dict = {}
+    entities: dict = Field(default_factory=dict)
+
 
 SYSTEM_INTENT_PROMPT = """
 Bạn là Trình phân loại ý định cho Chatbot E-commerce.
@@ -28,90 +39,71 @@ YÊU CẦU: CHỈ trả về một đối tượng JSON với các khóa: "inten
 Ví dụ: {"intent": "product_discovery", "confidence": 0.95, "entities": {"max_price": 15000000}}
 """
 
-def get_fast_intent(message: str) -> Optional[IntentResult]:
-    """
-    Sử dụng heuristic (từ khóa) để phân loại nhanh ý định, bỏ qua LLM nếu khớp để tăng tốc độ.
-    """
-    msg_lower = message.lower()
-    
-    # 1. Product Details
-    if any(kw in msg_lower for kw in ["ram", "cpu", "pin", "màn hình", "kích thước", "nặng", "thông số", "cấu hình", "bao nhiêu"]):
-        return IntentResult(intent="product_details", confidence=0.9)
-    
-    # 2. User Account
-    if any(kw in msg_lower for kw in ["mật khẩu", "tài khoản", "quên pass", "đổi pass", "địa chỉ"]):
-        return IntentResult(intent="user_account", confidence=0.9)
-        
-    # 3. FAQ / Policy
-    if any(kw in msg_lower for kw in ["đổi trả", "bảo hành", "ship", "giao hàng", "phí vận chuyển", "chính sách"]):
-        return IntentResult(intent="policy_faq", confidence=0.9)
-        
-    # 4. Order Management
-    if any(kw in msg_lower for kw in ["đơn hàng", "hủy đơn", "chưa nhận được hàng"]):
-        return IntentResult(intent="order_management", confidence=0.9)
+# Checked in order; the first group with a whole-word match wins. Ambiguous words
+# that also appear in product searches ("pin", "bao nhiêu", "giao hàng") are left
+# to the LLM — e.g. "điện thoại pin trâu" is a search, not a spec question.
+KEYWORD_RULES = (
+    ("order_management", ("đơn hàng", "đơn của tôi", "mã đơn", "hủy đơn", "huỷ đơn", "theo dõi đơn", "chưa nhận được hàng")),
+    ("user_account", ("mật khẩu", "tài khoản", "quên pass", "đổi pass", "đăng nhập", "đăng ký")),
+    ("payment", ("thanh toán", "chuyển khoản", "trừ tiền", "cod", "trả góp")),
+    ("policy_faq", ("đổi trả", "hoàn tiền", "chính sách", "phí vận chuyển", "phí ship", "bảo hành")),
+    ("product_details", ("thông số", "cấu hình", "ram", "cpu", "chip", "màn hình", "kích thước", "dung lượng", "chất liệu")),
+)
+_RULE_PATTERNS = [
+    (intent, re.compile(r"(?<!\w)(?:" + "|".join(map(re.escape, words)) + r")(?!\w)", re.IGNORECASE))
+    for intent, words in KEYWORD_RULES
+]
 
+# "dưới 15 triệu", "tối đa 500k", "không quá 2tr", "<= 3.000.000đ", "từ 1 đến 3 triệu"
+_UNITS = {"triệu": 1_000_000, "tr": 1_000_000, "củ": 1_000_000, "nghìn": 1_000, "ngàn": 1_000, "k": 1_000}
+_PRICE_RE = re.compile(
+    r"(?:dưới|tối đa|không quá|ít hơn|nhỏ hơn|max|<=?|đến|tới)\s*"
+    r"(\d+(?:[.,]\d+)*)\s*(triệu|tr|củ|nghìn|ngàn|k|đ|vnd|vnđ)?(?!\w)",
+    re.IGNORECASE,
+)
+
+
+def extract_max_price(message: str) -> Optional[int]:
+    """Upper price bound mentioned in the message, in VND."""
+    matches = list(_PRICE_RE.finditer(message))
+    if not matches:
+        return None
+    number, unit = matches[-1].group(1), (matches[-1].group(2) or "").lower()
+    if unit in _UNITS:
+        value = float(number.replace(",", "."))  # "1,5 triệu" / "1.5tr"
+        return int(value * _UNITS[unit])
+    digits = int(re.sub(r"[.,]", "", number) or 0)  # "3.000.000đ"
+    # A bare small number ("laptop dưới 15") means millions in everyday Vietnamese.
+    return digits * 1_000_000 if 0 < digits < 1000 and not unit else (digits or None)
+
+
+def get_fast_intent(message: str) -> Optional[IntentResult]:
+    for intent, pattern in _RULE_PATTERNS:
+        if pattern.search(message):
+            return IntentResult(intent=intent, confidence=0.9)
     return None
 
 
 async def get_intent(message: str) -> IntentResult:
-    """
-    Classify user message using heuristic first, then LLM.
-    """
-    # 1. Try fast keyword matching
-    fast_result = get_fast_intent(message)
-    if fast_result:
-        return fast_result
-        
-    # 2. Fallback to LLM
-    prompt = f"{SYSTEM_INTENT_PROMPT}\n\nUser message: \"{message}\"\nJSON Result:"
-    
-    # Try OpenAI first if configured, else use Ollama
-    try:
-        if settings.LLM_PROVIDER == "openai" and settings.OPENAI_API_KEY:
-            client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
-            resp = await client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
-                response_format={"type": "json_object"}
+    """Keyword rules, then the LLM; the price bound is always extracted locally too."""
+    max_price = extract_max_price(message)
+    result = get_fast_intent(message)
+
+    if result is None:
+        try:
+            data = llm.parse_json(await llm.complete(
+                f"{SYSTEM_INTENT_PROMPT}\n\nUser message: \"{message}\"\nJSON Result:", json_mode=True))
+            intent = data.get("intent") if data.get("intent") in INTENTS else "fallback"
+            result = IntentResult(
+                intent=intent,
+                confidence=float(data.get("confidence") or 0.5),
+                entities=data.get("entities") or {},
             )
-            data = json.loads(resp.choices[0].message.content)
-        else:
-            # Fallback to Ollama
-            payload = {
-                "model": settings.OLLAMA_MODEL,
-                "prompt": prompt,
-                "stream": False,
-                "format": "json"
-            }
-            async with httpx.AsyncClient(timeout=300.0) as client:
-                response = await client.post(f"{settings.OLLAMA_BASE_URL}/api/generate", json=payload)
-                if response.status_code == 200:
-                    data = response.json()
-                    res_text = data.get("response", "{}")
-                    
-                    # Remove markdown formatting if Ollama returns it
-                    res_text = res_text.strip()
-                    if res_text.startswith("```json"):
-                        res_text = res_text[7:]
-                    if res_text.startswith("```"):
-                        res_text = res_text[3:]
-                    if res_text.endswith("```"):
-                        res_text = res_text[:-3]
-                    res_text = res_text.strip()
-                    
-                    data = json.loads(res_text)
-                else:
-                    error_detail = response.text
-                    print(f"Ollama Intent Error ({response.status_code}): {error_detail}")
-                    data = {"intent": "fallback", "confidence": 1.0}
-        
-        return IntentResult(
-            intent=data.get("intent", "fallback"),
-            confidence=data.get("confidence", 1.0),
-            entities=data.get("entities", {})
-        )
-    except Exception as e:
-        import traceback
-        print(f"Intent Classification Exception: {str(e)}")
-        traceback.print_exc()
-        return IntentResult(intent="fallback", confidence=1.0)
+        except Exception as e:
+            logger.warning(f"Intent classification via LLM failed: {e}")
+            # Without an LLM a price-bounded message is still clearly a product search.
+            result = IntentResult(intent="product_discovery" if max_price else "fallback", confidence=0.5)
+
+    if max_price and not result.entities.get("max_price"):
+        result.entities["max_price"] = max_price
+    return result

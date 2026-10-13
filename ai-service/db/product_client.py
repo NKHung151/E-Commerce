@@ -73,8 +73,20 @@ class ProductClient:
             resp.raise_for_status()
             return resp.json()
 
+    def _cached_catalogue(self):
+        fresh = self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL
+        return {p["id"]: p for p in self._all_cache} if fresh else None
+
     async def get_products_by_ids(self, product_ids: list) -> list:
-        """Fetch products concurrently (was one sequential request per id), keeping input order."""
+        """Products in input order. Served from the catalogue cache when it is warm
+        (product-service asks /recommend for 50 ids on every catalogue page); otherwise
+        fetched concurrently."""
+        cached = self._cached_catalogue() or {}
+        missing = [pid for pid in product_ids if pid not in cached]
+        fetched = {p["id"]: p for p in await self._fetch_many(missing)} if missing else {}
+        return [cached.get(pid) or fetched[pid] for pid in product_ids if pid in cached or pid in fetched]
+
+    async def _fetch_many(self, product_ids: list) -> list:
         async with httpx.AsyncClient(timeout=10.0) as client:
             async def _one(pid):
                 try:

@@ -3,6 +3,9 @@ import json
 import numpy as np
 from pathlib import Path
 from config import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 class FaissClient:
     def __init__(self):
@@ -16,9 +19,9 @@ class FaissClient:
 
         if index_path.exists():
             self.index = faiss.read_index(str(index_path))
-            print(f"✅ FAISS index loaded: {self.index.ntotal} vectors")
+            logger.info(f"FAISS index loaded: {self.index.ntotal} vectors")
         else:
-            print("⚠️ FAISS index not found — run admin rebuild-index")
+            logger.warning("FAISS index not found — run admin rebuild-index")
 
         if meta_path.exists():
             with open(meta_path) as f:
@@ -43,7 +46,7 @@ class FaissClient:
 
     def rebuild(self, embeddings: np.ndarray, product_ids: list, metadata: dict):
         if embeddings is None or embeddings.size == 0:
-            print("No embeddings provided — skipping rebuild")
+            logger.info("No embeddings provided — skipping rebuild")
             return
         dim = embeddings.shape[1]
         self.index = faiss.IndexFlatIP(dim)
@@ -58,6 +61,6 @@ class FaissClient:
 
         with open(settings.PRODUCT_METADATA_PATH, "w") as f:
             json.dump({"id_map": product_ids, "metadata": {str(k): v for k, v in metadata.items()}}, f)
-        print(f"✅ FAISS rebuilt: {len(product_ids)} products indexed")
+        logger.info(f"FAISS rebuilt: {len(product_ids)} products indexed")
 
 faiss_client = FaissClient()
