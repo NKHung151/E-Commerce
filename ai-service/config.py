@@ -27,10 +27,10 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
 
     # LLM for the chatbot: "openai" (needs OPENAI_API_KEY) or "ollama"
-    LLM_PROVIDER: str = "openai"
+    LLM_PROVIDER: str = "ollama"
     OPENAI_API_KEY: str = ""
     OLLAMA_BASE_URL: str = "http://ollama:11434"
-    OLLAMA_MODEL: str = "phi3:mini"
+    OLLAMA_MODEL: str = "qwen2.5:3b"  # small, good Vietnamese, fits a 4 GB GPU
 
     # Sentence-transformers model for product / query embeddings
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"

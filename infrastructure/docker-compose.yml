@@ -184,6 +184,10 @@ services:
   # and reaches them by container name. One-time setup:
   #   docker network create shared-infra
   #   docker network connect shared-infra rabbitmq   (and mysql-container, neo4j, redis)
+  # The chatbot LLM is the shared `ollama` container (GPU):
+  #   docker run -d --name ollama --gpus all --network shared-infra -p 11434:11434 \
+  #     -v ollama_data:/root/.ollama ollama/ollama
+  #   docker exec ollama ollama pull qwen2.5:3b
   # PostgreSQL is the native install on the host, reached via host.docker.internal:5432
   # (DB_HOST in each service's .env).
 
