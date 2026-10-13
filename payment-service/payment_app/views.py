@@ -1,9 +1,8 @@
 import json
 import logging
-from decimal import Decimal, InvalidOperation
 from django.db import transaction
 from django.utils import timezone
-from rest_framework import status, viewsets
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Payment
@@ -33,42 +32,11 @@ class PaymentViewSet(viewsets.ViewSet):
     authentication_classes = [JWTAuthentication]
 
     def get_permissions(self):
-        # Payments are driven by the saga; manual pay/refund/confirm are back-office operations.
-        if self.action in ('pay', 'refund', 'confirm'):
+        # Payments are driven by the saga. Staff confirm bank / cash payments; refunds happen
+        # by cancelling the order (saga-order-cancelled), which also restores the stock.
+        if self.action == 'confirm':
             return [IsStaffOrAdmin()]
         return [IsCustomerOrAbove()]
-
-    @action(detail=False, methods=['post'])
-    def pay(self, request):
-        """Mark an order as paid (staff/admin manual override)."""
-        order_id = _parse_order_id(request.data.get('order_id'))
-        try:
-            amount = Decimal(str(request.data.get('amount')))
-        except (InvalidOperation, ValueError):
-            amount = None
-
-        if order_id is None or amount is None or amount <= 0:
-            return error_response('order_id and a positive amount are required', 400)
-
-        logger.info(f'[payment-service] Processing payment for Order {order_id}: ${amount}')
-
-        with transaction.atomic():
-            payment, created = Payment.objects.select_for_update().get_or_create(
-                order_id=order_id,
-                defaults={'amount': amount, 'status': 'success', 'paid_at': timezone.now()}
-            )
-            if not created:
-                if payment.status == 'success':
-                    logger.warning(f'[payment-service] Payment already processed for Order {order_id}')
-                    return Response(PaymentSerializer(payment).data)
-                if payment.status == 'failed':
-                    return error_response('Payment was cancelled/refunded and cannot be paid', 409)
-                payment.status = 'success'
-                payment.paid_at = timezone.now()
-                payment.save(update_fields=['status', 'paid_at', 'updated_at'])
-
-        logger.info(f'[payment-service] Payment successful for Order {order_id}')
-        return Response(PaymentSerializer(payment).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def status(self, request):
@@ -90,20 +58,6 @@ class PaymentViewSet(viewsets.ViewSet):
             return error_response('Permission denied', 403)
 
         return Response(PaymentSerializer(payment).data)
-
-    @action(detail=False, methods=['post'])
-    def refund(self, request):
-        """Refund payment for an order (Saga compensation step)"""
-        order_id = _parse_order_id(request.data.get('order_id'))
-        if order_id is None:
-            return error_response('order_id is required', 400)
-
-        logger.info(f'[payment-service] Refunding/cancelling payment for Order {order_id}')
-
-        updated = Payment.objects.filter(order_id=order_id).update(status='failed', updated_at=timezone.now())
-        if not updated:
-            return error_response(f'No payment found for Order {order_id}', 404)
-        return Response(PaymentSerializer(Payment.objects.get(order_id=order_id)).data)
 
     @action(detail=False, methods=['post'], url_path='(?P<order_id>[0-9]+)/confirm')
     def confirm(self, request, order_id=None):
