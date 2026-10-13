@@ -1,0 +1,5132 @@
+[
+ {
+  "id": 1,
+  "name": "Clean Code: A Handbook of Agile Software Craftsmanship",
+  "sku": "BOK-0001",
+  "description": "Clean Code: A Handbook of Agile Software Craftsmanship của tác giả Robert C. Martin, do Prentice Hall phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "450000.00",
+  "discount": 0,
+  "stock": 44,
+  "rating": 4.78,
+  "views": 78,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Robert C. Martin",
+   "publisher": "Prentice Hall",
+   "isbn": "9786040000019"
+  }
+ },
+ {
+  "id": 2,
+  "name": "The Pragmatic Programmer 20th Anniversary Edition",
+  "sku": "BOK-0002",
+  "description": "The Pragmatic Programmer 20th Anniversary Edition của tác giả David Thomas, Andrew Hunt, do Addison-Wesley phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "420000.00",
+  "discount": 20,
+  "stock": 205,
+  "rating": 4.71,
+  "views": 87,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "David Thomas, Andrew Hunt",
+   "publisher": "Addison-Wesley",
+   "isbn": "9786040000026"
+  }
+ },
+ {
+  "id": 3,
+  "name": "Design Patterns: Elements of Reusable Object-Oriented Software",
+  "sku": "BOK-0003",
+  "description": "Design Patterns: Elements of Reusable Object-Oriented Software của tác giả Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, do Addison-Wesley phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "380000.00",
+  "discount": 0,
+  "stock": 22,
+  "rating": 4.86,
+  "views": 78,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+   "publisher": "Addison-Wesley",
+   "isbn": "9786040000033"
+  }
+ },
+ {
+  "id": 4,
+  "name": "Atomic Habits - Thói Quen Tí Hon Hiệu Quả Bất Ngờ",
+  "sku": "BOK-0004",
+  "description": "Atomic Habits - Thói Quen Tí Hon Hiệu Quả Bất Ngờ của tác giả James Clear, do NXB Thế Giới phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "189000.00",
+  "discount": 0,
+  "stock": 142,
+  "rating": 5.0,
+  "views": 76,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "James Clear",
+   "publisher": "NXB Thế Giới",
+   "isbn": "9786040000040"
+  }
+ },
+ {
+  "id": 5,
+  "name": "Deep Learning với Python",
+  "sku": "BOK-0005",
+  "description": "Deep Learning với Python của tác giả François Chollet, do NXB Bách Khoa Hà Nội phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "520000.00",
+  "discount": 0,
+  "stock": 107,
+  "rating": 3.82,
+  "views": 90,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "François Chollet",
+   "publisher": "NXB Bách Khoa Hà Nội",
+   "isbn": "9786040000057"
+  }
+ },
+ {
+  "id": 6,
+  "name": "Đắc Nhân Tâm - Dale Carnegie",
+  "sku": "BOK-0006",
+  "description": "Đắc Nhân Tâm - Dale Carnegie của tác giả Dale Carnegie, do NXB Tổng hợp TP.HCM phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "120000.00",
+  "discount": 10,
+  "stock": 212,
+  "rating": 4.9,
+  "views": 85,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Dale Carnegie",
+   "publisher": "NXB Tổng hợp TP.HCM",
+   "isbn": "9786040000064"
+  }
+ },
+ {
+  "id": 7,
+  "name": "Sapiens: Lược Sử Loài Người",
+  "sku": "BOK-0007",
+  "description": "Sapiens: Lược Sử Loài Người của tác giả Yuval Noah Harari, do NXB Tri Thức phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "245000.00",
+  "discount": 10,
+  "stock": 176,
+  "rating": 4.83,
+  "views": 84,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Yuval Noah Harari",
+   "publisher": "NXB Tri Thức",
+   "isbn": "9786040000071"
+  }
+ },
+ {
+  "id": 8,
+  "name": "The Psychology of Money - Tâm Lý Học Tiền Bạc",
+  "sku": "BOK-0008",
+  "description": "The Psychology of Money - Tâm Lý Học Tiền Bạc của tác giả Morgan Housel, do NXB Dân Trí phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "189000.00",
+  "discount": 0,
+  "stock": 17,
+  "rating": 4.46,
+  "views": 98,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Morgan Housel",
+   "publisher": "NXB Dân Trí",
+   "isbn": "9786040000088"
+  }
+ },
+ {
+  "id": 9,
+  "name": "Thinking Fast and Slow - Tư Duy Nhanh Và Chậm",
+  "sku": "BOK-0009",
+  "description": "Thinking Fast and Slow - Tư Duy Nhanh Và Chậm của tác giả Daniel Kahneman, do NXB Thế Giới phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "245000.00",
+  "discount": 15,
+  "stock": 20,
+  "rating": 4.56,
+  "views": 93,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Daniel Kahneman",
+   "publisher": "NXB Thế Giới",
+   "isbn": "9786040000095"
+  }
+ },
+ {
+  "id": 10,
+  "name": "The Lean Startup - Khởi Nghiệp Tinh Gọn",
+  "sku": "BOK-0010",
+  "description": "The Lean Startup - Khởi Nghiệp Tinh Gọn của tác giả Eric Ries, do NXB Lao Động phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "210000.00",
+  "discount": 10,
+  "stock": 163,
+  "rating": 4.38,
+  "views": 69,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Eric Ries",
+   "publisher": "NXB Lao Động",
+   "isbn": "9786040000101"
+  }
+ },
+ {
+  "id": 11,
+  "name": "Zero to One - Từ 0 Đến 1",
+  "sku": "BOK-0011",
+  "description": "Zero to One - Từ 0 Đến 1 của tác giả Peter Thiel, Blake Masters, do NXB Trẻ phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "199000.00",
+  "discount": 0,
+  "stock": 15,
+  "rating": 4.8,
+  "views": 69,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Peter Thiel, Blake Masters",
+   "publisher": "NXB Trẻ",
+   "isbn": "9786040000118"
+  }
+ },
+ {
+  "id": 12,
+  "name": "Python Crash Course 3rd Edition",
+  "sku": "BOK-0012",
+  "description": "Python Crash Course 3rd Edition của tác giả Eric Matthes, do No Starch Press phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "490000.00",
+  "discount": 5,
+  "stock": 160,
+  "rating": 5.0,
+  "views": 54,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Eric Matthes",
+   "publisher": "No Starch Press",
+   "isbn": "9786040000125"
+  }
+ },
+ {
+  "id": 13,
+  "name": "Introduction to Algorithms CLRS 4th Edition",
+  "sku": "BOK-0013",
+  "description": "Introduction to Algorithms CLRS 4th Edition của tác giả Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein, do MIT Press phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "890000.00",
+  "discount": 5,
+  "stock": 233,
+  "rating": 4.57,
+  "views": 51,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
+   "publisher": "MIT Press",
+   "isbn": "9786040000132"
+  }
+ },
+ {
+  "id": 14,
+  "name": "JavaScript: The Good Parts",
+  "sku": "BOK-0014",
+  "description": "JavaScript: The Good Parts của tác giả Douglas Crockford, do O'Reilly Media phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "350000.00",
+  "discount": 0,
+  "stock": 166,
+  "rating": 4.5,
+  "views": 39,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Douglas Crockford",
+   "publisher": "O'Reilly Media",
+   "isbn": "9786040000149"
+  }
+ },
+ {
+  "id": 15,
+  "name": "System Design Interview Volume 1",
+  "sku": "BOK-0015",
+  "description": "System Design Interview Volume 1 của tác giả Alex Xu, do ByteByteGo phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "480000.00",
+  "discount": 0,
+  "stock": 222,
+  "rating": 0,
+  "views": 63,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Alex Xu",
+   "publisher": "ByteByteGo",
+   "isbn": "9786040000156"
+  }
+ },
+ {
+  "id": 16,
+  "name": "System Design Interview Volume 2",
+  "sku": "BOK-0016",
+  "description": "System Design Interview Volume 2 của tác giả Alex Xu, Sahn Lam, do ByteByteGo phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "480000.00",
+  "discount": 20,
+  "stock": 131,
+  "rating": 0,
+  "views": 40,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Alex Xu, Sahn Lam",
+   "publisher": "ByteByteGo",
+   "isbn": "9786040000163"
+  }
+ },
+ {
+  "id": 17,
+  "name": "Refactoring: Improving the Design of Existing Code",
+  "sku": "BOK-0017",
+  "description": "Refactoring: Improving the Design of Existing Code của tác giả Martin Fowler, do Addison-Wesley phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "420000.00",
+  "discount": 15,
+  "stock": 133,
+  "rating": 4.57,
+  "views": 60,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Martin Fowler",
+   "publisher": "Addison-Wesley",
+   "isbn": "9786040000170"
+  }
+ },
+ {
+  "id": 18,
+  "name": "The Art of War - Binh Pháp Tôn Tử",
+  "sku": "BOK-0018",
+  "description": "The Art of War - Binh Pháp Tôn Tử của tác giả Tôn Vũ, do NXB Văn Học phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "89000.00",
+  "discount": 0,
+  "stock": 73,
+  "rating": 4.83,
+  "views": 56,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Tôn Vũ",
+   "publisher": "NXB Văn Học",
+   "isbn": "9786040000187"
+  }
+ },
+ {
+  "id": 19,
+  "name": "Dune - Xứ Cát Tập 1",
+  "sku": "BOK-0019",
+  "description": "Dune - Xứ Cát Tập 1 của tác giả Frank Herbert, do NXB Hội Nhà Văn phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "195000.00",
+  "discount": 5,
+  "stock": 43,
+  "rating": 4.71,
+  "views": 56,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Frank Herbert",
+   "publisher": "NXB Hội Nhà Văn",
+   "isbn": "9786040000194"
+  }
+ },
+ {
+  "id": 20,
+  "name": "The Alchemist - Nhà Giả Kim",
+  "sku": "BOK-0020",
+  "description": "The Alchemist - Nhà Giả Kim của tác giả Paulo Coelho, do NXB Hội Nhà Văn phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "125000.00",
+  "discount": 0,
+  "stock": 3,
+  "rating": 5.0,
+  "views": 69,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Paulo Coelho",
+   "publisher": "NXB Hội Nhà Văn",
+   "isbn": "9786040000200"
+  }
+ },
+ {
+  "id": 21,
+  "name": "Rich Dad Poor Dad - Cha Giàu Cha Nghèo",
+  "sku": "BOK-0021",
+  "description": "Rich Dad Poor Dad - Cha Giàu Cha Nghèo của tác giả Robert T. Kiyosaki, do NXB Trẻ phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "175000.00",
+  "discount": 10,
+  "stock": 27,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Robert T. Kiyosaki",
+   "publisher": "NXB Trẻ",
+   "isbn": "9786040000217"
+  }
+ },
+ {
+  "id": 22,
+  "name": "Bố Già - The Godfather",
+  "sku": "BOK-0022",
+  "description": "Bố Già - The Godfather của tác giả Mario Puzo, do NXB Văn Học phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "185000.00",
+  "discount": 0,
+  "stock": 133,
+  "rating": 0,
+  "views": 2,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Mario Puzo",
+   "publisher": "NXB Văn Học",
+   "isbn": "9786040000224"
+  }
+ },
+ {
+  "id": 23,
+  "name": "Hoàng Tử Bé - Le Petit Prince",
+  "sku": "BOK-0023",
+  "description": "Hoàng Tử Bé - Le Petit Prince của tác giả Antoine de Saint-Exupéry, do NXB Kim Đồng phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "85000.00",
+  "discount": 15,
+  "stock": 96,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Antoine de Saint-Exupéry",
+   "publisher": "NXB Kim Đồng",
+   "isbn": "9786040000231"
+  }
+ },
+ {
+  "id": 24,
+  "name": "Tôi Thấy Hoa Vàng Trên Cỏ Xanh",
+  "sku": "BOK-0024",
+  "description": "Tôi Thấy Hoa Vàng Trên Cỏ Xanh của tác giả Nguyễn Nhật Ánh, do NXB Trẻ phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "135000.00",
+  "discount": 20,
+  "stock": 108,
+  "rating": 0,
+  "views": 2,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Nguyễn Nhật Ánh",
+   "publisher": "NXB Trẻ",
+   "isbn": "9786040000248"
+  }
+ },
+ {
+  "id": 25,
+  "name": "Machine Learning Yearning",
+  "sku": "BOK-0025",
+  "description": "Machine Learning Yearning của tác giả Andrew Ng, do deeplearning.ai phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "300000.00",
+  "discount": 20,
+  "stock": 115,
+  "rating": 0,
+  "views": 17,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Andrew Ng",
+   "publisher": "deeplearning.ai",
+   "isbn": "9786040000255"
+  }
+ },
+ {
+  "id": 26,
+  "name": "Kubernetes in Action 2nd Edition",
+  "sku": "BOK-0026",
+  "description": "Kubernetes in Action 2nd Edition của tác giả Marko Lukša, do Manning Publications phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "620000.00",
+  "discount": 0,
+  "stock": 148,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Marko Lukša",
+   "publisher": "Manning Publications",
+   "isbn": "9786040000262"
+  }
+ },
+ {
+  "id": 27,
+  "name": "Docker Deep Dive",
+  "sku": "BOK-0027",
+  "description": "Docker Deep Dive của tác giả Nigel Poulton, do Leanpub phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "310000.00",
+  "discount": 15,
+  "stock": 153,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Nigel Poulton",
+   "publisher": "Leanpub",
+   "isbn": "9786040000279"
+  }
+ },
+ {
+  "id": 28,
+  "name": "The Clean Coder",
+  "sku": "BOK-0028",
+  "description": "The Clean Coder của tác giả Robert C. Martin, do Prentice Hall phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "380000.00",
+  "discount": 5,
+  "stock": 121,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Robert C. Martin",
+   "publisher": "Prentice Hall",
+   "isbn": "9786040000286"
+  }
+ },
+ {
+  "id": 29,
+  "name": "Soft Skills: The Software Developer's Life Manual",
+  "sku": "BOK-0029",
+  "description": "Soft Skills: The Software Developer's Life Manual của tác giả John Sonmez, do Manning Publications phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "390000.00",
+  "discount": 20,
+  "stock": 178,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "John Sonmez",
+   "publisher": "Manning Publications",
+   "isbn": "9786040000293"
+  }
+ },
+ {
+  "id": 30,
+  "name": "Head First Design Patterns 2nd Edition",
+  "sku": "BOK-0030",
+  "description": "Head First Design Patterns 2nd Edition của tác giả Eric Freeman, Elisabeth Robson, do O'Reilly Media phát hành. Sách mới 100%, bọc màng co, giao nhanh toàn quốc.",
+  "price": "520000.00",
+  "discount": 0,
+  "stock": 81,
+  "rating": 0,
+  "views": 0,
+  "category": 1,
+  "detail_type": "book",
+  "details": {
+   "author": "Eric Freeman, Elisabeth Robson",
+   "publisher": "O'Reilly Media",
+   "isbn": "9786040000309"
+  }
+ },
+ {
+  "id": 31,
+  "name": "Laptop Gaming ASUS ROG Strix G15 AMD Ryzen 7 6800H",
+  "sku": "ELE-0031",
+  "description": "Laptop Gaming ASUS ROG Strix G15 AMD Ryzen 7 6800H chính hãng ASUS, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "22990000.00",
+  "discount": 15,
+  "stock": 32,
+  "rating": 5.0,
+  "views": 99,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "ASUS",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 32,
+  "name": "Laptop Dell XPS 13 Plus Intel Core i7 16GB RAM 512GB",
+  "sku": "ELE-0032",
+  "description": "Laptop Dell XPS 13 Plus Intel Core i7 16GB RAM 512GB chính hãng Dell, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "28500000.00",
+  "discount": 15,
+  "stock": 168,
+  "rating": 5.0,
+  "views": 94,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Dell",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 33,
+  "name": "Laptop Apple MacBook Pro M3 14 inch 512GB SSD",
+  "sku": "ELE-0033",
+  "description": "Laptop Apple MacBook Pro M3 14 inch 512GB SSD chính hãng Apple, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "49990000.00",
+  "discount": 10,
+  "stock": 183,
+  "rating": 4.75,
+  "views": 97,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Apple",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 34,
+  "name": "Laptop Lenovo Legion 5 Pro RTX 4070 16GB RAM",
+  "sku": "ELE-0034",
+  "description": "Laptop Lenovo Legion 5 Pro RTX 4070 16GB RAM chính hãng Lenovo, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "32990000.00",
+  "discount": 20,
+  "stock": 0,
+  "rating": 4.86,
+  "views": 96,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Lenovo",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 35,
+  "name": "Laptop HP Spectre x360 14 inch Intel i7 OLED",
+  "sku": "ELE-0035",
+  "description": "Laptop HP Spectre x360 14 inch Intel i7 OLED chính hãng HP, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "29990000.00",
+  "discount": 5,
+  "stock": 15,
+  "rating": 4.78,
+  "views": 86,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "HP",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 36,
+  "name": "Laptop Acer Nitro 5 AN515 RTX 3060 144Hz",
+  "sku": "ELE-0036",
+  "description": "Laptop Acer Nitro 5 AN515 RTX 3060 144Hz chính hãng Acer, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "18990000.00",
+  "discount": 15,
+  "stock": 19,
+  "rating": 4.78,
+  "views": 110,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Acer",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 37,
+  "name": "Laptop MSI Raider GE78 HX Intel i9 RTX 4080",
+  "sku": "ELE-0037",
+  "description": "Laptop MSI Raider GE78 HX Intel i9 RTX 4080 chính hãng MSI, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "65990000.00",
+  "discount": 10,
+  "stock": 170,
+  "rating": 4.42,
+  "views": 91,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "MSI",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 38,
+  "name": "Laptop LG Gram 17 Ultra-Light Intel i7 1.35kg",
+  "sku": "ELE-0038",
+  "description": "Laptop LG Gram 17 Ultra-Light Intel i7 1.35kg chính hãng LG, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "35990000.00",
+  "discount": 0,
+  "stock": 212,
+  "rating": 4.82,
+  "views": 81,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "LG",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 39,
+  "name": "Điện thoại iPhone 15 Pro Max 256GB Titan Tự Nhiên",
+  "sku": "ELE-0039",
+  "description": "Điện thoại iPhone 15 Pro Max 256GB Titan Tự Nhiên chính hãng Apple, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "34990000.00",
+  "discount": 20,
+  "stock": 20,
+  "rating": 4.1,
+  "views": 102,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Apple",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 40,
+  "name": "Điện thoại iPhone 15 Pro 128GB Titan Đen",
+  "sku": "ELE-0040",
+  "description": "Điện thoại iPhone 15 Pro 128GB Titan Đen chính hãng Apple, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "29990000.00",
+  "discount": 0,
+  "stock": 97,
+  "rating": 4.82,
+  "views": 97,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Apple",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 41,
+  "name": "Điện thoại Samsung Galaxy S24 Ultra 512GB Titanium",
+  "sku": "ELE-0041",
+  "description": "Điện thoại Samsung Galaxy S24 Ultra 512GB Titanium chính hãng Samsung, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "35990000.00",
+  "discount": 0,
+  "stock": 77,
+  "rating": 4.62,
+  "views": 106,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Samsung",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 42,
+  "name": "Điện thoại Samsung Galaxy S24+ 256GB",
+  "sku": "ELE-0042",
+  "description": "Điện thoại Samsung Galaxy S24+ 256GB chính hãng Samsung, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "24990000.00",
+  "discount": 0,
+  "stock": 16,
+  "rating": 4.75,
+  "views": 92,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Samsung",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 43,
+  "name": "Điện thoại OPPO Find X7 Ultra 256GB",
+  "sku": "ELE-0043",
+  "description": "Điện thoại OPPO Find X7 Ultra 256GB chính hãng OPPO, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "18990000.00",
+  "discount": 20,
+  "stock": 48,
+  "rating": 4.64,
+  "views": 134,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "OPPO",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 44,
+  "name": "Điện thoại Xiaomi 14 Ultra 512GB",
+  "sku": "ELE-0044",
+  "description": "Điện thoại Xiaomi 14 Ultra 512GB chính hãng Xiaomi, bảo hành 18 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "22990000.00",
+  "discount": 20,
+  "stock": 248,
+  "rating": 4.88,
+  "views": 78,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Xiaomi",
+   "warranty": 18
+  }
+ },
+ {
+  "id": 45,
+  "name": "Điện thoại Google Pixel 8 Pro 256GB",
+  "sku": "ELE-0045",
+  "description": "Điện thoại Google Pixel 8 Pro 256GB chính hãng Google, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "21990000.00",
+  "discount": 20,
+  "stock": 209,
+  "rating": 5.0,
+  "views": 122,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Google",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 46,
+  "name": "Tai nghe Sony WH-1000XM5 Chống Ồn ANC Không Dây",
+  "sku": "ELE-0046",
+  "description": "Tai nghe Sony WH-1000XM5 Chống Ồn ANC Không Dây chính hãng Sony, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "8990000.00",
+  "discount": 0,
+  "stock": 137,
+  "rating": 5.0,
+  "views": 91,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Sony",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 47,
+  "name": "Tai nghe Apple AirPods Pro 2nd Gen USB-C MagSafe",
+  "sku": "ELE-0047",
+  "description": "Tai nghe Apple AirPods Pro 2nd Gen USB-C MagSafe chính hãng Apple, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "6490000.00",
+  "discount": 0,
+  "stock": 211,
+  "rating": 4.86,
+  "views": 106,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Apple",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 48,
+  "name": "Tai nghe Bose QuietComfort Ultra Headphones",
+  "sku": "ELE-0048",
+  "description": "Tai nghe Bose QuietComfort Ultra Headphones chính hãng Bose, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "9990000.00",
+  "discount": 5,
+  "stock": 129,
+  "rating": 4.83,
+  "views": 93,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Bose",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 49,
+  "name": "Chuột gaming Logitech G502 X Plus Wireless HERO",
+  "sku": "ELE-0049",
+  "description": "Chuột gaming Logitech G502 X Plus Wireless HERO chính hãng Logitech, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "2890000.00",
+  "discount": 15,
+  "stock": 45,
+  "rating": 4.67,
+  "views": 63,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Logitech",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 50,
+  "name": "Chuột Razer DeathAdder V3 Pro Ergonomic",
+  "sku": "ELE-0050",
+  "description": "Chuột Razer DeathAdder V3 Pro Ergonomic chính hãng Razer, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "2490000.00",
+  "discount": 15,
+  "stock": 191,
+  "rating": 4.7,
+  "views": 83,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Razer",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 51,
+  "name": "Bàn phím cơ Keychron K2 Pro Wireless RGB Aluminum",
+  "sku": "ELE-0051",
+  "description": "Bàn phím cơ Keychron K2 Pro Wireless RGB Aluminum chính hãng Keychron, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "2490000.00",
+  "discount": 15,
+  "stock": 47,
+  "rating": 4.57,
+  "views": 93,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Keychron",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 52,
+  "name": "Bàn phím cơ HHKB Professional Hybrid Type-S",
+  "sku": "ELE-0052",
+  "description": "Bàn phím cơ HHKB Professional Hybrid Type-S chính hãng PFU, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "6590000.00",
+  "discount": 0,
+  "stock": 235,
+  "rating": 4.75,
+  "views": 87,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "PFU",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 53,
+  "name": "Màn hình LG 27UP850N-W 27 inch 4K IPS USB-C",
+  "sku": "ELE-0053",
+  "description": "Màn hình LG 27UP850N-W 27 inch 4K IPS USB-C chính hãng LG, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "12990000.00",
+  "discount": 15,
+  "stock": 37,
+  "rating": 4.56,
+  "views": 101,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "LG",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 54,
+  "name": "Màn hình Samsung Odyssey G7 32 inch QHD 240Hz",
+  "sku": "ELE-0054",
+  "description": "Màn hình Samsung Odyssey G7 32 inch QHD 240Hz chính hãng Samsung, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "13990000.00",
+  "discount": 0,
+  "stock": 153,
+  "rating": 4.83,
+  "views": 57,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Samsung",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 55,
+  "name": "SSD Samsung 990 Pro NVMe M.2 1TB PCIe 4.0",
+  "sku": "ELE-0055",
+  "description": "SSD Samsung 990 Pro NVMe M.2 1TB PCIe 4.0 chính hãng Samsung, bảo hành 60 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "2190000.00",
+  "discount": 0,
+  "stock": 71,
+  "rating": 4.38,
+  "views": 96,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Samsung",
+   "warranty": 60
+  }
+ },
+ {
+  "id": 56,
+  "name": "SSD WD Black SN850X 2TB NVMe PCIe 4.0",
+  "sku": "ELE-0056",
+  "description": "SSD WD Black SN850X 2TB NVMe PCIe 4.0 chính hãng Western Digital, bảo hành 60 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "4290000.00",
+  "discount": 10,
+  "stock": 145,
+  "rating": 4.4,
+  "views": 104,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Western Digital",
+   "warranty": 60
+  }
+ },
+ {
+  "id": 57,
+  "name": "RAM Corsair Vengeance 32GB DDR5 5600MHz Kit",
+  "sku": "ELE-0057",
+  "description": "RAM Corsair Vengeance 32GB DDR5 5600MHz Kit chính hãng Corsair, bảo hành 120 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "3290000.00",
+  "discount": 5,
+  "stock": 193,
+  "rating": 4.67,
+  "views": 85,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Corsair",
+   "warranty": 120
+  }
+ },
+ {
+  "id": 58,
+  "name": "Webcam Logitech C920 HD Pro 1080p 30fps",
+  "sku": "ELE-0058",
+  "description": "Webcam Logitech C920 HD Pro 1080p 30fps chính hãng Logitech, bảo hành 24 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "1590000.00",
+  "discount": 5,
+  "stock": 203,
+  "rating": 4.18,
+  "views": 99,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "Logitech",
+   "warranty": 24
+  }
+ },
+ {
+  "id": 59,
+  "name": "Card đồ họa NVIDIA GeForce RTX 4070 Super 12GB",
+  "sku": "ELE-0059",
+  "description": "Card đồ họa NVIDIA GeForce RTX 4070 Super 12GB chính hãng NVIDIA, bảo hành 36 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "18990000.00",
+  "discount": 15,
+  "stock": 121,
+  "rating": 4.83,
+  "views": 38,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "NVIDIA",
+   "warranty": 36
+  }
+ },
+ {
+  "id": 60,
+  "name": "Loa bluetooth JBL Charge 5 IP67 20h Pin",
+  "sku": "ELE-0060",
+  "description": "Loa bluetooth JBL Charge 5 IP67 20h Pin chính hãng JBL, bảo hành 12 tháng tại trung tâm uỷ quyền. Hàng mới nguyên seal, hỗ trợ trả góp 0%.",
+  "price": "3490000.00",
+  "discount": 15,
+  "stock": 144,
+  "rating": 4.71,
+  "views": 31,
+  "category": 2,
+  "detail_type": "electronics",
+  "details": {
+   "brand": "JBL",
+   "warranty": 12
+  }
+ },
+ {
+  "id": 61,
+  "name": "Áo thun nam Nike Dri-FIT Short Sleeve Training Top",
+  "sku": "FAS-0061",
+  "description": "Áo thun nam Nike Dri-FIT Short Sleeve Training Top, size L, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "450000.00",
+  "discount": 0,
+  "stock": 51,
+  "rating": 4.67,
+  "views": 43,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "L",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 62,
+  "name": "Áo polo nam Lacoste Classic Fit L.12.12 Cotton",
+  "sku": "FAS-0062",
+  "description": "Áo polo nam Lacoste Classic Fit L.12.12 Cotton, size M, màu Trắng. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1890000.00",
+  "discount": 10,
+  "stock": 89,
+  "rating": 4.38,
+  "views": 41,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Trắng"
+  }
+ },
+ {
+  "id": 63,
+  "name": "Áo sơ mi nam Calvin Klein Slim Fit Oxford Stretch",
+  "sku": "FAS-0063",
+  "description": "Áo sơ mi nam Calvin Klein Slim Fit Oxford Stretch, size L, màu Xanh nhạt. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 43,
+  "rating": 4.57,
+  "views": 33,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "L",
+   "color": "Xanh nhạt"
+  }
+ },
+ {
+  "id": 64,
+  "name": "Áo khoác nam The North Face Thermoball Eco Jacket",
+  "sku": "FAS-0064",
+  "description": "Áo khoác nam The North Face Thermoball Eco Jacket, size XL, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "4290000.00",
+  "discount": 0,
+  "stock": 15,
+  "rating": 4.75,
+  "views": 37,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "XL",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 65,
+  "name": "Áo hoodie nam Champion Reverse Weave Pullover",
+  "sku": "FAS-0065",
+  "description": "Áo hoodie nam Champion Reverse Weave Pullover, size L, màu Xám. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 38,
+  "rating": 4.83,
+  "views": 35,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "L",
+   "color": "Xám"
+  }
+ },
+ {
+  "id": 66,
+  "name": "Quần jean nam Levi's 511 Slim Fit Stretch",
+  "sku": "FAS-0066",
+  "description": "Quần jean nam Levi's 511 Slim Fit Stretch, size 32, màu Xanh đậm. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 145,
+  "rating": 0,
+  "views": 30,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "32",
+   "color": "Xanh đậm"
+  }
+ },
+ {
+  "id": 67,
+  "name": "Quần chino nam H&M Slim Fit Cotton Blend",
+  "sku": "FAS-0067",
+  "description": "Quần chino nam H&M Slim Fit Cotton Blend, size 31, màu Be. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "490000.00",
+  "discount": 20,
+  "stock": 243,
+  "rating": 5.0,
+  "views": 26,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "31",
+   "color": "Be"
+  }
+ },
+ {
+  "id": 68,
+  "name": "Quần short nam Adidas Essentials 3-Stripes",
+  "sku": "FAS-0068",
+  "description": "Quần short nam Adidas Essentials 3-Stripes, size M, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 249,
+  "rating": 4.86,
+  "views": 31,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 69,
+  "name": "Giày thể thao nam Adidas Ultraboost 22 Running",
+  "sku": "FAS-0069",
+  "description": "Giày thể thao nam Adidas Ultraboost 22 Running, size 42, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "3290000.00",
+  "discount": 5,
+  "stock": 197,
+  "rating": 0,
+  "views": 16,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "42",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 70,
+  "name": "Giày thể thao nam Nike Air Max 270 React",
+  "sku": "FAS-0070",
+  "description": "Giày thể thao nam Nike Air Max 270 React, size 42, màu Trắng. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "2890000.00",
+  "discount": 10,
+  "stock": 42,
+  "rating": 0,
+  "views": 11,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "42",
+   "color": "Trắng"
+  }
+ },
+ {
+  "id": 71,
+  "name": "Giày da nam Clarks Desert Boot Leather",
+  "sku": "FAS-0071",
+  "description": "Giày da nam Clarks Desert Boot Leather, size 41, màu Nâu cát. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "2490000.00",
+  "discount": 5,
+  "stock": 239,
+  "rating": 4.83,
+  "views": 71,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "41",
+   "color": "Nâu cát"
+  }
+ },
+ {
+  "id": 72,
+  "name": "Túi đeo chéo nam Samsonite Mobile Solution V2",
+  "sku": "FAS-0072",
+  "description": "Túi đeo chéo nam Samsonite Mobile Solution V2, size Free, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1290000.00",
+  "discount": 5,
+  "stock": 243,
+  "rating": 4.57,
+  "views": 69,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 73,
+  "name": "Áo dài nữ lụa cao cấp họa tiết hoa Đà Lạt",
+  "sku": "FAS-0073",
+  "description": "Áo dài nữ lụa cao cấp họa tiết hoa Đà Lạt, size M, màu Đỏ đô. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1890000.00",
+  "discount": 0,
+  "stock": 163,
+  "rating": 5.0,
+  "views": 63,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Đỏ đô"
+  }
+ },
+ {
+  "id": 74,
+  "name": "Đầm maxi nữ Zara Linen Blend cổ vuông",
+  "sku": "FAS-0074",
+  "description": "Đầm maxi nữ Zara Linen Blend cổ vuông, size S, màu Trắng kem. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1190000.00",
+  "discount": 0,
+  "stock": 56,
+  "rating": 5.0,
+  "views": 65,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "S",
+   "color": "Trắng kem"
+  }
+ },
+ {
+  "id": 75,
+  "name": "Váy midi nữ Mango Floral Print Chiffon",
+  "sku": "FAS-0075",
+  "description": "Váy midi nữ Mango Floral Print Chiffon, size S, màu Hoa nhí. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 20,
+  "rating": 4.83,
+  "views": 75,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "S",
+   "color": "Hoa nhí"
+  }
+ },
+ {
+  "id": 76,
+  "name": "Quần tây nữ H&M Wide-Leg High Waist Linen",
+  "sku": "FAS-0076",
+  "description": "Quần tây nữ H&M Wide-Leg High Waist Linen, size M, màu Be. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "690000.00",
+  "discount": 0,
+  "stock": 238,
+  "rating": 5.0,
+  "views": 64,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Be"
+  }
+ },
+ {
+  "id": 77,
+  "name": "Áo len nữ Uniqlo Premium Lambswool Crew Neck",
+  "sku": "FAS-0077",
+  "description": "Áo len nữ Uniqlo Premium Lambswool Crew Neck, size M, màu Hồng phấn. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 233,
+  "rating": 4.83,
+  "views": 72,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Hồng phấn"
+  }
+ },
+ {
+  "id": 78,
+  "name": "Giày cao gót nữ Charles & Keith Strappy Stiletto",
+  "sku": "FAS-0078",
+  "description": "Giày cao gót nữ Charles & Keith Strappy Stiletto, size 37, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1490000.00",
+  "discount": 10,
+  "stock": 181,
+  "rating": 4.88,
+  "views": 73,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "37",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 79,
+  "name": "Giày sneaker nữ New Balance 574 Classic",
+  "sku": "FAS-0079",
+  "description": "Giày sneaker nữ New Balance 574 Classic, size 37, màu Xám. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "1890000.00",
+  "discount": 20,
+  "stock": 37,
+  "rating": 5.0,
+  "views": 81,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "37",
+   "color": "Xám"
+  }
+ },
+ {
+  "id": 80,
+  "name": "Túi xách nữ Coach Tabby 26 Leather Shoulder",
+  "sku": "FAS-0080",
+  "description": "Túi xách nữ Coach Tabby 26 Leather Shoulder, size Free, màu Nâu. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "5990000.00",
+  "discount": 0,
+  "stock": 208,
+  "rating": 4.67,
+  "views": 72,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Nâu"
+  }
+ },
+ {
+  "id": 81,
+  "name": "Túi tote nữ Longchamp Le Pliage Original M",
+  "sku": "FAS-0081",
+  "description": "Túi tote nữ Longchamp Le Pliage Original M, size M, màu Xanh navy. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "2490000.00",
+  "discount": 10,
+  "stock": 239,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Xanh navy"
+  }
+ },
+ {
+  "id": 82,
+  "name": "Đồng hồ nữ Michael Kors Darci Pave Rose Gold",
+  "sku": "FAS-0082",
+  "description": "Đồng hồ nữ Michael Kors Darci Pave Rose Gold, size Free, màu Vàng hồng. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "4290000.00",
+  "discount": 15,
+  "stock": 114,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Vàng hồng"
+  }
+ },
+ {
+  "id": 83,
+  "name": "Đồng hồ nam Seiko 5 Sports Automatic 42mm",
+  "sku": "FAS-0083",
+  "description": "Đồng hồ nam Seiko 5 Sports Automatic 42mm, size Free, màu Bạc. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "5290000.00",
+  "discount": 0,
+  "stock": 249,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Bạc"
+  }
+ },
+ {
+  "id": 84,
+  "name": "Kính mắt nam Ray-Ban Aviator Classic RB3025",
+  "sku": "FAS-0084",
+  "description": "Kính mắt nam Ray-Ban Aviator Classic RB3025, size Free, màu Gọng vàng. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "3490000.00",
+  "discount": 10,
+  "stock": 198,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Gọng vàng"
+  }
+ },
+ {
+  "id": 85,
+  "name": "Mũ bucket Kangol Wool Casual",
+  "sku": "FAS-0085",
+  "description": "Mũ bucket Kangol Wool Casual, size M, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 173,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 86,
+  "name": "Khăn quàng cổ Burberry Classic Check Wool",
+  "sku": "FAS-0086",
+  "description": "Khăn quàng cổ Burberry Classic Check Wool, size Free, màu Kẻ caro be. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "4990000.00",
+  "discount": 0,
+  "stock": 28,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Kẻ caro be"
+  }
+ },
+ {
+  "id": 87,
+  "name": "Thắt lưng da nam Montblanc Reversible Leather",
+  "sku": "FAS-0087",
+  "description": "Thắt lưng da nam Montblanc Reversible Leather, size Free, màu Đen/Nâu. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "2890000.00",
+  "discount": 0,
+  "stock": 63,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Đen/Nâu"
+  }
+ },
+ {
+  "id": 88,
+  "name": "Vớ nam Stance Uncommon Solids Crew 3-Pack",
+  "sku": "FAS-0088",
+  "description": "Vớ nam Stance Uncommon Solids Crew 3-Pack, size Free, màu Nhiều màu. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "390000.00",
+  "discount": 20,
+  "stock": 203,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "Free",
+   "color": "Nhiều màu"
+  }
+ },
+ {
+  "id": 89,
+  "name": "Quần legging nữ Lululemon Align HR 25",
+  "sku": "FAS-0089",
+  "description": "Quần legging nữ Lululemon Align HR 25, size S, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "2890000.00",
+  "discount": 0,
+  "stock": 8,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "S",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 90,
+  "name": "Áo sports bra nữ Nike Swoosh Medium Support",
+  "sku": "FAS-0090",
+  "description": "Áo sports bra nữ Nike Swoosh Medium Support, size M, màu Đen. Hàng chính hãng, đổi size miễn phí trong 7 ngày.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 93,
+  "rating": 0,
+  "views": 0,
+  "category": 3,
+  "detail_type": "fashion",
+  "details": {
+   "size": "M",
+   "color": "Đen"
+  }
+ },
+ {
+  "id": 91,
+  "name": "Nồi cơm điện Panasonic SR-LD05 0.54L Compact",
+  "sku": "HOM-0091",
+  "description": "Nồi cơm điện Panasonic SR-LD05 0.54L Compact. Chất liệu nhựa pp, lòng nồi chống dính, kích thước 25 x 20 x 19 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 15,
+  "rating": 4.38,
+  "views": 35,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa PP, lòng nồi chống dính",
+   "dimensions": "25 x 20 x 19 cm"
+  }
+ },
+ {
+  "id": 92,
+  "name": "Nồi chiên không dầu Philips Essential XL 6.2L",
+  "sku": "HOM-0092",
+  "description": "Nồi chiên không dầu Philips Essential XL 6.2L. Chất liệu nhựa chịu nhiệt, khay chống dính, kích thước 38 x 32 x 31 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 18,
+  "rating": 4.67,
+  "views": 54,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa chịu nhiệt, khay chống dính",
+   "dimensions": "38 x 32 x 31 cm"
+  }
+ },
+ {
+  "id": 93,
+  "name": "Máy lọc không khí Xiaomi Smart Air Purifier 4",
+  "sku": "HOM-0093",
+  "description": "Máy lọc không khí Xiaomi Smart Air Purifier 4. Chất liệu nhựa abs, màng lọc hepa, kích thước 27 x 27 x 73 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3490000.00",
+  "discount": 0,
+  "stock": 126,
+  "rating": 4.86,
+  "views": 37,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa ABS, màng lọc HEPA",
+   "dimensions": "27 x 27 x 73 cm"
+  }
+ },
+ {
+  "id": 94,
+  "name": "Robot hút bụi Roomba j7+ tự đổ rác",
+  "sku": "HOM-0094",
+  "description": "Robot hút bụi Roomba j7+ tự đổ rác. Chất liệu nhựa abs, kích thước 34 x 34 x 8.7 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "12990000.00",
+  "discount": 10,
+  "stock": 110,
+  "rating": 4.71,
+  "views": 46,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa ABS",
+   "dimensions": "34 x 34 x 8.7 cm"
+  }
+ },
+ {
+  "id": 95,
+  "name": "Máy giặt LG FV1412H3BA Inverter 12kg",
+  "sku": "HOM-0095",
+  "description": "Máy giặt LG FV1412H3BA Inverter 12kg. Chất liệu thép không gỉ, nhựa, kích thước 60 x 56 x 85 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "12990000.00",
+  "discount": 0,
+  "stock": 0,
+  "rating": 4.6,
+  "views": 48,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép không gỉ, nhựa",
+   "dimensions": "60 x 56 x 85 cm"
+  }
+ },
+ {
+  "id": 96,
+  "name": "Tủ lạnh Samsung Bespoke 1 cửa 382L RF38A4010WW",
+  "sku": "HOM-0096",
+  "description": "Tủ lạnh Samsung Bespoke 1 cửa 382L RF38A4010WW. Chất liệu thép sơn tĩnh điện, kích thước 59.5 x 67.5 x 185 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "12500000.00",
+  "discount": 10,
+  "stock": 134,
+  "rating": 4.4,
+  "views": 43,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép sơn tĩnh điện",
+   "dimensions": "59.5 x 67.5 x 185 cm"
+  }
+ },
+ {
+  "id": 97,
+  "name": "Lò vi sóng Panasonic NN-ST342MYUE 25L Grill",
+  "sku": "HOM-0097",
+  "description": "Lò vi sóng Panasonic NN-ST342MYUE 25L Grill. Chất liệu thép mạ, khoang tráng men, kích thước 48.5 x 39.6 x 28.7 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3290000.00",
+  "discount": 0,
+  "stock": 169,
+  "rating": 5.0,
+  "views": 44,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép mạ, khoang tráng men",
+   "dimensions": "48.5 x 39.6 x 28.7 cm"
+  }
+ },
+ {
+  "id": 98,
+  "name": "Ấm đun nước Philips HD9352 1.7L 2200W",
+  "sku": "HOM-0098",
+  "description": "Ấm đun nước Philips HD9352 1.7L 2200W. Chất liệu thép không gỉ 304, kích thước 22 x 15 x 25 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 15,
+  "stock": 141,
+  "rating": 4.86,
+  "views": 36,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép không gỉ 304",
+   "dimensions": "22 x 15 x 25 cm"
+  }
+ },
+ {
+  "id": 99,
+  "name": "Đèn ngủ thông minh Philips Hue Go v2 Bluetooth",
+  "sku": "HOM-0099",
+  "description": "Đèn ngủ thông minh Philips Hue Go v2 Bluetooth. Chất liệu nhựa pc, silicone, kích thước Ø15 x 15 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "1890000.00",
+  "discount": 10,
+  "stock": 34,
+  "rating": 4.62,
+  "views": 41,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa PC, silicone",
+   "dimensions": "Ø15 x 15 cm"
+  }
+ },
+ {
+  "id": 100,
+  "name": "Bóng đèn thông minh Xiaomi Mi LED Smart Bulb E27",
+  "sku": "HOM-0100",
+  "description": "Bóng đèn thông minh Xiaomi Mi LED Smart Bulb E27. Chất liệu nhựa pc, led, kích thước Ø6 x 11 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "289000.00",
+  "discount": 10,
+  "stock": 168,
+  "rating": 5.0,
+  "views": 51,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa PC, LED",
+   "dimensions": "Ø6 x 11 cm"
+  }
+ },
+ {
+  "id": 101,
+  "name": "Ghế làm việc Herman Miller Aeron Size B",
+  "sku": "HOM-0101",
+  "description": "Ghế làm việc Herman Miller Aeron Size B. Chất liệu khung nhôm, lưới pellicle, kích thước 69 x 65 x 104 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "28990000.00",
+  "discount": 0,
+  "stock": 86,
+  "rating": 4.6,
+  "views": 45,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Khung nhôm, lưới Pellicle",
+   "dimensions": "69 x 65 x 104 cm"
+  }
+ },
+ {
+  "id": 102,
+  "name": "Ghế gaming DXRacer Formula F08 PU Leather",
+  "sku": "HOM-0102",
+  "description": "Ghế gaming DXRacer Formula F08 PU Leather. Chất liệu da pu, khung thép, kích thước 70 x 70 x 130 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "4990000.00",
+  "discount": 10,
+  "stock": 3,
+  "rating": 4.78,
+  "views": 52,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Da PU, khung thép",
+   "dimensions": "70 x 70 x 130 cm"
+  }
+ },
+ {
+  "id": 103,
+  "name": "Bàn làm việc nâng hạ điện Flexispot E7 160x80",
+  "sku": "HOM-0103",
+  "description": "Bàn làm việc nâng hạ điện Flexispot E7 160x80. Chất liệu gỗ mdf, khung thép, kích thước 160 x 80 x 58-123 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "11990000.00",
+  "discount": 0,
+  "stock": 199,
+  "rating": 4.88,
+  "views": 41,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Gỗ MDF, khung thép",
+   "dimensions": "160 x 80 x 58-123 cm"
+  }
+ },
+ {
+  "id": 104,
+  "name": "Kệ sách gỗ thông 5 tầng Jysk Nordby",
+  "sku": "HOM-0104",
+  "description": "Kệ sách gỗ thông 5 tầng Jysk Nordby. Chất liệu gỗ thông tự nhiên, kích thước 80 x 30 x 180 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "2890000.00",
+  "discount": 10,
+  "stock": 81,
+  "rating": 4.5,
+  "views": 25,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Gỗ thông tự nhiên",
+   "dimensions": "80 x 30 x 180 cm"
+  }
+ },
+ {
+  "id": 105,
+  "name": "Gương soi toàn thân khung gỗ treo tường",
+  "sku": "HOM-0105",
+  "description": "Gương soi toàn thân khung gỗ treo tường. Chất liệu gỗ cao su, kính tráng bạc, kích thước 50 x 160 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 229,
+  "rating": 4.88,
+  "views": 41,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Gỗ cao su, kính tráng bạc",
+   "dimensions": "50 x 160 cm"
+  }
+ },
+ {
+  "id": 106,
+  "name": "Chăn lông vũ Everon Premium 200x220cm",
+  "sku": "HOM-0106",
+  "description": "Chăn lông vũ Everon Premium 200x220cm. Chất liệu vỏ cotton, ruột lông vũ, kích thước 200 x 220 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "2490000.00",
+  "discount": 10,
+  "stock": 173,
+  "rating": 4.62,
+  "views": 48,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Vỏ cotton, ruột lông vũ",
+   "dimensions": "200 x 220 cm"
+  }
+ },
+ {
+  "id": 107,
+  "name": "Gối ngủ Tempur Original Neck Pillow",
+  "sku": "HOM-0107",
+  "description": "Gối ngủ Tempur Original Neck Pillow. Chất liệu foam tempur, kích thước 50 x 31 x 10 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "2890000.00",
+  "discount": 20,
+  "stock": 26,
+  "rating": 4.83,
+  "views": 35,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Foam Tempur",
+   "dimensions": "50 x 31 x 10 cm"
+  }
+ },
+ {
+  "id": 108,
+  "name": "Máy lọc nước RO Kangaroo Omega KG10A3 10 lõi",
+  "sku": "HOM-0108",
+  "description": "Máy lọc nước RO Kangaroo Omega KG10A3 10 lõi. Chất liệu thép sơn tĩnh điện, nhựa abs, kích thước 40 x 30 x 90 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "6990000.00",
+  "discount": 0,
+  "stock": 227,
+  "rating": 5.0,
+  "views": 43,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép sơn tĩnh điện, nhựa ABS",
+   "dimensions": "40 x 30 x 90 cm"
+  }
+ },
+ {
+  "id": 109,
+  "name": "Bếp từ đôi Sunhouse SHB9116MT",
+  "sku": "HOM-0109",
+  "description": "Bếp từ đôi Sunhouse SHB9116MT. Chất liệu mặt kính ceramic, kích thước 73 x 43 x 6.5 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3490000.00",
+  "discount": 0,
+  "stock": 80,
+  "rating": 4.67,
+  "views": 22,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Mặt kính ceramic",
+   "dimensions": "73 x 43 x 6.5 cm"
+  }
+ },
+ {
+  "id": 110,
+  "name": "Nồi áp suất điện Instant Pot Duo 7-in-1 8L",
+  "sku": "HOM-0110",
+  "description": "Nồi áp suất điện Instant Pot Duo 7-in-1 8L. Chất liệu thép không gỉ 304, kích thước 34 x 31 x 32 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3290000.00",
+  "discount": 0,
+  "stock": 3,
+  "rating": 0,
+  "views": 15,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép không gỉ 304",
+   "dimensions": "34 x 31 x 32 cm"
+  }
+ },
+ {
+  "id": 111,
+  "name": "Bộ dao bếp Zwilling Four Star 5 món",
+  "sku": "HOM-0111",
+  "description": "Bộ dao bếp Zwilling Four Star 5 món. Chất liệu thép không gỉ friodur, kích thước Hộp 40 x 20 x 8 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3990000.00",
+  "discount": 0,
+  "stock": 143,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép không gỉ Friodur",
+   "dimensions": "Hộp 40 x 20 x 8 cm"
+  }
+ },
+ {
+  "id": 112,
+  "name": "Chảo chống dính Tefal Expertise 28cm",
+  "sku": "HOM-0112",
+  "description": "Chảo chống dính Tefal Expertise 28cm. Chất liệu nhôm phủ titanium, kích thước Ø28 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 195,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhôm phủ Titanium",
+   "dimensions": "Ø28 cm"
+  }
+ },
+ {
+  "id": 113,
+  "name": "Máy xay sinh tố Vitamix E310 Explorian 2.0HP",
+  "sku": "HOM-0113",
+  "description": "Máy xay sinh tố Vitamix E310 Explorian 2.0HP. Chất liệu nhựa tritan, lưỡi thép, kích thước 20 x 22 x 44 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "9990000.00",
+  "discount": 15,
+  "stock": 89,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa Tritan, lưỡi thép",
+   "dimensions": "20 x 22 x 44 cm"
+  }
+ },
+ {
+  "id": 114,
+  "name": "Máy pha cà phê DeLonghi Magnifica Evo ECAM290.22",
+  "sku": "HOM-0114",
+  "description": "Máy pha cà phê DeLonghi Magnifica Evo ECAM290.22. Chất liệu nhựa abs, inox, kích thước 24 x 44 x 36 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "11990000.00",
+  "discount": 15,
+  "stock": 178,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa ABS, inox",
+   "dimensions": "24 x 44 x 36 cm"
+  }
+ },
+ {
+  "id": 115,
+  "name": "Tranh treo tường canvas phong cảnh biển 80x60",
+  "sku": "HOM-0115",
+  "description": "Tranh treo tường canvas phong cảnh biển 80x60. Chất liệu vải canvas, khung gỗ thông, kích thước 80 x 60 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 194,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Vải canvas, khung gỗ thông",
+   "dimensions": "80 x 60 cm"
+  }
+ },
+ {
+  "id": 116,
+  "name": "Bộ chăn ga gối Everon Luxury 1m8x2m Cotton",
+  "sku": "HOM-0116",
+  "description": "Bộ chăn ga gối Everon Luxury 1m8x2m Cotton. Chất liệu cotton 100%, kích thước 180 x 200 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "3490000.00",
+  "discount": 0,
+  "stock": 166,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Cotton 100%",
+   "dimensions": "180 x 200 cm"
+  }
+ },
+ {
+  "id": 117,
+  "name": "Thảm trải sàn phòng khách Shaggy 160x230cm",
+  "sku": "HOM-0117",
+  "description": "Thảm trải sàn phòng khách Shaggy 160x230cm. Chất liệu sợi polyester, kích thước 160 x 230 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "2890000.00",
+  "discount": 5,
+  "stock": 42,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Sợi polyester",
+   "dimensions": "160 x 230 cm"
+  }
+ },
+ {
+  "id": 118,
+  "name": "Máy sấy quần áo Samsung DV90T6240LH Inverter 9kg",
+  "sku": "HOM-0118",
+  "description": "Máy sấy quần áo Samsung DV90T6240LH Inverter 9kg. Chất liệu thép sơn, lồng inox, kích thước 60 x 65 x 85 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "11990000.00",
+  "discount": 0,
+  "stock": 224,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Thép sơn, lồng inox",
+   "dimensions": "60 x 65 x 85 cm"
+  }
+ },
+ {
+  "id": 119,
+  "name": "Bộ sofa góc L da công nghệ 4 chỗ ngồi",
+  "sku": "HOM-0119",
+  "description": "Bộ sofa góc L da công nghệ 4 chỗ ngồi. Chất liệu da công nghệ, khung gỗ dầu, kích thước 280 x 180 x 85 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "15990000.00",
+  "discount": 0,
+  "stock": 235,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Da công nghệ, khung gỗ dầu",
+   "dimensions": "280 x 180 x 85 cm"
+  }
+ },
+ {
+  "id": 120,
+  "name": "Đồng hồ treo tường Seiko QXA771S Silent Sweep",
+  "sku": "HOM-0120",
+  "description": "Đồng hồ treo tường Seiko QXA771S Silent Sweep. Chất liệu nhựa abs, mặt kính, kích thước Ø31 cm. Phù hợp cho căn hộ và nhà phố hiện đại.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 184,
+  "rating": 0,
+  "views": 0,
+  "category": 4,
+  "detail_type": "home_living",
+  "details": {
+   "material": "Nhựa ABS, mặt kính",
+   "dimensions": "Ø31 cm"
+  }
+ },
+ {
+  "id": 121,
+  "name": "Xe đạp địa hình Giant Talon 3 27.5 inch 2024",
+  "sku": "SPO-0121",
+  "description": "Xe đạp địa hình Giant Talon 3 27.5 inch 2024 dành cho bộ môn xe đạp địa hình, trọng lượng 13.5 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "10990000.00",
+  "discount": 20,
+  "stock": 226,
+  "rating": 5.0,
+  "views": 49,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Xe đạp địa hình",
+   "weight": "13.5 kg"
+  }
+ },
+ {
+  "id": 122,
+  "name": "Xe đạp đua Trek Domane AL 2 700c Shimano 16s",
+  "sku": "SPO-0122",
+  "description": "Xe đạp đua Trek Domane AL 2 700c Shimano 16s dành cho bộ môn xe đạp đường trường, trọng lượng 10.5 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "14990000.00",
+  "discount": 20,
+  "stock": 221,
+  "rating": 4.83,
+  "views": 30,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Xe đạp đường trường",
+   "weight": "10.5 kg"
+  }
+ },
+ {
+  "id": 123,
+  "name": "Vợt cầu lông Yonex Astrox 88D Pro 4U",
+  "sku": "SPO-0123",
+  "description": "Vợt cầu lông Yonex Astrox 88D Pro 4U dành cho bộ môn cầu lông, trọng lượng 83 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "3890000.00",
+  "discount": 5,
+  "stock": 60,
+  "rating": 4.86,
+  "views": 44,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Cầu lông",
+   "weight": "83 g"
+  }
+ },
+ {
+  "id": 124,
+  "name": "Vợt tennis Wilson Pro Staff 97 v14 315g",
+  "sku": "SPO-0124",
+  "description": "Vợt tennis Wilson Pro Staff 97 v14 315g dành cho bộ môn tennis, trọng lượng 315 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "4290000.00",
+  "discount": 0,
+  "stock": 72,
+  "rating": 5.0,
+  "views": 52,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Tennis",
+   "weight": "315 g"
+  }
+ },
+ {
+  "id": 125,
+  "name": "Giày cầu lông Yonex Power Cushion 65 Z3",
+  "sku": "SPO-0125",
+  "description": "Giày cầu lông Yonex Power Cushion 65 Z3 dành cho bộ môn cầu lông, trọng lượng 340 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2290000.00",
+  "discount": 0,
+  "stock": 92,
+  "rating": 5.0,
+  "views": 59,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Cầu lông",
+   "weight": "340 g"
+  }
+ },
+ {
+  "id": 126,
+  "name": "Thảm yoga TPE cao su 6mm chống trượt 183x61cm",
+  "sku": "SPO-0126",
+  "description": "Thảm yoga TPE cao su 6mm chống trượt 183x61cm dành cho bộ môn yoga, trọng lượng 0.9 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 48,
+  "rating": 4.56,
+  "views": 60,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Yoga",
+   "weight": "0.9 kg"
+  }
+ },
+ {
+  "id": 127,
+  "name": "Dây kháng lực tập gym set 5 dây latex",
+  "sku": "SPO-0127",
+  "description": "Dây kháng lực tập gym set 5 dây latex dành cho bộ môn gym, trọng lượng 0.5 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 230,
+  "rating": 4.56,
+  "views": 52,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Gym",
+   "weight": "0.5 kg"
+  }
+ },
+ {
+  "id": 128,
+  "name": "Tạ tay điều chỉnh Bowflex SelectTech 552 52lb",
+  "sku": "SPO-0128",
+  "description": "Tạ tay điều chỉnh Bowflex SelectTech 552 52lb dành cho bộ môn gym, trọng lượng 2 x 23.8 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "8990000.00",
+  "discount": 10,
+  "stock": 26,
+  "rating": 5.0,
+  "views": 59,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Gym",
+   "weight": "2 x 23.8 kg"
+  }
+ },
+ {
+  "id": 129,
+  "name": "Xe đạp tập trong nhà Schwinn IC4 Bluetooth",
+  "sku": "SPO-0129",
+  "description": "Xe đạp tập trong nhà Schwinn IC4 Bluetooth dành cho bộ môn đạp xe trong nhà, trọng lượng 48 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "12990000.00",
+  "discount": 0,
+  "stock": 41,
+  "rating": 4.92,
+  "views": 55,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Đạp xe trong nhà",
+   "weight": "48 kg"
+  }
+ },
+ {
+  "id": 130,
+  "name": "Máy chạy bộ NordicTrack T Series 6.5S",
+  "sku": "SPO-0130",
+  "description": "Máy chạy bộ NordicTrack T Series 6.5S dành cho bộ môn chạy bộ, trọng lượng 98 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "18990000.00",
+  "discount": 5,
+  "stock": 100,
+  "rating": 4.89,
+  "views": 53,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Chạy bộ",
+   "weight": "98 kg"
+  }
+ },
+ {
+  "id": 131,
+  "name": "Kính bơi Speedo Fastskin Elite Mirror",
+  "sku": "SPO-0131",
+  "description": "Kính bơi Speedo Fastskin Elite Mirror dành cho bộ môn bơi lội, trọng lượng 50 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 213,
+  "rating": 5.0,
+  "views": 31,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Bơi lội",
+   "weight": "50 g"
+  }
+ },
+ {
+  "id": 132,
+  "name": "Balo leo núi Osprey Atmos AG 65L",
+  "sku": "SPO-0132",
+  "description": "Balo leo núi Osprey Atmos AG 65L dành cho bộ môn leo núi, trọng lượng 2.1 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "5990000.00",
+  "discount": 0,
+  "stock": 99,
+  "rating": 0,
+  "views": 30,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Leo núi",
+   "weight": "2.1 kg"
+  }
+ },
+ {
+  "id": 133,
+  "name": "Lều cắm trại 2-4 người Coleman Sundome 3",
+  "sku": "SPO-0133",
+  "description": "Lều cắm trại 2-4 người Coleman Sundome 3 dành cho bộ môn cắm trại, trọng lượng 4.5 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2990000.00",
+  "discount": 0,
+  "stock": 211,
+  "rating": 0,
+  "views": 25,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Cắm trại",
+   "weight": "4.5 kg"
+  }
+ },
+ {
+  "id": 134,
+  "name": "Túi ngủ Naturehike CW400 Goose Down -7°C",
+  "sku": "SPO-0134",
+  "description": "Túi ngủ Naturehike CW400 Goose Down -7°C dành cho bộ môn cắm trại, trọng lượng 1.4 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2490000.00",
+  "discount": 20,
+  "stock": 45,
+  "rating": 4.62,
+  "views": 24,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Cắm trại",
+   "weight": "1.4 kg"
+  }
+ },
+ {
+  "id": 135,
+  "name": "Đèn pin đầu Petzl Actik Core 450 lm",
+  "sku": "SPO-0135",
+  "description": "Đèn pin đầu Petzl Actik Core 450 lm dành cho bộ môn leo núi, trọng lượng 75 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "1490000.00",
+  "discount": 20,
+  "stock": 97,
+  "rating": 5.0,
+  "views": 37,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Leo núi",
+   "weight": "75 g"
+  }
+ },
+ {
+  "id": 136,
+  "name": "Gậy trekking Black Diamond Trail Ergo Cork",
+  "sku": "SPO-0136",
+  "description": "Gậy trekking Black Diamond Trail Ergo Cork dành cho bộ môn trekking, trọng lượng 0.5 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "1290000.00",
+  "discount": 15,
+  "stock": 164,
+  "rating": 0,
+  "views": 24,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Trekking",
+   "weight": "0.5 kg"
+  }
+ },
+ {
+  "id": 137,
+  "name": "Găng tay boxing RDX T9 Aura 12oz",
+  "sku": "SPO-0137",
+  "description": "Găng tay boxing RDX T9 Aura 12oz dành cho bộ môn boxing, trọng lượng 0.68 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "890000.00",
+  "discount": 15,
+  "stock": 198,
+  "rating": 0,
+  "views": 32,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Boxing",
+   "weight": "0.68 kg"
+  }
+ },
+ {
+  "id": 138,
+  "name": "Dây nhảy Crossrope Get Lean Set",
+  "sku": "SPO-0138",
+  "description": "Dây nhảy Crossrope Get Lean Set dành cho bộ môn gym, trọng lượng 0.6 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2290000.00",
+  "discount": 20,
+  "stock": 227,
+  "rating": 4.83,
+  "views": 28,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Gym",
+   "weight": "0.6 kg"
+  }
+ },
+ {
+  "id": 139,
+  "name": "Bóng đá Adidas Al Rihla Pro FIFA Quality",
+  "sku": "SPO-0139",
+  "description": "Bóng đá Adidas Al Rihla Pro FIFA Quality dành cho bộ môn bóng đá, trọng lượng 420 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 188,
+  "rating": 4.67,
+  "views": 24,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Bóng đá",
+   "weight": "420 g"
+  }
+ },
+ {
+  "id": 140,
+  "name": "Giày chạy bộ Nike Zoom Vaporfly 3 Women",
+  "sku": "SPO-0140",
+  "description": "Giày chạy bộ Nike Zoom Vaporfly 3 Women dành cho bộ môn chạy bộ, trọng lượng 190 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "4890000.00",
+  "discount": 0,
+  "stock": 111,
+  "rating": 0,
+  "views": 55,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Chạy bộ",
+   "weight": "190 g"
+  }
+ },
+ {
+  "id": 141,
+  "name": "Giày trail running Salomon Speedcross 6",
+  "sku": "SPO-0141",
+  "description": "Giày trail running Salomon Speedcross 6 dành cho bộ môn chạy trail, trọng lượng 300 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "3490000.00",
+  "discount": 15,
+  "stock": 19,
+  "rating": 4.86,
+  "views": 27,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Chạy trail",
+   "weight": "300 g"
+  }
+ },
+ {
+  "id": 142,
+  "name": "Mũ bảo hiểm xe đạp Giro Cinder Mips",
+  "sku": "SPO-0142",
+  "description": "Mũ bảo hiểm xe đạp Giro Cinder Mips dành cho bộ môn xe đạp, trọng lượng 290 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2290000.00",
+  "discount": 10,
+  "stock": 126,
+  "rating": 0,
+  "views": 36,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Xe đạp",
+   "weight": "290 g"
+  }
+ },
+ {
+  "id": 143,
+  "name": "Kính xe đạp Oakley Jawbreaker Prizm Road",
+  "sku": "SPO-0143",
+  "description": "Kính xe đạp Oakley Jawbreaker Prizm Road dành cho bộ môn xe đạp, trọng lượng 31 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "4990000.00",
+  "discount": 10,
+  "stock": 246,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Xe đạp",
+   "weight": "31 g"
+  }
+ },
+ {
+  "id": 144,
+  "name": "Quần bơi thi đấu Speedo Fastskin LZR Valor Jammer",
+  "sku": "SPO-0144",
+  "description": "Quần bơi thi đấu Speedo Fastskin LZR Valor Jammer dành cho bộ môn bơi lội, trọng lượng 150 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2890000.00",
+  "discount": 5,
+  "stock": 113,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Bơi lội",
+   "weight": "150 g"
+  }
+ },
+ {
+  "id": 145,
+  "name": "Máy đo nhịp tim Garmin HRM-Pro Plus Chest Strap",
+  "sku": "SPO-0145",
+  "description": "Máy đo nhịp tim Garmin HRM-Pro Plus Chest Strap dành cho bộ môn chạy bộ, trọng lượng 59 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 86,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Chạy bộ",
+   "weight": "59 g"
+  }
+ },
+ {
+  "id": 146,
+  "name": "Đồng hồ thể thao Garmin Forerunner 955 Solar",
+  "sku": "SPO-0146",
+  "description": "Đồng hồ thể thao Garmin Forerunner 955 Solar dành cho bộ môn chạy bộ, trọng lượng 52 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "12990000.00",
+  "discount": 0,
+  "stock": 217,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Chạy bộ",
+   "weight": "52 g"
+  }
+ },
+ {
+  "id": 147,
+  "name": "Bình nước thể thao Hydro Flask 32oz Wide Mouth",
+  "sku": "SPO-0147",
+  "description": "Bình nước thể thao Hydro Flask 32oz Wide Mouth dành cho bộ môn đa môn, trọng lượng 0.43 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "990000.00",
+  "discount": 10,
+  "stock": 99,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Đa môn",
+   "weight": "0.43 kg"
+  }
+ },
+ {
+  "id": 148,
+  "name": "Miếng dán đầu gối KT Tape Pro 20 dải",
+  "sku": "SPO-0148",
+  "description": "Miếng dán đầu gối KT Tape Pro 20 dải dành cho bộ môn đa môn, trọng lượng 60 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "390000.00",
+  "discount": 10,
+  "stock": 227,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Đa môn",
+   "weight": "60 g"
+  }
+ },
+ {
+  "id": 149,
+  "name": "Kem bôi cơ Voltaren Emulgel Forte 150g",
+  "sku": "SPO-0149",
+  "description": "Kem bôi cơ Voltaren Emulgel Forte 150g dành cho bộ môn phục hồi, trọng lượng 150 g. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "380000.00",
+  "discount": 0,
+  "stock": 54,
+  "rating": 0,
+  "views": 17,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Phục hồi",
+   "weight": "150 g"
+  }
+ },
+ {
+  "id": 150,
+  "name": "Thảm yoga Manduka PRO 6mm Black",
+  "sku": "SPO-0150",
+  "description": "Thảm yoga Manduka PRO 6mm Black dành cho bộ môn yoga, trọng lượng 3.4 kg. Thiết kế bền bỉ cho người tập luyện thường xuyên.",
+  "price": "3990000.00",
+  "discount": 0,
+  "stock": 87,
+  "rating": 0,
+  "views": 0,
+  "category": 5,
+  "detail_type": "sports_outdoors",
+  "details": {
+   "sport_type": "Yoga",
+   "weight": "3.4 kg"
+  }
+ },
+ {
+  "id": 151,
+  "name": "Kem chống nắng Anessa Perfect UV SPF50+ PA++++ 60ml",
+  "sku": "BEA-0151",
+  "description": "Kem chống nắng Anessa Perfect UV SPF50+ PA++++ 60ml. Thành phần nổi bật: Zinc Oxide, Hyaluronic Acid. Quy cách: 60 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "685000.00",
+  "discount": 20,
+  "stock": 168,
+  "rating": 5.0,
+  "views": 38,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Zinc Oxide, Hyaluronic Acid",
+   "volume": "60 ml"
+  }
+ },
+ {
+  "id": 152,
+  "name": "Serum Vitamin C La Roche-Posay Pure 10% 30ml",
+  "sku": "BEA-0152",
+  "description": "Serum Vitamin C La Roche-Posay Pure 10% 30ml. Thành phần nổi bật: Vitamin C 10%, Salicylic Acid. Quy cách: 30 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "1150000.00",
+  "discount": 0,
+  "stock": 116,
+  "rating": 4.88,
+  "views": 48,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Vitamin C 10%, Salicylic Acid",
+   "volume": "30 ml"
+  }
+ },
+ {
+  "id": 153,
+  "name": "Kem dưỡng ẩm Cetaphil Moisturizing Cream 250g",
+  "sku": "BEA-0153",
+  "description": "Kem dưỡng ẩm Cetaphil Moisturizing Cream 250g. Thành phần nổi bật: Glycerin, Vitamin E. Quy cách: 250 g. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 82,
+  "rating": 4.22,
+  "views": 52,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Glycerin, Vitamin E",
+   "volume": "250 g"
+  }
+ },
+ {
+  "id": 154,
+  "name": "Máy rửa mặt Foreo Luna 3 Silicone Sonic",
+  "sku": "BEA-0154",
+  "description": "Máy rửa mặt Foreo Luna 3 Silicone Sonic. Thành phần nổi bật: Silicone y tế. Quy cách: 1 máy. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "4990000.00",
+  "discount": 0,
+  "stock": 207,
+  "rating": 0,
+  "views": 51,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Silicone y tế",
+   "volume": "1 máy"
+  }
+ },
+ {
+  "id": 155,
+  "name": "Bàn chải điện Oral-B iO Series 9",
+  "sku": "BEA-0155",
+  "description": "Bàn chải điện Oral-B iO Series 9. Thành phần nổi bật: Đầu chải lông mềm. Quy cách: 1 máy, 3 đầu chải. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "7990000.00",
+  "discount": 0,
+  "stock": 63,
+  "rating": 4.86,
+  "views": 57,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Đầu chải lông mềm",
+   "volume": "1 máy, 3 đầu chải"
+  }
+ },
+ {
+  "id": 156,
+  "name": "Nước tẩy trang Bioderma Sensibio H2O 500ml",
+  "sku": "BEA-0156",
+  "description": "Nước tẩy trang Bioderma Sensibio H2O 500ml. Thành phần nổi bật: Micellar, chiết xuất dưa leo. Quy cách: 500 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "459000.00",
+  "discount": 10,
+  "stock": 239,
+  "rating": 0,
+  "views": 67,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Micellar, chiết xuất dưa leo",
+   "volume": "500 ml"
+  }
+ },
+ {
+  "id": 157,
+  "name": "Toner AHA/BHA Paula's Choice Skin Perfecting 8%",
+  "sku": "BEA-0157",
+  "description": "Toner AHA/BHA Paula's Choice Skin Perfecting 8%. Thành phần nổi bật: Glycolic Acid 8%. Quy cách: 100 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "790000.00",
+  "discount": 0,
+  "stock": 22,
+  "rating": 5.0,
+  "views": 56,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Glycolic Acid 8%",
+   "volume": "100 ml"
+  }
+ },
+ {
+  "id": 158,
+  "name": "Retinol Serum The Ordinary Granactive Retinoid 2%",
+  "sku": "BEA-0158",
+  "description": "Retinol Serum The Ordinary Granactive Retinoid 2%. Thành phần nổi bật: Granactive Retinoid 2%. Quy cách: 30 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "349000.00",
+  "discount": 0,
+  "stock": 179,
+  "rating": 0,
+  "views": 47,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Granactive Retinoid 2%",
+   "volume": "30 ml"
+  }
+ },
+ {
+  "id": 159,
+  "name": "Mặt nạ đất sét Innisfree Super Volcanic Pore Clay",
+  "sku": "BEA-0159",
+  "description": "Mặt nạ đất sét Innisfree Super Volcanic Pore Clay. Thành phần nổi bật: Đất sét núi lửa Jeju. Quy cách: 100 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "290000.00",
+  "discount": 0,
+  "stock": 53,
+  "rating": 4.62,
+  "views": 61,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Đất sét núi lửa Jeju",
+   "volume": "100 ml"
+  }
+ },
+ {
+  "id": 160,
+  "name": "Nước hoa Chanel Coco Mademoiselle EDP 50ml",
+  "sku": "BEA-0160",
+  "description": "Nước hoa Chanel Coco Mademoiselle EDP 50ml. Thành phần nổi bật: Hoắc hương, hoa hồng, cam. Quy cách: 50 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "3990000.00",
+  "discount": 0,
+  "stock": 8,
+  "rating": 4.71,
+  "views": 60,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Hoắc hương, hoa hồng, cam",
+   "volume": "50 ml"
+  }
+ },
+ {
+  "id": 161,
+  "name": "Son môi MAC Matte Lipstick Ruby Woo",
+  "sku": "BEA-0161",
+  "description": "Son môi MAC Matte Lipstick Ruby Woo. Thành phần nổi bật: Sáp, chất tạo màu. Quy cách: 3 g. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "650000.00",
+  "discount": 0,
+  "stock": 0,
+  "rating": 4.83,
+  "views": 40,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Sáp, chất tạo màu",
+   "volume": "3 g"
+  }
+ },
+ {
+  "id": 162,
+  "name": "Phấn phủ Fenty Beauty Pro Filt'r Soft Matte",
+  "sku": "BEA-0162",
+  "description": "Phấn phủ Fenty Beauty Pro Filt'r Soft Matte. Thành phần nổi bật: Bột khoáng. Quy cách: 10 g. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "990000.00",
+  "discount": 10,
+  "stock": 138,
+  "rating": 0,
+  "views": 40,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Bột khoáng",
+   "volume": "10 g"
+  }
+ },
+ {
+  "id": 163,
+  "name": "Kem nền Estee Lauder Double Wear Stay-In-Place",
+  "sku": "BEA-0163",
+  "description": "Kem nền Estee Lauder Double Wear Stay-In-Place. Thành phần nổi bật: SPF 10, Hyaluronic Acid. Quy cách: 30 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "1350000.00",
+  "discount": 15,
+  "stock": 65,
+  "rating": 4.86,
+  "views": 33,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "SPF 10, Hyaluronic Acid",
+   "volume": "30 ml"
+  }
+ },
+ {
+  "id": 164,
+  "name": "Mascara L'Oreal Lash Paradise Voluminous",
+  "sku": "BEA-0164",
+  "description": "Mascara L'Oreal Lash Paradise Voluminous. Thành phần nổi bật: Dầu thầu dầu, chiết xuất hoa hồng. Quy cách: 6.4 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "279000.00",
+  "discount": 0,
+  "stock": 93,
+  "rating": 4.75,
+  "views": 35,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Dầu thầu dầu, chiết xuất hoa hồng",
+   "volume": "6.4 ml"
+  }
+ },
+ {
+  "id": 165,
+  "name": "Dầu gội Kérastase Bain Satin 1 Nutritive 250ml",
+  "sku": "BEA-0165",
+  "description": "Dầu gội Kérastase Bain Satin 1 Nutritive 250ml. Thành phần nổi bật: Glucose, Glycerin. Quy cách: 250 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "850000.00",
+  "discount": 0,
+  "stock": 121,
+  "rating": 4.78,
+  "views": 32,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Glucose, Glycerin",
+   "volume": "250 ml"
+  }
+ },
+ {
+  "id": 166,
+  "name": "Dầu xả Pantene Pro-V Repair & Protect 480ml",
+  "sku": "BEA-0166",
+  "description": "Dầu xả Pantene Pro-V Repair & Protect 480ml. Thành phần nổi bật: Pro-Vitamin B5. Quy cách: 480 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "155000.00",
+  "discount": 10,
+  "stock": 69,
+  "rating": 4.83,
+  "views": 34,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Pro-Vitamin B5",
+   "volume": "480 ml"
+  }
+ },
+ {
+  "id": 167,
+  "name": "Kem dưỡng mắt Kiehl's Creamy Eye Treatment Avocado",
+  "sku": "BEA-0167",
+  "description": "Kem dưỡng mắt Kiehl's Creamy Eye Treatment Avocado. Thành phần nổi bật: Dầu bơ, bơ hạt mỡ. Quy cách: 14 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "950000.00",
+  "discount": 15,
+  "stock": 214,
+  "rating": 5.0,
+  "views": 36,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Dầu bơ, bơ hạt mỡ",
+   "volume": "14 ml"
+  }
+ },
+ {
+  "id": 168,
+  "name": "Tinh chất dưỡng da SK-II Facial Treatment Essence 160ml",
+  "sku": "BEA-0168",
+  "description": "Tinh chất dưỡng da SK-II Facial Treatment Essence 160ml. Thành phần nổi bật: Pitera 90%. Quy cách: 160 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "4290000.00",
+  "discount": 10,
+  "stock": 23,
+  "rating": 5.0,
+  "views": 38,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Pitera 90%",
+   "volume": "160 ml"
+  }
+ },
+ {
+  "id": 169,
+  "name": "Kem chống lão hóa Olay Regenerist Microsculpting",
+  "sku": "BEA-0169",
+  "description": "Kem chống lão hóa Olay Regenerist Microsculpting. Thành phần nổi bật: Niacinamide, Peptide. Quy cách: 50 g. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "459000.00",
+  "discount": 10,
+  "stock": 66,
+  "rating": 4.67,
+  "views": 37,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Niacinamide, Peptide",
+   "volume": "50 g"
+  }
+ },
+ {
+  "id": 170,
+  "name": "Mặt nạ ngủ Laneige Water Sleeping Mask",
+  "sku": "BEA-0170",
+  "description": "Mặt nạ ngủ Laneige Water Sleeping Mask. Thành phần nổi bật: Nước khoáng ion hoá. Quy cách: 70 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "650000.00",
+  "discount": 0,
+  "stock": 155,
+  "rating": 4.86,
+  "views": 36,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Nước khoáng ion hoá",
+   "volume": "70 ml"
+  }
+ },
+ {
+  "id": 171,
+  "name": "Mặt nạ ngủ môi Laneige Lip Sleeping Mask",
+  "sku": "BEA-0171",
+  "description": "Mặt nạ ngủ môi Laneige Lip Sleeping Mask. Thành phần nổi bật: Chiết xuất quả mọng, Vitamin C. Quy cách: 20 g. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "395000.00",
+  "discount": 0,
+  "stock": 124,
+  "rating": 4.67,
+  "views": 42,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Chiết xuất quả mọng, Vitamin C",
+   "volume": "20 g"
+  }
+ },
+ {
+  "id": 172,
+  "name": "Sữa rửa mặt La Roche-Posay Toleriane Hydrating",
+  "sku": "BEA-0172",
+  "description": "Sữa rửa mặt La Roche-Posay Toleriane Hydrating. Thành phần nổi bật: Ceramide-3, Niacinamide. Quy cách: 400 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "420000.00",
+  "discount": 15,
+  "stock": 46,
+  "rating": 4.36,
+  "views": 34,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Ceramide-3, Niacinamide",
+   "volume": "400 ml"
+  }
+ },
+ {
+  "id": 173,
+  "name": "Máy massage mặt NuFACE Trinity Facial Toning",
+  "sku": "BEA-0173",
+  "description": "Máy massage mặt NuFACE Trinity Facial Toning. Thành phần nổi bật: Vi dòng điện. Quy cách: 1 máy. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "8990000.00",
+  "discount": 20,
+  "stock": 8,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Vi dòng điện",
+   "volume": "1 máy"
+  }
+ },
+ {
+  "id": 174,
+  "name": "Collagen nước Shiseido The Collagen EX 50ml x10",
+  "sku": "BEA-0174",
+  "description": "Collagen nước Shiseido The Collagen EX 50ml x10. Thành phần nổi bật: Collagen peptide 1000 mg. Quy cách: 10 x 50 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 43,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Collagen peptide 1000 mg",
+   "volume": "10 x 50 ml"
+  }
+ },
+ {
+  "id": 175,
+  "name": "Vitamin tổng hợp Blackmores Executive B Stress Formula",
+  "sku": "BEA-0175",
+  "description": "Vitamin tổng hợp Blackmores Executive B Stress Formula. Thành phần nổi bật: Vitamin nhóm B, Magie. Quy cách: 62 viên. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "690000.00",
+  "discount": 10,
+  "stock": 175,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Vitamin nhóm B, Magie",
+   "volume": "62 viên"
+  }
+ },
+ {
+  "id": 176,
+  "name": "Omega-3 Fish Oil Nature Made 1200mg 100 viên",
+  "sku": "BEA-0176",
+  "description": "Omega-3 Fish Oil Nature Made 1200mg 100 viên. Thành phần nổi bật: Dầu cá EPA/DHA. Quy cách: 100 viên. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "520000.00",
+  "discount": 20,
+  "stock": 156,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Dầu cá EPA/DHA",
+   "volume": "100 viên"
+  }
+ },
+ {
+  "id": 177,
+  "name": "Probiotic Culturelle Digestive Health 30 viên",
+  "sku": "BEA-0177",
+  "description": "Probiotic Culturelle Digestive Health 30 viên. Thành phần nổi bật: Lactobacillus rhamnosus GG. Quy cách: 30 viên. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "690000.00",
+  "discount": 0,
+  "stock": 165,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Lactobacillus rhamnosus GG",
+   "volume": "30 viên"
+  }
+ },
+ {
+  "id": 178,
+  "name": "Kem bôi trị mụn Paula's Choice BHA 2% Gel",
+  "sku": "BEA-0178",
+  "description": "Kem bôi trị mụn Paula's Choice BHA 2% Gel. Thành phần nổi bật: Salicylic Acid 2%. Quy cách: 100 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "850000.00",
+  "discount": 20,
+  "stock": 81,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Salicylic Acid 2%",
+   "volume": "100 ml"
+  }
+ },
+ {
+  "id": 179,
+  "name": "Xịt khoáng Avène Thermal Spring Water 150ml",
+  "sku": "BEA-0179",
+  "description": "Xịt khoáng Avène Thermal Spring Water 150ml. Thành phần nổi bật: Nước khoáng Avène. Quy cách: 150 ml. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "335000.00",
+  "discount": 15,
+  "stock": 0,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Nước khoáng Avène",
+   "volume": "150 ml"
+  }
+ },
+ {
+  "id": 180,
+  "name": "Bộ chăm sóc da Neutrogena Hydro Boost 3 món",
+  "sku": "BEA-0180",
+  "description": "Bộ chăm sóc da Neutrogena Hydro Boost 3 món. Thành phần nổi bật: Hyaluronic Acid. Quy cách: 3 món. Hàng chính hãng, có tem phụ tiếng Việt.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 36,
+  "rating": 0,
+  "views": 0,
+  "category": 6,
+  "detail_type": "beauty_health",
+  "details": {
+   "ingredient": "Hyaluronic Acid",
+   "volume": "3 món"
+  }
+ },
+ {
+  "id": 181,
+  "name": "LEGO Technic Land Rover Defender 42110 2573 mảnh",
+  "sku": "TOY-0181",
+  "description": "LEGO Technic Land Rover Defender 42110 2573 mảnh, độ tuổi khuyến nghị 11+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "5990000.00",
+  "discount": 0,
+  "stock": 111,
+  "rating": 4.71,
+  "views": 54,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "11+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 182,
+  "name": "LEGO City Space Base & Rocket Launchpad 60434",
+  "sku": "TOY-0182",
+  "description": "LEGO City Space Base & Rocket Launchpad 60434, độ tuổi khuyến nghị 6+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 195,
+  "rating": 4.83,
+  "views": 55,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "6+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 183,
+  "name": "PlayStation 5 Console Slim 1TB Digital Edition",
+  "sku": "TOY-0183",
+  "description": "PlayStation 5 Console Slim 1TB Digital Edition, độ tuổi khuyến nghị 12+ tuổi, số người chơi 1-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "11490000.00",
+  "discount": 0,
+  "stock": 158,
+  "rating": 4.8,
+  "views": 67,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "12+ tuổi",
+   "players": "1-4"
+  }
+ },
+ {
+  "id": 184,
+  "name": "Xbox Series X 1TB Gaming Console",
+  "sku": "TOY-0184",
+  "description": "Xbox Series X 1TB Gaming Console, độ tuổi khuyến nghị 12+ tuổi, số người chơi 1-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "13990000.00",
+  "discount": 0,
+  "stock": 184,
+  "rating": 0,
+  "views": 75,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "12+ tuổi",
+   "players": "1-4"
+  }
+ },
+ {
+  "id": 185,
+  "name": "Nintendo Switch OLED Model Neon Blue/Red",
+  "sku": "TOY-0185",
+  "description": "Nintendo Switch OLED Model Neon Blue/Red, độ tuổi khuyến nghị 6+ tuổi, số người chơi 1-8. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "7990000.00",
+  "discount": 0,
+  "stock": 249,
+  "rating": 4.83,
+  "views": 61,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "6+ tuổi",
+   "players": "1-8"
+  }
+ },
+ {
+  "id": 186,
+  "name": "Board game Ticket to Ride Europe phiên bản VN",
+  "sku": "TOY-0186",
+  "description": "Board game Ticket to Ride Europe phiên bản VN, độ tuổi khuyến nghị 8+ tuổi, số người chơi 2-5. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1490000.00",
+  "discount": 0,
+  "stock": 131,
+  "rating": 0,
+  "views": 65,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "8+ tuổi",
+   "players": "2-5"
+  }
+ },
+ {
+  "id": 187,
+  "name": "Board game Catan Settlers Base Game 5th Edition",
+  "sku": "TOY-0187",
+  "description": "Board game Catan Settlers Base Game 5th Edition, độ tuổi khuyến nghị 10+ tuổi, số người chơi 3-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1190000.00",
+  "discount": 10,
+  "stock": 150,
+  "rating": 5.0,
+  "views": 50,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "10+ tuổi",
+   "players": "3-4"
+  }
+ },
+ {
+  "id": 188,
+  "name": "Board game Pandemic Legacy Season 1 Blue Edition",
+  "sku": "TOY-0188",
+  "description": "Board game Pandemic Legacy Season 1 Blue Edition, độ tuổi khuyến nghị 13+ tuổi, số người chơi 2-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1890000.00",
+  "discount": 20,
+  "stock": 64,
+  "rating": 4.71,
+  "views": 61,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "13+ tuổi",
+   "players": "2-4"
+  }
+ },
+ {
+  "id": 189,
+  "name": "Board game Wingspan with European Expansion",
+  "sku": "TOY-0189",
+  "description": "Board game Wingspan with European Expansion, độ tuổi khuyến nghị 10+ tuổi, số người chơi 1-5. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1690000.00",
+  "discount": 0,
+  "stock": 163,
+  "rating": 4.83,
+  "views": 51,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "10+ tuổi",
+   "players": "1-5"
+  }
+ },
+ {
+  "id": 190,
+  "name": "Rubik's Cube 3x3 Gan 356 XS Magnetic Speed",
+  "sku": "TOY-0190",
+  "description": "Rubik's Cube 3x3 Gan 356 XS Magnetic Speed, độ tuổi khuyến nghị 8+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 62,
+  "rating": 0,
+  "views": 40,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "8+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 191,
+  "name": "Bộ xếp hình LEGO DUPLO Town Xe cứu hỏa 10969",
+  "sku": "TOY-0191",
+  "description": "Bộ xếp hình LEGO DUPLO Town Xe cứu hỏa 10969, độ tuổi khuyến nghị 2+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "790000.00",
+  "discount": 20,
+  "stock": 55,
+  "rating": 0,
+  "views": 11,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "2+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 192,
+  "name": "Drone DJI Mini 4 Pro 4K Camera GPS",
+  "sku": "TOY-0192",
+  "description": "Drone DJI Mini 4 Pro 4K Camera GPS, độ tuổi khuyến nghị 14+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "21990000.00",
+  "discount": 0,
+  "stock": 136,
+  "rating": 0,
+  "views": 16,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "14+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 193,
+  "name": "Xe điều khiển từ xa Traxxas Rustler 4x4 VXL",
+  "sku": "TOY-0193",
+  "description": "Xe điều khiển từ xa Traxxas Rustler 4x4 VXL, độ tuổi khuyến nghị 14+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "12990000.00",
+  "discount": 15,
+  "stock": 16,
+  "rating": 0,
+  "views": 18,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "14+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 194,
+  "name": "Búp bê Barbie Dreamhouse Adventures 3-Story",
+  "sku": "TOY-0194",
+  "description": "Búp bê Barbie Dreamhouse Adventures 3-Story, độ tuổi khuyến nghị 3+ tuổi, số người chơi 1-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "4990000.00",
+  "discount": 0,
+  "stock": 210,
+  "rating": 0,
+  "views": 13,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "3+ tuổi",
+   "players": "1-4"
+  }
+ },
+ {
+  "id": 195,
+  "name": "Xe LEGO Technic Bugatti Chiron 42083 3599 mảnh",
+  "sku": "TOY-0195",
+  "description": "Xe LEGO Technic Bugatti Chiron 42083 3599 mảnh, độ tuổi khuyến nghị 16+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "11990000.00",
+  "discount": 5,
+  "stock": 103,
+  "rating": 0,
+  "views": 18,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "16+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 196,
+  "name": "Game thẻ bài Pokémon TCG Scarlet & Violet Elite Trainer",
+  "sku": "TOY-0196",
+  "description": "Game thẻ bài Pokémon TCG Scarlet & Violet Elite Trainer, độ tuổi khuyến nghị 6+ tuổi, số người chơi 2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1290000.00",
+  "discount": 5,
+  "stock": 165,
+  "rating": 0,
+  "views": 15,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "6+ tuổi",
+   "players": "2"
+  }
+ },
+ {
+  "id": 197,
+  "name": "Đàn piano điện Casio CT-S300 61 phím cho trẻ",
+  "sku": "TOY-0197",
+  "description": "Đàn piano điện Casio CT-S300 61 phím cho trẻ, độ tuổi khuyến nghị 6+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "3290000.00",
+  "discount": 0,
+  "stock": 206,
+  "rating": 0,
+  "views": 12,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "6+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 198,
+  "name": "Bộ vẽ màu Copic Ciao 36 màu cho họa sĩ",
+  "sku": "TOY-0198",
+  "description": "Bộ vẽ màu Copic Ciao 36 màu cho họa sĩ, độ tuổi khuyến nghị 12+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "3490000.00",
+  "discount": 0,
+  "stock": 64,
+  "rating": 0,
+  "views": 11,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "12+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 199,
+  "name": "Bộ cờ vua gỗ quốc tế nam châm 38cm",
+  "sku": "TOY-0199",
+  "description": "Bộ cờ vua gỗ quốc tế nam châm 38cm, độ tuổi khuyến nghị 6+ tuổi, số người chơi 2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "590000.00",
+  "discount": 10,
+  "stock": 86,
+  "rating": 0,
+  "views": 13,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "6+ tuổi",
+   "players": "2"
+  }
+ },
+ {
+  "id": 200,
+  "name": "Game PS5 Elden Ring Standard Edition",
+  "sku": "TOY-0200",
+  "description": "Game PS5 Elden Ring Standard Edition, độ tuổi khuyến nghị 16+ tuổi, số người chơi 1-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 162,
+  "rating": 0,
+  "views": 13,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "16+ tuổi",
+   "players": "1-4"
+  }
+ },
+ {
+  "id": 201,
+  "name": "Game Nintendo FIFA 24 Legacy Edition Switch",
+  "sku": "TOY-0201",
+  "description": "Game Nintendo FIFA 24 Legacy Edition Switch, độ tuổi khuyến nghị 3+ tuổi, số người chơi 1-4. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 149,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "3+ tuổi",
+   "players": "1-4"
+  }
+ },
+ {
+  "id": 202,
+  "name": "Đồ chơi khoa học National Geographic Mega Science Kit",
+  "sku": "TOY-0202",
+  "description": "Đồ chơi khoa học National Geographic Mega Science Kit, độ tuổi khuyến nghị 8+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 117,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "8+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 203,
+  "name": "Bộ đường đua Hot Wheels City Ultimate Garage",
+  "sku": "TOY-0203",
+  "description": "Bộ đường đua Hot Wheels City Ultimate Garage, độ tuổi khuyến nghị 5+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1890000.00",
+  "discount": 5,
+  "stock": 67,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "5+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 204,
+  "name": "Súng nước NERF HyperFire Motorized Blaster",
+  "sku": "TOY-0204",
+  "description": "Súng nước NERF HyperFire Motorized Blaster, độ tuổi khuyến nghị 8+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1290000.00",
+  "discount": 10,
+  "stock": 186,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "8+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 205,
+  "name": "Đồ chơi nhà bếp mini Kitchen Play Set 43 món",
+  "sku": "TOY-0205",
+  "description": "Đồ chơi nhà bếp mini Kitchen Play Set 43 món, độ tuổi khuyến nghị 3+ tuổi, số người chơi 1-3. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "459000.00",
+  "discount": 5,
+  "stock": 138,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "3+ tuổi",
+   "players": "1-3"
+  }
+ },
+ {
+  "id": 206,
+  "name": "Xe đạp cân bằng Strider 12 Sport cho bé 18th-5 tuổi",
+  "sku": "TOY-0206",
+  "description": "Xe đạp cân bằng Strider 12 Sport cho bé 18th-5 tuổi, độ tuổi khuyến nghị 18 tháng - 5 tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "3290000.00",
+  "discount": 10,
+  "stock": 169,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "18 tháng - 5 tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 207,
+  "name": "Lắp ráp mô hình Gundam RG 1/144 RX-78-2",
+  "sku": "TOY-0207",
+  "description": "Lắp ráp mô hình Gundam RG 1/144 RX-78-2, độ tuổi khuyến nghị 15+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "790000.00",
+  "discount": 0,
+  "stock": 134,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "15+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 208,
+  "name": "Máy ảnh đồ chơi cho trẻ em VTech KidiZoom 8MP",
+  "sku": "TOY-0208",
+  "description": "Máy ảnh đồ chơi cho trẻ em VTech KidiZoom 8MP, độ tuổi khuyến nghị 3+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "1490000.00",
+  "discount": 15,
+  "stock": 176,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "3+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 209,
+  "name": "Bộ thí nghiệm hóa học Thames & Kosmos CHEM C1000",
+  "sku": "TOY-0209",
+  "description": "Bộ thí nghiệm hóa học Thames & Kosmos CHEM C1000, độ tuổi khuyến nghị 10+ tuổi, số người chơi 1-2. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 117,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "10+ tuổi",
+   "players": "1-2"
+  }
+ },
+ {
+  "id": 210,
+  "name": "Sách tô màu người lớn Johanna Basford Secret Garden",
+  "sku": "TOY-0210",
+  "description": "Sách tô màu người lớn Johanna Basford Secret Garden, độ tuổi khuyến nghị 12+ tuổi, số người chơi 1. Đồ chơi an toàn, đạt chuẩn chất lượng quốc tế.",
+  "price": "290000.00",
+  "discount": 20,
+  "stock": 73,
+  "rating": 0,
+  "views": 0,
+  "category": 7,
+  "detail_type": "toys_games",
+  "details": {
+   "age_range": "12+ tuổi",
+   "players": "1"
+  }
+ },
+ {
+  "id": 211,
+  "name": "Camera hành trình 70mai Pro Plus+ A500S 2K GPS",
+  "sku": "AUT-0211",
+  "description": "Camera hành trình 70mai Pro Plus+ A500S 2K GPS cho ô tô, tương thích: Mọi dòng xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 199,
+  "rating": 4.86,
+  "views": 38,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mọi dòng xe"
+  }
+ },
+ {
+  "id": 212,
+  "name": "Camera hành trình Vietmap C65 4K GPS WiFi",
+  "sku": "AUT-0212",
+  "description": "Camera hành trình Vietmap C65 4K GPS WiFi cho ô tô, tương thích: Mọi dòng xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "3990000.00",
+  "discount": 0,
+  "stock": 3,
+  "rating": 5.0,
+  "views": 39,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mọi dòng xe"
+  }
+ },
+ {
+  "id": 213,
+  "name": "Camera lùi xe hơi VIETMAP BC50 Full HD",
+  "sku": "AUT-0213",
+  "description": "Camera lùi xe hơi VIETMAP BC50 Full HD cho ô tô, tương thích: Xe có màn hình hiển thị. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1490000.00",
+  "discount": 0,
+  "stock": 165,
+  "rating": 4.6,
+  "views": 52,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Xe có màn hình hiển thị"
+  }
+ },
+ {
+  "id": 214,
+  "name": "Lốp xe ô tô Michelin Primacy 4 205/55R16",
+  "sku": "AUT-0214",
+  "description": "Lốp xe ô tô Michelin Primacy 4 205/55R16 cho ô tô, tương thích: Toyota Corolla Altis, Mazda 3, Kia K3. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "2290000.00",
+  "discount": 0,
+  "stock": 58,
+  "rating": 4.62,
+  "views": 50,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Toyota Corolla Altis, Mazda 3, Kia K3"
+  }
+ },
+ {
+  "id": 215,
+  "name": "Lốp xe máy Michelin Pilot Street 2 100/80-17",
+  "sku": "AUT-0215",
+  "description": "Lốp xe máy Michelin Pilot Street 2 100/80-17 cho xe máy, tương thích: Yamaha Exciter, Honda Winner X. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "790000.00",
+  "discount": 0,
+  "stock": 157,
+  "rating": 4.25,
+  "views": 49,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Xe máy",
+   "compatibility": "Yamaha Exciter, Honda Winner X"
+  }
+ },
+ {
+  "id": 216,
+  "name": "Lốp ô tô Bridgestone Turanza T005A 215/55R17",
+  "sku": "AUT-0216",
+  "description": "Lốp ô tô Bridgestone Turanza T005A 215/55R17 cho ô tô, tương thích: Toyota Camry, Honda Accord. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "2690000.00",
+  "discount": 10,
+  "stock": 217,
+  "rating": 4.67,
+  "views": 43,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Toyota Camry, Honda Accord"
+  }
+ },
+ {
+  "id": 217,
+  "name": "Nhớt xe máy Motul 3100 4T 10W-40 1L",
+  "sku": "AUT-0217",
+  "description": "Nhớt xe máy Motul 3100 4T 10W-40 1L cho xe máy, tương thích: Xe số và xe côn tay 4 thì. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "159000.00",
+  "discount": 10,
+  "stock": 236,
+  "rating": 4.71,
+  "views": 53,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Xe máy",
+   "compatibility": "Xe số và xe côn tay 4 thì"
+  }
+ },
+ {
+  "id": 218,
+  "name": "Nhớt ô tô Castrol EDGE 5W-30 Full Synthetic 4L",
+  "sku": "AUT-0218",
+  "description": "Nhớt ô tô Castrol EDGE 5W-30 Full Synthetic 4L cho ô tô, tương thích: Động cơ xăng và diesel. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1150000.00",
+  "discount": 20,
+  "stock": 36,
+  "rating": 5.0,
+  "views": 38,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Động cơ xăng và diesel"
+  }
+ },
+ {
+  "id": 219,
+  "name": "Máy bơm lốp xe Xiaomi Mijia Electric Air Pump 1S",
+  "sku": "AUT-0219",
+  "description": "Máy bơm lốp xe Xiaomi Mijia Electric Air Pump 1S cho ô tô, xe máy, xe đạp, tương thích: Van Schrader và Presta. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "990000.00",
+  "discount": 20,
+  "stock": 206,
+  "rating": 4.86,
+  "views": 36,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô, xe máy, xe đạp",
+   "compatibility": "Van Schrader và Presta"
+  }
+ },
+ {
+  "id": 220,
+  "name": "Bình ắc quy GS Yuasa 45Ah MF din45 cho Toyota Vios",
+  "sku": "AUT-0220",
+  "description": "Bình ắc quy GS Yuasa 45Ah MF din45 cho Toyota Vios cho ô tô, tương thích: Toyota Vios, Toyota Yaris. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1690000.00",
+  "discount": 0,
+  "stock": 248,
+  "rating": 5.0,
+  "views": 28,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Toyota Vios, Toyota Yaris"
+  }
+ },
+ {
+  "id": 221,
+  "name": "Loa xe hơi Pioneer TS-A1687S 6.5 inch 350W",
+  "sku": "AUT-0221",
+  "description": "Loa xe hơi Pioneer TS-A1687S 6.5 inch 350W cho ô tô, tương thích: Vị trí loa cửa 6.5 inch. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1890000.00",
+  "discount": 0,
+  "stock": 146,
+  "rating": 0,
+  "views": 9,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Vị trí loa cửa 6.5 inch"
+  }
+ },
+ {
+  "id": 222,
+  "name": "DVD Android xe hơi Oled C2 New 2024 9 inch",
+  "sku": "AUT-0222",
+  "description": "DVD Android xe hơi Oled C2 New 2024 9 inch cho ô tô, tương thích: Mặt dưỡng 9 inch theo xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "5490000.00",
+  "discount": 0,
+  "stock": 58,
+  "rating": 0,
+  "views": 18,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mặt dưỡng 9 inch theo xe"
+  }
+ },
+ {
+  "id": 223,
+  "name": "Màn hình Android ô tô Carplay 10 inch 4G 4+64GB",
+  "sku": "AUT-0223",
+  "description": "Màn hình Android ô tô Carplay 10 inch 4G 4+64GB cho ô tô, tương thích: Mặt dưỡng 10 inch theo xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "6990000.00",
+  "discount": 5,
+  "stock": 231,
+  "rating": 0,
+  "views": 16,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mặt dưỡng 10 inch theo xe"
+  }
+ },
+ {
+  "id": 224,
+  "name": "Ghế ngồi ô tô cho bé Chicco NextFit Zip 2.0",
+  "sku": "AUT-0224",
+  "description": "Ghế ngồi ô tô cho bé Chicco NextFit Zip 2.0 cho ô tô, tương thích: Xe có chốt ISOFIX hoặc dây đai 3 điểm. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "8990000.00",
+  "discount": 5,
+  "stock": 207,
+  "rating": 0,
+  "views": 14,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Xe có chốt ISOFIX hoặc dây đai 3 điểm"
+  }
+ },
+ {
+  "id": 225,
+  "name": "Thảm lót sàn ô tô 5D chống thấm Toyota Camry 2023",
+  "sku": "AUT-0225",
+  "description": "Thảm lót sàn ô tô 5D chống thấm Toyota Camry 2023 cho ô tô, tương thích: Toyota Camry 2022-2024. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "2190000.00",
+  "discount": 0,
+  "stock": 84,
+  "rating": 0,
+  "views": 9,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Toyota Camry 2022-2024"
+  }
+ },
+ {
+  "id": 226,
+  "name": "Nước rửa kính xe ô tô Rain-X Original 473ml",
+  "sku": "AUT-0226",
+  "description": "Nước rửa kính xe ô tô Rain-X Original 473ml cho ô tô, tương thích: Mọi dòng xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "249000.00",
+  "discount": 0,
+  "stock": 155,
+  "rating": 0,
+  "views": 9,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mọi dòng xe"
+  }
+ },
+ {
+  "id": 227,
+  "name": "Cảm biến áp suất lốp TPMS Xiaomi 70mai 4 bánh",
+  "sku": "AUT-0227",
+  "description": "Cảm biến áp suất lốp TPMS Xiaomi 70mai 4 bánh cho ô tô, tương thích: Mâm 13-22 inch. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1590000.00",
+  "discount": 5,
+  "stock": 163,
+  "rating": 0,
+  "views": 17,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mâm 13-22 inch"
+  }
+ },
+ {
+  "id": 228,
+  "name": "Bóng đèn ô tô Osram Night Breaker H4 200%",
+  "sku": "AUT-0228",
+  "description": "Bóng đèn ô tô Osram Night Breaker H4 200% cho ô tô, tương thích: Xe dùng bóng H4. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "590000.00",
+  "discount": 10,
+  "stock": 40,
+  "rating": 0,
+  "views": 10,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Xe dùng bóng H4"
+  }
+ },
+ {
+  "id": 229,
+  "name": "Máy chẩn đoán lỗi xe OBD2 Bluetooth ANCEL AD310",
+  "sku": "AUT-0229",
+  "description": "Máy chẩn đoán lỗi xe OBD2 Bluetooth ANCEL AD310 cho ô tô, tương thích: Xe có cổng OBD2. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "790000.00",
+  "discount": 15,
+  "stock": 8,
+  "rating": 4.67,
+  "views": 13,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Xe có cổng OBD2"
+  }
+ },
+ {
+  "id": 230,
+  "name": "Bộ vệ sinh xe hơi Meguiar's Ultimate Wash & Wax Kit",
+  "sku": "AUT-0230",
+  "description": "Bộ vệ sinh xe hơi Meguiar's Ultimate Wash & Wax Kit cho ô tô, tương thích: Mọi loại sơn xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 124,
+  "rating": 0,
+  "views": 16,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Mọi loại sơn xe"
+  }
+ },
+ {
+  "id": 231,
+  "name": "Keo dán kính chắn gió 3M Auto Windshield Sealant",
+  "sku": "AUT-0231",
+  "description": "Keo dán kính chắn gió 3M Auto Windshield Sealant cho ô tô, tương thích: Kính chắn gió mọi dòng xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "189000.00",
+  "discount": 15,
+  "stock": 68,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Kính chắn gió mọi dòng xe"
+  }
+ },
+ {
+  "id": 232,
+  "name": "Ghế ngồi trẻ em 2 trong 1 Aprica Fladea Grow",
+  "sku": "AUT-0232",
+  "description": "Ghế ngồi trẻ em 2 trong 1 Aprica Fladea Grow cho ô tô, tương thích: Xe có chốt ISOFIX hoặc dây đai 3 điểm. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "6490000.00",
+  "discount": 20,
+  "stock": 25,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Xe có chốt ISOFIX hoặc dây đai 3 điểm"
+  }
+ },
+ {
+  "id": 233,
+  "name": "Bơm hơi ô tô Ryobi PCL525B One+ 18V Cordless",
+  "sku": "AUT-0233",
+  "description": "Bơm hơi ô tô Ryobi PCL525B One+ 18V Cordless cho ô tô, xe máy, tương thích: Van Schrader. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1590000.00",
+  "discount": 10,
+  "stock": 31,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô, xe máy",
+   "compatibility": "Van Schrader"
+  }
+ },
+ {
+  "id": 234,
+  "name": "Còi xe hơi Wolo 519 Bad Boy Air Horn",
+  "sku": "AUT-0234",
+  "description": "Còi xe hơi Wolo 519 Bad Boy Air Horn cho ô tô, tương thích: Hệ thống điện 12V. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1290000.00",
+  "discount": 20,
+  "stock": 234,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Hệ thống điện 12V"
+  }
+ },
+ {
+  "id": 235,
+  "name": "Giá đỡ điện thoại xe hơi Belkin MagSafe",
+  "sku": "AUT-0235",
+  "description": "Giá đỡ điện thoại xe hơi Belkin MagSafe cho ô tô, tương thích: iPhone 12 trở lên. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 127,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "iPhone 12 trở lên"
+  }
+ },
+ {
+  "id": 236,
+  "name": "Máy hút bụi xe hơi Dyson V7 Car+Boat",
+  "sku": "AUT-0236",
+  "description": "Máy hút bụi xe hơi Dyson V7 Car+Boat cho ô tô, tương thích: Nội thất mọi dòng xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "7490000.00",
+  "discount": 5,
+  "stock": 232,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Nội thất mọi dòng xe"
+  }
+ },
+ {
+  "id": 237,
+  "name": "Tẩu sạc nhanh USB-C xe hơi Anker PowerDrive Speed+",
+  "sku": "AUT-0237",
+  "description": "Tẩu sạc nhanh USB-C xe hơi Anker PowerDrive Speed+ cho ô tô, tương thích: Tẩu sạc 12V/24V. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 125,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Tẩu sạc 12V/24V"
+  }
+ },
+ {
+  "id": 238,
+  "name": "Nệm hơi ngủ trong xe SUV Inflatable Mattress",
+  "sku": "AUT-0238",
+  "description": "Nệm hơi ngủ trong xe SUV Inflatable Mattress cho ô tô, tương thích: SUV 7 chỗ, xe bán tải. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 170,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "SUV 7 chỗ, xe bán tải"
+  }
+ },
+ {
+  "id": 239,
+  "name": "Bình xịt chống muỗi xe hơi Raid Max 300ml",
+  "sku": "AUT-0239",
+  "description": "Bình xịt chống muỗi xe hơi Raid Max 300ml cho ô tô, tương thích: Nội thất xe. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "85000.00",
+  "discount": 10,
+  "stock": 209,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Nội thất xe"
+  }
+ },
+ {
+  "id": 240,
+  "name": "Bộ bình phun bọt tuyết Karcher Foam Cannon K4",
+  "sku": "AUT-0240",
+  "description": "Bộ bình phun bọt tuyết Karcher Foam Cannon K4 cho ô tô, tương thích: Máy rửa xe Karcher K2-K7. Lắp đặt dễ dàng, bảo hành chính hãng.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 69,
+  "rating": 0,
+  "views": 0,
+  "category": 8,
+  "detail_type": "automotive",
+  "details": {
+   "vehicle_type": "Ô tô",
+   "compatibility": "Máy rửa xe Karcher K2-K7"
+  }
+ },
+ {
+  "id": 241,
+  "name": "Cà phê rang xay Trung Nguyên Legend Robusta 500g",
+  "sku": "FOO-0241",
+  "description": "Cà phê rang xay Trung Nguyên Legend Robusta 500g, khối lượng 500 g, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "189000.00",
+  "discount": 0,
+  "stock": 59,
+  "rating": 4.67,
+  "views": 74,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "500 g"
+  }
+ },
+ {
+  "id": 242,
+  "name": "Cà phê Arabica hạt nguyên chất Highlands Coffee 200g",
+  "sku": "FOO-0242",
+  "description": "Cà phê Arabica hạt nguyên chất Highlands Coffee 200g, khối lượng 200 g, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "219000.00",
+  "discount": 0,
+  "stock": 53,
+  "rating": 4.62,
+  "views": 78,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "200 g"
+  }
+ },
+ {
+  "id": 243,
+  "name": "Yến mạch Quaker Original không đường 4.52kg",
+  "sku": "FOO-0243",
+  "description": "Yến mạch Quaker Original không đường 4.52kg, khối lượng 4.52 kg, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "390000.00",
+  "discount": 5,
+  "stock": 36,
+  "rating": 4.67,
+  "views": 73,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "4.52 kg"
+  }
+ },
+ {
+  "id": 244,
+  "name": "Gạo ST25 Ông Cua túi 5kg Thơm Lài Hạt Dài",
+  "sku": "FOO-0244",
+  "description": "Gạo ST25 Ông Cua túi 5kg Thơm Lài Hạt Dài, khối lượng 5 kg, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "185000.00",
+  "discount": 0,
+  "stock": 217,
+  "rating": 4.58,
+  "views": 68,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "5 kg"
+  }
+ },
+ {
+  "id": 245,
+  "name": "Mì Hảo Hảo tôm chua cay thùng 30 gói",
+  "sku": "FOO-0245",
+  "description": "Mì Hảo Hảo tôm chua cay thùng 30 gói, khối lượng 30 x 75 g, hạn sử dụng 180 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "145000.00",
+  "discount": 0,
+  "stock": 152,
+  "rating": 4.57,
+  "views": 83,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 180,
+   "weight": "30 x 75 g"
+  }
+ },
+ {
+  "id": 246,
+  "name": "Bánh mì sandwich Harvest Gold toàn phần 600g",
+  "sku": "FOO-0246",
+  "description": "Bánh mì sandwich Harvest Gold toàn phần 600g, khối lượng 600 g, hạn sử dụng 7 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "65000.00",
+  "discount": 0,
+  "stock": 215,
+  "rating": 4.86,
+  "views": 64,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 7,
+   "weight": "600 g"
+  }
+ },
+ {
+  "id": 247,
+  "name": "Sữa bột Ensure Gold hương vani lon 850g",
+  "sku": "FOO-0247",
+  "description": "Sữa bột Ensure Gold hương vani lon 850g, khối lượng 850 g, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "945000.00",
+  "discount": 0,
+  "stock": 150,
+  "rating": 4.5,
+  "views": 74,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "850 g"
+  }
+ },
+ {
+  "id": 248,
+  "name": "Sữa tươi Vinamilk 100% Không đường thùng 48 hộp 180ml",
+  "sku": "FOO-0248",
+  "description": "Sữa tươi Vinamilk 100% Không đường thùng 48 hộp 180ml, khối lượng 48 x 180 ml, hạn sử dụng 180 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "385000.00",
+  "discount": 20,
+  "stock": 55,
+  "rating": 4.71,
+  "views": 72,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 180,
+   "weight": "48 x 180 ml"
+  }
+ },
+ {
+  "id": 249,
+  "name": "Trà xanh matcha Nhật Bản Ito En Oi Ocha 100g",
+  "sku": "FOO-0249",
+  "description": "Trà xanh matcha Nhật Bản Ito En Oi Ocha 100g, khối lượng 100 g, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 68,
+  "rating": 5.0,
+  "views": 57,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "100 g"
+  }
+ },
+ {
+  "id": 250,
+  "name": "Nước tương Maggi Phú Quốc chai 300ml",
+  "sku": "FOO-0250",
+  "description": "Nước tương Maggi Phú Quốc chai 300ml, khối lượng 300 ml, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "29000.00",
+  "discount": 0,
+  "stock": 182,
+  "rating": 4.67,
+  "views": 76,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "300 ml"
+  }
+ },
+ {
+  "id": 251,
+  "name": "Dầu olive Bertolli Extra Virgin 750ml",
+  "sku": "FOO-0251",
+  "description": "Dầu olive Bertolli Extra Virgin 750ml, khối lượng 750 ml, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "289000.00",
+  "discount": 0,
+  "stock": 62,
+  "rating": 0,
+  "views": 73,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "750 ml"
+  }
+ },
+ {
+  "id": 252,
+  "name": "Mật ong rừng nguyên chất Việt Nam 500g",
+  "sku": "FOO-0252",
+  "description": "Mật ong rừng nguyên chất Việt Nam 500g, khối lượng 500 g, hạn sử dụng 730 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "195000.00",
+  "discount": 0,
+  "stock": 172,
+  "rating": 4.83,
+  "views": 59,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 730,
+   "weight": "500 g"
+  }
+ },
+ {
+  "id": 253,
+  "name": "Hạt chia Salba Chia Premium White 1kg",
+  "sku": "FOO-0253",
+  "description": "Hạt chia Salba Chia Premium White 1kg, khối lượng 1 kg, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 85,
+  "rating": 4.86,
+  "views": 75,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "1 kg"
+  }
+ },
+ {
+  "id": 254,
+  "name": "Hạnh nhân rang muối California Kirkland 1.13kg",
+  "sku": "FOO-0254",
+  "description": "Hạnh nhân rang muối California Kirkland 1.13kg, khối lượng 1.13 kg, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 0,
+  "rating": 4.83,
+  "views": 60,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "1.13 kg"
+  }
+ },
+ {
+  "id": 255,
+  "name": "Phô mai Laughing Cow tam giác 140g 8 miếng",
+  "sku": "FOO-0255",
+  "description": "Phô mai Laughing Cow tam giác 140g 8 miếng, khối lượng 140 g, hạn sử dụng 180 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "55000.00",
+  "discount": 0,
+  "stock": 57,
+  "rating": 4.67,
+  "views": 57,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 180,
+   "weight": "140 g"
+  }
+ },
+ {
+  "id": 256,
+  "name": "Cá hồi phi lê tươi Na Uy (500g - nhập khẩu)",
+  "sku": "FOO-0256",
+  "description": "Cá hồi phi lê tươi Na Uy (500g - nhập khẩu), khối lượng 500 g, hạn sử dụng 3 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 139,
+  "rating": 0,
+  "views": 0,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 3,
+   "weight": "500 g"
+  }
+ },
+ {
+  "id": 257,
+  "name": "Thịt bò Wagyu A5 Nhật Bản nhập khẩu 200g",
+  "sku": "FOO-0257",
+  "description": "Thịt bò Wagyu A5 Nhật Bản nhập khẩu 200g, khối lượng 200 g, hạn sử dụng 5 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 85,
+  "rating": 0,
+  "views": 0,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 5,
+   "weight": "200 g"
+  }
+ },
+ {
+  "id": 258,
+  "name": "Tôm thẻ tươi sạch 500g không đầu (loại 30-40 con)",
+  "sku": "FOO-0258",
+  "description": "Tôm thẻ tươi sạch 500g không đầu (loại 30-40 con), khối lượng 500 g, hạn sử dụng 3 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "185000.00",
+  "discount": 5,
+  "stock": 112,
+  "rating": 0,
+  "views": 0,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 3,
+   "weight": "500 g"
+  }
+ },
+ {
+  "id": 259,
+  "name": "Rau củ sạch mix 1kg (cà rốt, bắp cải, súp lơ)",
+  "sku": "FOO-0259",
+  "description": "Rau củ sạch mix 1kg (cà rốt, bắp cải, súp lơ), khối lượng 1 kg, hạn sử dụng 5 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "89000.00",
+  "discount": 15,
+  "stock": 228,
+  "rating": 0,
+  "views": 0,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 5,
+   "weight": "1 kg"
+  }
+ },
+ {
+  "id": 260,
+  "name": "Trái cây nhập khẩu: Táo Envy New Zealand 8 quả",
+  "sku": "FOO-0260",
+  "description": "Trái cây nhập khẩu: Táo Envy New Zealand 8 quả, khối lượng 8 quả, hạn sử dụng 21 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "189000.00",
+  "discount": 5,
+  "stock": 27,
+  "rating": 0,
+  "views": 0,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 21,
+   "weight": "8 quả"
+  }
+ },
+ {
+  "id": 261,
+  "name": "Chocolate đen Lindt Excellence 70% Cacao 100g",
+  "sku": "FOO-0261",
+  "description": "Chocolate đen Lindt Excellence 70% Cacao 100g, khối lượng 100 g, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "95000.00",
+  "discount": 20,
+  "stock": 35,
+  "rating": 5.0,
+  "views": 25,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "100 g"
+  }
+ },
+ {
+  "id": 262,
+  "name": "Bánh quy Oreo Double Stuff thùng 24 gói",
+  "sku": "FOO-0262",
+  "description": "Bánh quy Oreo Double Stuff thùng 24 gói, khối lượng 24 gói, hạn sử dụng 270 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "285000.00",
+  "discount": 20,
+  "stock": 104,
+  "rating": 0,
+  "views": 25,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 270,
+   "weight": "24 gói"
+  }
+ },
+ {
+  "id": 263,
+  "name": "Nước uống tăng lực Red Bull 250ml thùng 24 lon",
+  "sku": "FOO-0263",
+  "description": "Nước uống tăng lực Red Bull 250ml thùng 24 lon, khối lượng 24 x 250 ml, hạn sử dụng 365 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "385000.00",
+  "discount": 10,
+  "stock": 96,
+  "rating": 4.83,
+  "views": 26,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 365,
+   "weight": "24 x 250 ml"
+  }
+ },
+ {
+  "id": 264,
+  "name": "Protein Whey ON Gold Standard 2lb Double Chocolate",
+  "sku": "FOO-0264",
+  "description": "Protein Whey ON Gold Standard 2lb Double Chocolate, khối lượng 907 g, hạn sử dụng 730 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "1090000.00",
+  "discount": 15,
+  "stock": 72,
+  "rating": 4.67,
+  "views": 23,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 730,
+   "weight": "907 g"
+  }
+ },
+ {
+  "id": 265,
+  "name": "BCAA Xtend Original 30 lần dùng Watermelon",
+  "sku": "FOO-0265",
+  "description": "BCAA Xtend Original 30 lần dùng Watermelon, khối lượng 30 lần dùng, hạn sử dụng 730 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "990000.00",
+  "discount": 0,
+  "stock": 132,
+  "rating": 0,
+  "views": 25,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 730,
+   "weight": "30 lần dùng"
+  }
+ },
+ {
+  "id": 266,
+  "name": "Creatine Monohydrate Optimum Nutrition 600g",
+  "sku": "FOO-0266",
+  "description": "Creatine Monohydrate Optimum Nutrition 600g, khối lượng 600 g, hạn sử dụng 1095 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "990000.00",
+  "discount": 5,
+  "stock": 193,
+  "rating": 4.43,
+  "views": 25,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 1095,
+   "weight": "600 g"
+  }
+ },
+ {
+  "id": 267,
+  "name": "Dầu gấc TW3 Vinaga 100ml bổ sung vitamin A",
+  "sku": "FOO-0267",
+  "description": "Dầu gấc TW3 Vinaga 100ml bổ sung vitamin A, khối lượng 100 ml, hạn sử dụng 730 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "125000.00",
+  "discount": 10,
+  "stock": 16,
+  "rating": 4.83,
+  "views": 19,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 730,
+   "weight": "100 ml"
+  }
+ },
+ {
+  "id": 268,
+  "name": "Hạt điều rang muối Bình Phước loại A 500g",
+  "sku": "FOO-0268",
+  "description": "Hạt điều rang muối Bình Phước loại A 500g, khối lượng 500 g, hạn sử dụng 180 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "245000.00",
+  "discount": 10,
+  "stock": 58,
+  "rating": 4.86,
+  "views": 33,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 180,
+   "weight": "500 g"
+  }
+ },
+ {
+  "id": 269,
+  "name": "Trà thảo mộc 7 vị Linh Chi Hồng Sâm 20 gói",
+  "sku": "FOO-0269",
+  "description": "Trà thảo mộc 7 vị Linh Chi Hồng Sâm 20 gói, khối lượng 20 gói, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "285000.00",
+  "discount": 0,
+  "stock": 35,
+  "rating": 0,
+  "views": 21,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "20 gói"
+  }
+ },
+ {
+  "id": 270,
+  "name": "Bơ đậu phộng Peanut Butter Skippy Creamy 1.36kg",
+  "sku": "FOO-0270",
+  "description": "Bơ đậu phộng Peanut Butter Skippy Creamy 1.36kg, khối lượng 1.36 kg, hạn sử dụng 540 ngày kể từ ngày sản xuất. Bảo quản nơi khô ráo, thoáng mát.",
+  "price": "285000.00",
+  "discount": 10,
+  "stock": 137,
+  "rating": 0,
+  "views": 23,
+  "category": 9,
+  "detail_type": "food_grocery",
+  "details": {
+   "expiry_days": 540,
+   "weight": "1.36 kg"
+  }
+ },
+ {
+  "id": 271,
+  "name": "Bút bi Pilot G2 0.5mm hộp 12 cây xanh đen đỏ",
+  "sku": "OFF-0271",
+  "description": "Bút bi Pilot G2 0.5mm hộp 12 cây xanh đen đỏ. Chất liệu 12, quy cách Nhựa, mực gel sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "129000.00",
+  "discount": 0,
+  "stock": 24,
+  "rating": 4.5,
+  "views": 55,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 12,
+   "material": "Nhựa, mực gel"
+  }
+ },
+ {
+  "id": 272,
+  "name": "Bút mực Lamy Safari Fountain Pen Medium Nib",
+  "sku": "OFF-0272",
+  "description": "Bút mực Lamy Safari Fountain Pen Medium Nib. Chất liệu 1, quy cách Nhựa ABS, ngòi thép sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 72,
+  "rating": 4.78,
+  "views": 72,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa ABS, ngòi thép"
+  }
+ },
+ {
+  "id": 273,
+  "name": "Bút highlight Zebra Mildliner 15 màu",
+  "sku": "OFF-0273",
+  "description": "Bút highlight Zebra Mildliner 15 màu. Chất liệu 15, quy cách Nhựa sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 250,
+  "rating": 4.44,
+  "views": 65,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 15,
+   "material": "Nhựa"
+  }
+ },
+ {
+  "id": 274,
+  "name": "Bộ bút màu Tombow Dual Brush Pen 10 màu cơ bản",
+  "sku": "OFF-0274",
+  "description": "Bộ bút màu Tombow Dual Brush Pen 10 màu cơ bản. Chất liệu 10, quy cách Nhựa, đầu cọ nylon sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "490000.00",
+  "discount": 5,
+  "stock": 204,
+  "rating": 4.33,
+  "views": 60,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 10,
+   "material": "Nhựa, đầu cọ nylon"
+  }
+ },
+ {
+  "id": 275,
+  "name": "Sổ tay Leuchtturm1917 A5 Dotted Hardcover 249 trang",
+  "sku": "OFF-0275",
+  "description": "Sổ tay Leuchtturm1917 A5 Dotted Hardcover 249 trang. Chất liệu 1, quy cách Giấy 80gsm, bìa cứng sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 46,
+  "rating": 4.88,
+  "views": 67,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Giấy 80gsm, bìa cứng"
+  }
+ },
+ {
+  "id": 276,
+  "name": "Sổ Moleskine Classic Notebook A5 Ruled 240 trang",
+  "sku": "OFF-0276",
+  "description": "Sổ Moleskine Classic Notebook A5 Ruled 240 trang. Chất liệu 1, quy cách Giấy không axit, bìa cứng sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "390000.00",
+  "discount": 0,
+  "stock": 82,
+  "rating": 4.5,
+  "views": 69,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Giấy không axit, bìa cứng"
+  }
+ },
+ {
+  "id": 277,
+  "name": "Máy tính Casio FX-991EX ClassWiz 552 functions",
+  "sku": "OFF-0277",
+  "description": "Máy tính Casio FX-991EX ClassWiz 552 functions. Chất liệu 1, quy cách Nhựa ABS sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 138,
+  "rating": 4.89,
+  "views": 63,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa ABS"
+  }
+ },
+ {
+  "id": 278,
+  "name": "Máy in Canon PIXMA G3470 MegaTank WiFi In+Scan+Copy",
+  "sku": "OFF-0278",
+  "description": "Máy in Canon PIXMA G3470 MegaTank WiFi In+Scan+Copy. Chất liệu 1, quy cách Nhựa ABS sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "5990000.00",
+  "discount": 5,
+  "stock": 3,
+  "rating": 4.57,
+  "views": 71,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa ABS"
+  }
+ },
+ {
+  "id": 279,
+  "name": "Mực in Canon GI-790 4 màu CMYK cho G-series",
+  "sku": "OFF-0279",
+  "description": "Mực in Canon GI-790 4 màu CMYK cho G-series. Chất liệu 4, quy cách Mực dye sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "890000.00",
+  "discount": 20,
+  "stock": 25,
+  "rating": 0,
+  "views": 25,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 4,
+   "material": "Mực dye"
+  }
+ },
+ {
+  "id": 280,
+  "name": "Giấy in A4 Double A 70gsm Thái Lan 500 tờ",
+  "sku": "OFF-0280",
+  "description": "Giấy in A4 Double A 70gsm Thái Lan 500 tờ. Chất liệu 500, quy cách Giấy 70gsm sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "89000.00",
+  "discount": 0,
+  "stock": 168,
+  "rating": 0,
+  "views": 30,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 500,
+   "material": "Giấy 70gsm"
+  }
+ },
+ {
+  "id": 281,
+  "name": "Bảng trắng từ tính Deli 90x120cm có khung nhôm",
+  "sku": "OFF-0281",
+  "description": "Bảng trắng từ tính Deli 90x120cm có khung nhôm. Chất liệu 1, quy cách Khung nhôm, mặt từ tính sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "890000.00",
+  "discount": 10,
+  "stock": 141,
+  "rating": 5.0,
+  "views": 32,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Khung nhôm, mặt từ tính"
+  }
+ },
+ {
+  "id": 282,
+  "name": "Kẹp file nhựa Deli A4 hộp 12 cái nhiều màu",
+  "sku": "OFF-0282",
+  "description": "Kẹp file nhựa Deli A4 hộp 12 cái nhiều màu. Chất liệu 12, quy cách Nhựa PP sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "89000.00",
+  "discount": 0,
+  "stock": 152,
+  "rating": 4.62,
+  "views": 36,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 12,
+   "material": "Nhựa PP"
+  }
+ },
+ {
+  "id": 283,
+  "name": "Băng dán trong suốt 3M Scotch Magic Tape 810 19mm×32.9m",
+  "sku": "OFF-0283",
+  "description": "Băng dán trong suốt 3M Scotch Magic Tape 810 19mm×32.9m. Chất liệu 1, quy cách Màng acetate sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "69000.00",
+  "discount": 5,
+  "stock": 186,
+  "rating": 4.83,
+  "views": 57,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Màng acetate"
+  }
+ },
+ {
+  "id": 284,
+  "name": "Ghim bấm Staple Max 23/10 1000 cái cho máy bấm lớn",
+  "sku": "OFF-0284",
+  "description": "Ghim bấm Staple Max 23/10 1000 cái cho máy bấm lớn. Chất liệu 1000, quy cách Thép mạ kẽm sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "89000.00",
+  "discount": 0,
+  "stock": 168,
+  "rating": 5.0,
+  "views": 50,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1000,
+   "material": "Thép mạ kẽm"
+  }
+ },
+ {
+  "id": 285,
+  "name": "Máy hủy giấy Texet TX-520 Cross Cut A4",
+  "sku": "OFF-0285",
+  "description": "Máy hủy giấy Texet TX-520 Cross Cut A4. Chất liệu 1, quy cách Thép, nhựa ABS sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "1890000.00",
+  "discount": 10,
+  "stock": 154,
+  "rating": 0,
+  "views": 39,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Thép, nhựa ABS"
+  }
+ },
+ {
+  "id": 286,
+  "name": "Đèn bàn làm việc Xiaomi Mi LED Desk Lamp 1S",
+  "sku": "OFF-0286",
+  "description": "Đèn bàn làm việc Xiaomi Mi LED Desk Lamp 1S. Chất liệu 1, quy cách Nhôm, nhựa PC sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "1290000.00",
+  "discount": 15,
+  "stock": 234,
+  "rating": 5.0,
+  "views": 46,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhôm, nhựa PC"
+  }
+ },
+ {
+  "id": 287,
+  "name": "Bàn di chuột Logitech Desk Mat Studio Series",
+  "sku": "OFF-0287",
+  "description": "Bàn di chuột Logitech Desk Mat Studio Series. Chất liệu 1, quy cách Vải polyester, đế cao su sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "890000.00",
+  "discount": 15,
+  "stock": 231,
+  "rating": 0,
+  "views": 39,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Vải polyester, đế cao su"
+  }
+ },
+ {
+  "id": 288,
+  "name": "Kệ sách để bàn thép chữ L Deli 2 tầng A4",
+  "sku": "OFF-0288",
+  "description": "Kệ sách để bàn thép chữ L Deli 2 tầng A4. Chất liệu 1, quy cách Thép sơn tĩnh điện sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "490000.00",
+  "discount": 15,
+  "stock": 82,
+  "rating": 0,
+  "views": 36,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Thép sơn tĩnh điện"
+  }
+ },
+ {
+  "id": 289,
+  "name": "Máy dập ghim Rapid Supreme HD210 25 tờ",
+  "sku": "OFF-0289",
+  "description": "Máy dập ghim Rapid Supreme HD210 25 tờ. Chất liệu 1, quy cách Kim loại sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "890000.00",
+  "discount": 0,
+  "stock": 33,
+  "rating": 0,
+  "views": 42,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Kim loại"
+  }
+ },
+ {
+  "id": 290,
+  "name": "Thước kẻ thép inox không rỉ 30cm Staedtler",
+  "sku": "OFF-0290",
+  "description": "Thước kẻ thép inox không rỉ 30cm Staedtler. Chất liệu 1, quy cách Thép không gỉ sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "129000.00",
+  "discount": 0,
+  "stock": 245,
+  "rating": 4.67,
+  "views": 42,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Thép không gỉ"
+  }
+ },
+ {
+  "id": 291,
+  "name": "Bút xóa nước Pentel Correction Pen ZL62",
+  "sku": "OFF-0291",
+  "description": "Bút xóa nước Pentel Correction Pen ZL62. Chất liệu 1, quy cách Nhựa, dung dịch xóa sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "89000.00",
+  "discount": 20,
+  "stock": 67,
+  "rating": 0,
+  "views": 40,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa, dung dịch xóa"
+  }
+ },
+ {
+  "id": 292,
+  "name": "Post-it Notes 3M 76x76mm 12 màu 100 tờ/màu",
+  "sku": "OFF-0292",
+  "description": "Post-it Notes 3M 76x76mm 12 màu 100 tờ/màu. Chất liệu 1200, quy cách Giấy sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "390000.00",
+  "discount": 20,
+  "stock": 205,
+  "rating": 4.71,
+  "views": 49,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1200,
+   "material": "Giấy"
+  }
+ },
+ {
+  "id": 293,
+  "name": "Túi đựng tài liệu A4 chống thấm Samsonite Airglow",
+  "sku": "OFF-0293",
+  "description": "Túi đựng tài liệu A4 chống thấm Samsonite Airglow. Chất liệu 1, quy cách Nylon chống thấm sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "1290000.00",
+  "discount": 0,
+  "stock": 177,
+  "rating": 0,
+  "views": 5,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nylon chống thấm"
+  }
+ },
+ {
+  "id": 294,
+  "name": "Màn hình phụ portable ASUS ZenScreen MB16AC 15.6 FHD",
+  "sku": "OFF-0294",
+  "description": "Màn hình phụ portable ASUS ZenScreen MB16AC 15.6 FHD. Chất liệu 1, quy cách Nhôm, kính sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "7990000.00",
+  "discount": 20,
+  "stock": 120,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhôm, kính"
+  }
+ },
+ {
+  "id": 295,
+  "name": "Hub USB-C Anker 7-in-1 A8346 4K HDMI PD100W",
+  "sku": "OFF-0295",
+  "description": "Hub USB-C Anker 7-in-1 A8346 4K HDMI PD100W. Chất liệu 1, quy cách Nhôm sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "1490000.00",
+  "discount": 5,
+  "stock": 116,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhôm"
+  }
+ },
+ {
+  "id": 296,
+  "name": "Webcam 4K Logitech Brio Ultra HD 4096x2160",
+  "sku": "OFF-0296",
+  "description": "Webcam 4K Logitech Brio Ultra HD 4096x2160. Chất liệu 1, quy cách Nhựa, kính quang học sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "5990000.00",
+  "discount": 5,
+  "stock": 188,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa, kính quang học"
+  }
+ },
+ {
+  "id": 297,
+  "name": "Máy scan tài liệu Brother ADS-1700W WiFi Duplex",
+  "sku": "OFF-0297",
+  "description": "Máy scan tài liệu Brother ADS-1700W WiFi Duplex. Chất liệu 1, quy cách Nhựa ABS sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "6990000.00",
+  "discount": 10,
+  "stock": 56,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa ABS"
+  }
+ },
+ {
+  "id": 298,
+  "name": "Hộp đựng bút để bàn gỗ sồi 6 ngăn handmade",
+  "sku": "OFF-0298",
+  "description": "Hộp đựng bút để bàn gỗ sồi 6 ngăn handmade. Chất liệu 1, quy cách Gỗ sồi sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "490000.00",
+  "discount": 0,
+  "stock": 83,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Gỗ sồi"
+  }
+ },
+ {
+  "id": 299,
+  "name": "Ghế lười Beanbag XXL nhồi hạt xốp EPS",
+  "sku": "OFF-0299",
+  "description": "Ghế lười Beanbag XXL nhồi hạt xốp EPS. Chất liệu 1, quy cách Vải nỉ, hạt xốp EPS sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "1890000.00",
+  "discount": 15,
+  "stock": 139,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Vải nỉ, hạt xốp EPS"
+  }
+ },
+ {
+  "id": 300,
+  "name": "Máy đếm tiền XIUDIAN 600E tự động phát hiện tiền giả",
+  "sku": "OFF-0300",
+  "description": "Máy đếm tiền XIUDIAN 600E tự động phát hiện tiền giả. Chất liệu 1, quy cách Nhựa ABS, thép sản phẩm/bộ. Phù hợp cho văn phòng và học tập.",
+  "price": "2490000.00",
+  "discount": 0,
+  "stock": 18,
+  "rating": 0,
+  "views": 0,
+  "category": 10,
+  "detail_type": "office_supplies",
+  "details": {
+   "pack_size": 1,
+   "material": "Nhựa ABS, thép"
+  }
+ }
+]

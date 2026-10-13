@@ -1,0 +1,3562 @@
+[
+ {
+  "product_id": 11,
+  "user_id": 5,
+  "username": "user05",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Giấy đẹp, dịch mượt.",
+  "created_at": "2026-06-14T01:47:44"
+ },
+ {
+  "product_id": 52,
+  "user_id": 5,
+  "username": "user05",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2026-06-14T03:58:59"
+ },
+ {
+  "product_id": 53,
+  "user_id": 5,
+  "username": "user05",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Pin trâu, hiệu năng tốt.",
+  "created_at": "2026-06-14T16:48:17"
+ },
+ {
+  "product_id": 55,
+  "user_id": 5,
+  "username": "user05",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Máy chạy mượt.",
+  "created_at": "2026-06-12T21:49:26"
+ },
+ {
+  "product_id": 101,
+  "user_id": 7,
+  "username": "user07",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Lắp đặt dễ dàng.",
+  "created_at": "2025-01-30T20:04:00"
+ },
+ {
+  "product_id": 271,
+  "user_id": 7,
+  "username": "user07",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-03T10:51:00"
+ },
+ {
+  "product_id": 32,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Máy chạy mượt.",
+  "created_at": "2025-03-18T11:22:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-22T06:40:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-03-19T09:05:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-24T11:40:00"
+ },
+ {
+  "product_id": 121,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-23T19:25:00"
+ },
+ {
+  "product_id": 124,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-21T12:37:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-25T16:51:00"
+ },
+ {
+  "product_id": 130,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Bền, chắc chắn.",
+  "created_at": "2025-03-22T04:32:00"
+ },
+ {
+  "product_id": 152,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-03-23T19:23:00"
+ },
+ {
+  "product_id": 153,
+  "user_id": 8,
+  "username": "user08",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-21T16:36:00"
+ },
+ {
+  "product_id": 39,
+  "user_id": 9,
+  "username": "user09",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-03-14T22:20:00"
+ },
+ {
+  "product_id": 101,
+  "user_id": 9,
+  "username": "user09",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Lắp đặt dễ dàng.",
+  "created_at": "2025-03-10T22:06:00"
+ },
+ {
+  "product_id": 62,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Mặc vừa form.",
+  "created_at": "2025-03-09T03:44:00"
+ },
+ {
+  "product_id": 63,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Mặc vừa form.",
+  "created_at": "2025-03-08T19:57:00"
+ },
+ {
+  "product_id": 152,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-13T03:52:00"
+ },
+ {
+  "product_id": 159,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-10T04:15:00"
+ },
+ {
+  "product_id": 160,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-09T00:50:00"
+ },
+ {
+  "product_id": 275,
+  "user_id": 10,
+  "username": "user10",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Chất lượng tốt so với giá.",
+  "created_at": "2025-03-10T20:18:00"
+ },
+ {
+  "product_id": 95,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-11T06:33:00"
+ },
+ {
+  "product_id": 96,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-15T00:01:00"
+ },
+ {
+  "product_id": 97,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-10T04:39:00"
+ },
+ {
+  "product_id": 99,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-16T14:12:00"
+ },
+ {
+  "product_id": 101,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-10T19:31:00"
+ },
+ {
+  "product_id": 102,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-05T03:37:00"
+ },
+ {
+  "product_id": 105,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-03T23:32:00"
+ },
+ {
+  "product_id": 155,
+  "user_id": 11,
+  "username": "user11",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-03-10T01:20:00"
+ },
+ {
+  "product_id": 101,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-08T08:47:00"
+ },
+ {
+  "product_id": 103,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-10T07:04:00"
+ },
+ {
+  "product_id": 105,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Lắp đặt dễ dàng.",
+  "created_at": "2025-02-08T09:49:00"
+ },
+ {
+  "product_id": 106,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-13T12:45:00"
+ },
+ {
+  "product_id": 241,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-13T19:57:00"
+ },
+ {
+  "product_id": 242,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-18T09:10:00"
+ },
+ {
+  "product_id": 247,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-15T15:11:00"
+ },
+ {
+  "product_id": 272,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-12T14:09:00"
+ },
+ {
+  "product_id": 274,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-14T00:26:00"
+ },
+ {
+  "product_id": 277,
+  "user_id": 14,
+  "username": "user14",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-19T06:28:00"
+ },
+ {
+  "product_id": 34,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-02T23:59:00"
+ },
+ {
+  "product_id": 36,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Máy chạy mượt.",
+  "created_at": "2025-02-04T10:51:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-31T08:33:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Máy chạy mượt.",
+  "created_at": "2025-02-07T00:25:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-02-06T20:13:00"
+ },
+ {
+  "product_id": 41,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-04T05:39:00"
+ },
+ {
+  "product_id": 68,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Mặc vừa form.",
+  "created_at": "2025-02-11T23:17:00"
+ },
+ {
+  "product_id": 272,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-04T00:04:00"
+ },
+ {
+  "product_id": 273,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-04T04:29:00"
+ },
+ {
+  "product_id": 274,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-31T12:25:00"
+ },
+ {
+  "product_id": 275,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-01T11:39:00"
+ },
+ {
+  "product_id": 277,
+  "user_id": 15,
+  "username": "user15",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-02T04:07:00"
+ },
+ {
+  "product_id": 92,
+  "user_id": 20,
+  "username": "user20",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-14T05:34:00"
+ },
+ {
+  "product_id": 95,
+  "user_id": 20,
+  "username": "user20",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-13T20:04:00"
+ },
+ {
+  "product_id": 96,
+  "user_id": 20,
+  "username": "user20",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-12T15:56:00"
+ },
+ {
+  "product_id": 99,
+  "user_id": 20,
+  "username": "user20",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-07T08:31:00"
+ },
+ {
+  "product_id": 188,
+  "user_id": 20,
+  "username": "user20",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-02-18T18:11:00"
+ },
+ {
+  "product_id": 91,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-26T02:34:00"
+ },
+ {
+  "product_id": 92,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-23T02:37:00"
+ },
+ {
+  "product_id": 95,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-20T16:01:00"
+ },
+ {
+  "product_id": 96,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-19T01:17:00"
+ },
+ {
+  "product_id": 99,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-25T11:21:00"
+ },
+ {
+  "product_id": 100,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-20T22:36:00"
+ },
+ {
+  "product_id": 211,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp vừa xe mình.",
+  "created_at": "2025-03-22T10:44:00"
+ },
+ {
+  "product_id": 212,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Lắp vừa xe mình.",
+  "created_at": "2025-03-24T22:41:00"
+ },
+ {
+  "product_id": 215,
+  "user_id": 21,
+  "username": "user21",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-03-20T11:18:00"
+ },
+ {
+  "product_id": 33,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-19T07:19:00"
+ },
+ {
+  "product_id": 35,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Máy chạy mượt.",
+  "created_at": "2025-02-24T02:40:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Máy chạy mượt.",
+  "created_at": "2025-02-19T10:36:00"
+ },
+ {
+  "product_id": 94,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-23T01:12:00"
+ },
+ {
+  "product_id": 96,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-25T19:32:00"
+ },
+ {
+  "product_id": 97,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-22T21:27:00"
+ },
+ {
+  "product_id": 128,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Bền, chắc chắn.",
+  "created_at": "2025-02-15T02:38:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 22,
+  "username": "user22",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-24T22:37:00"
+ },
+ {
+  "product_id": 3,
+  "user_id": 25,
+  "username": "user25",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-13T08:18:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 25,
+  "username": "user25",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-07T10:17:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 25,
+  "username": "user25",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-04T22:02:00"
+ },
+ {
+  "product_id": 61,
+  "user_id": 25,
+  "username": "user25",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Mặc vừa form.",
+  "created_at": "2025-02-12T09:16:00"
+ },
+ {
+  "product_id": 64,
+  "user_id": 25,
+  "username": "user25",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Vải mát, đường may đẹp.",
+  "created_at": "2025-02-14T18:12:00"
+ },
+ {
+  "product_id": 33,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Máy chạy mượt.",
+  "created_at": "2025-03-22T10:32:00"
+ },
+ {
+  "product_id": 35,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-03-23T06:58:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-21T02:08:00"
+ },
+ {
+  "product_id": 125,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Bền, chắc chắn.",
+  "created_at": "2025-03-17T19:35:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bền, chắc chắn.",
+  "created_at": "2025-03-20T15:23:00"
+ },
+ {
+  "product_id": 183,
+  "user_id": 26,
+  "username": "user26",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-03-15T13:30:00"
+ },
+ {
+  "product_id": 6,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-18T00:49:00"
+ },
+ {
+  "product_id": 10,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-20T13:37:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-09T16:51:00"
+ },
+ {
+  "product_id": 39,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-06T02:31:00"
+ },
+ {
+  "product_id": 41,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-05T23:36:00"
+ },
+ {
+  "product_id": 48,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-02-12T19:17:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 27,
+  "username": "user27",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-15T02:03:00"
+ },
+ {
+  "product_id": 49,
+  "user_id": 29,
+  "username": "user29",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-14T21:41:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 29,
+  "username": "user29",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Máy chạy mượt.",
+  "created_at": "2025-02-16T01:34:00"
+ },
+ {
+  "product_id": 103,
+  "user_id": 29,
+  "username": "user29",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hợp với không gian nhà mình.",
+  "created_at": "2025-02-12T10:09:00"
+ },
+ {
+  "product_id": 106,
+  "user_id": 29,
+  "username": "user29",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-20T18:23:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-22T13:39:00"
+ },
+ {
+  "product_id": 9,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-23T06:31:00"
+ },
+ {
+  "product_id": 122,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-20T07:59:00"
+ },
+ {
+  "product_id": 123,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-24T15:19:00"
+ },
+ {
+  "product_id": 126,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Bền, chắc chắn.",
+  "created_at": "2025-02-19T20:54:00"
+ },
+ {
+  "product_id": 127,
+  "user_id": 31,
+  "username": "user31",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Bền, chắc chắn.",
+  "created_at": "2025-02-20T23:58:00"
+ },
+ {
+  "product_id": 182,
+  "user_id": 32,
+  "username": "user32",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Bé nhà mình rất thích.",
+  "created_at": "2025-02-05T06:09:00"
+ },
+ {
+  "product_id": 183,
+  "user_id": 32,
+  "username": "user32",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Bé nhà mình rất thích.",
+  "created_at": "2025-02-04T06:31:00"
+ },
+ {
+  "product_id": 276,
+  "user_id": 32,
+  "username": "user32",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-08T07:40:00"
+ },
+ {
+  "product_id": 278,
+  "user_id": 32,
+  "username": "user32",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Chất lượng tốt so với giá.",
+  "created_at": "2025-02-03T16:30:00"
+ },
+ {
+  "product_id": 93,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-22T02:54:00"
+ },
+ {
+  "product_id": 94,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-27T01:14:00"
+ },
+ {
+  "product_id": 95,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hợp với không gian nhà mình.",
+  "created_at": "2025-02-25T06:03:00"
+ },
+ {
+  "product_id": 96,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 2,
+  "comment_text": "Chất lượng chưa như kỳ vọng.",
+  "created_at": "2025-02-14T05:38:00"
+ },
+ {
+  "product_id": 98,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Lắp đặt dễ dàng.",
+  "created_at": "2025-02-22T22:02:00"
+ },
+ {
+  "product_id": 211,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp vừa xe mình.",
+  "created_at": "2025-03-02T07:47:00"
+ },
+ {
+  "product_id": 212,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Dùng ổn định.",
+  "created_at": "2025-02-26T20:07:00"
+ },
+ {
+  "product_id": 213,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Dùng ổn định.",
+  "created_at": "2025-02-18T22:40:00"
+ },
+ {
+  "product_id": 214,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Dùng ổn định.",
+  "created_at": "2025-02-23T17:59:00"
+ },
+ {
+  "product_id": 215,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Lắp vừa xe mình.",
+  "created_at": "2025-02-18T22:27:00"
+ },
+ {
+  "product_id": 217,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Dùng ổn định.",
+  "created_at": "2025-02-20T06:57:00"
+ },
+ {
+  "product_id": 218,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng ổn định.",
+  "created_at": "2025-02-20T12:31:00"
+ },
+ {
+  "product_id": 241,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hàng tươi, date xa.",
+  "created_at": "2025-02-21T15:11:00"
+ },
+ {
+  "product_id": 242,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hàng tươi, date xa.",
+  "created_at": "2025-02-18T23:02:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Hàng tươi, date xa.",
+  "created_at": "2025-02-23T00:46:00"
+ },
+ {
+  "product_id": 245,
+  "user_id": 34,
+  "username": "user34",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-15T01:41:00"
+ },
+ {
+  "product_id": 101,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-12T09:59:00"
+ },
+ {
+  "product_id": 102,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-13T05:46:00"
+ },
+ {
+  "product_id": 103,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-04T08:37:00"
+ },
+ {
+  "product_id": 121,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-13T18:55:00"
+ },
+ {
+  "product_id": 128,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Bền, chắc chắn.",
+  "created_at": "2025-02-13T04:56:00"
+ },
+ {
+  "product_id": 130,
+  "user_id": 37,
+  "username": "user37",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bền, chắc chắn.",
+  "created_at": "2025-02-12T17:30:00"
+ },
+ {
+  "product_id": 98,
+  "user_id": 38,
+  "username": "user38",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Lắp đặt dễ dàng.",
+  "created_at": "2025-01-29T09:51:00"
+ },
+ {
+  "product_id": 121,
+  "user_id": 38,
+  "username": "user38",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Bền, chắc chắn.",
+  "created_at": "2025-01-29T12:32:00"
+ },
+ {
+  "product_id": 126,
+  "user_id": 38,
+  "username": "user38",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Bền, chắc chắn.",
+  "created_at": "2025-01-31T03:21:00"
+ },
+ {
+  "product_id": 127,
+  "user_id": 38,
+  "username": "user38",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-01T21:44:00"
+ },
+ {
+  "product_id": 130,
+  "user_id": 38,
+  "username": "user38",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-04T15:14:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 2,
+  "comment_text": "Chất lượng chưa như kỳ vọng.",
+  "created_at": "2025-01-29T03:56:00"
+ },
+ {
+  "product_id": 41,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-04T12:57:00"
+ },
+ {
+  "product_id": 91,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hợp với không gian nhà mình.",
+  "created_at": "2025-02-03T07:02:00"
+ },
+ {
+  "product_id": 272,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-02T20:44:00"
+ },
+ {
+  "product_id": 274,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Chất lượng tốt so với giá.",
+  "created_at": "2025-01-28T20:25:00"
+ },
+ {
+  "product_id": 276,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-06T21:19:00"
+ },
+ {
+  "product_id": 277,
+  "user_id": 39,
+  "username": "user39",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-02T09:24:00"
+ },
+ {
+  "product_id": 61,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Vải mát, đường may đẹp.",
+  "created_at": "2025-03-10T17:11:00"
+ },
+ {
+  "product_id": 64,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-09T23:46:00"
+ },
+ {
+  "product_id": 65,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-10T04:58:00"
+ },
+ {
+  "product_id": 92,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-16T21:39:00"
+ },
+ {
+  "product_id": 95,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hợp với không gian nhà mình.",
+  "created_at": "2025-03-13T20:00:00"
+ },
+ {
+  "product_id": 100,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Lắp đặt dễ dàng.",
+  "created_at": "2025-03-15T15:44:00"
+ },
+ {
+  "product_id": 107,
+  "user_id": 40,
+  "username": "user40",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp đặt dễ dàng.",
+  "created_at": "2025-03-23T09:43:00"
+ },
+ {
+  "product_id": 1,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-15T04:28:00"
+ },
+ {
+  "product_id": 2,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-22T19:41:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-14T19:21:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-22T11:53:00"
+ },
+ {
+  "product_id": 46,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-16T09:57:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-16T20:27:00"
+ },
+ {
+  "product_id": 61,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Mặc vừa form.",
+  "created_at": "2025-02-18T01:45:00"
+ },
+ {
+  "product_id": 67,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Mặc vừa form.",
+  "created_at": "2025-02-12T19:11:00"
+ },
+ {
+  "product_id": 93,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Lắp đặt dễ dàng.",
+  "created_at": "2025-02-21T09:45:00"
+ },
+ {
+  "product_id": 100,
+  "user_id": 45,
+  "username": "user45",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hợp với không gian nhà mình.",
+  "created_at": "2025-02-19T17:58:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Máy chạy mượt.",
+  "created_at": "2025-03-22T16:19:00"
+ },
+ {
+  "product_id": 45,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-27T00:20:00"
+ },
+ {
+  "product_id": 47,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-24T21:56:00"
+ },
+ {
+  "product_id": 52,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-29T00:59:00"
+ },
+ {
+  "product_id": 181,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Bé nhà mình rất thích.",
+  "created_at": "2025-03-31T17:51:00"
+ },
+ {
+  "product_id": 183,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Bé nhà mình rất thích.",
+  "created_at": "2025-04-02T21:53:00"
+ },
+ {
+  "product_id": 187,
+  "user_id": 46,
+  "username": "user46",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-03-31T09:39:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-02-03T17:03:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-20T14:31:00"
+ },
+ {
+  "product_id": 46,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Máy chạy mượt.",
+  "created_at": "2025-01-31T01:43:00"
+ },
+ {
+  "product_id": 49,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-01-28T02:54:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-01-21T02:29:00"
+ },
+ {
+  "product_id": 91,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Lắp đặt dễ dàng.",
+  "created_at": "2025-01-24T22:58:00"
+ },
+ {
+  "product_id": 92,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp đặt dễ dàng.",
+  "created_at": "2025-01-29T15:13:00"
+ },
+ {
+  "product_id": 272,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-01T01:19:00"
+ },
+ {
+  "product_id": 273,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Chất lượng tốt so với giá.",
+  "created_at": "2025-01-27T12:53:00"
+ },
+ {
+  "product_id": 276,
+  "user_id": 47,
+  "username": "user47",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-21T08:45:00"
+ },
+ {
+  "product_id": 61,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Vải mát, đường may đẹp.",
+  "created_at": "2025-01-14T22:19:00"
+ },
+ {
+  "product_id": 62,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Mặc vừa form.",
+  "created_at": "2025-01-12T05:36:00"
+ },
+ {
+  "product_id": 102,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Hợp với không gian nhà mình.",
+  "created_at": "2025-01-05T18:18:00"
+ },
+ {
+  "product_id": 105,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hợp với không gian nhà mình.",
+  "created_at": "2025-01-09T08:04:00"
+ },
+ {
+  "product_id": 108,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Hợp với không gian nhà mình.",
+  "created_at": "2025-01-15T07:38:00"
+ },
+ {
+  "product_id": 213,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Dùng ổn định.",
+  "created_at": "2025-01-11T09:13:00"
+ },
+ {
+  "product_id": 214,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Dùng ổn định.",
+  "created_at": "2025-01-13T01:27:00"
+ },
+ {
+  "product_id": 216,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Lắp vừa xe mình.",
+  "created_at": "2025-01-10T07:08:00"
+ },
+ {
+  "product_id": 271,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Chất lượng tốt so với giá.",
+  "created_at": "2025-01-05T20:36:00"
+ },
+ {
+  "product_id": 276,
+  "user_id": 48,
+  "username": "user48",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-09T22:46:00"
+ },
+ {
+  "product_id": 104,
+  "user_id": 49,
+  "username": "user49",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-03-04T07:00:00"
+ },
+ {
+  "product_id": 106,
+  "user_id": 49,
+  "username": "user49",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Lắp đặt dễ dàng.",
+  "created_at": "2025-03-03T15:26:00"
+ },
+ {
+  "product_id": 123,
+  "user_id": 49,
+  "username": "user49",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Bền, chắc chắn.",
+  "created_at": "2025-02-22T02:57:00"
+ },
+ {
+  "product_id": 130,
+  "user_id": 49,
+  "username": "user49",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bền, chắc chắn.",
+  "created_at": "2025-02-21T22:01:00"
+ },
+ {
+  "product_id": 245,
+  "user_id": 49,
+  "username": "user49",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-24T07:56:00"
+ },
+ {
+  "product_id": 6,
+  "user_id": 50,
+  "username": "user50",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-19T04:39:00"
+ },
+ {
+  "product_id": 7,
+  "user_id": 50,
+  "username": "user50",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-23T08:16:00"
+ },
+ {
+  "product_id": 9,
+  "user_id": 50,
+  "username": "user50",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-24T09:35:00"
+ },
+ {
+  "product_id": 213,
+  "user_id": 50,
+  "username": "user50",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Dùng ổn định.",
+  "created_at": "2025-01-21T02:25:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 50,
+  "username": "user50",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Hàng tươi, date xa.",
+  "created_at": "2025-01-21T16:59:00"
+ },
+ {
+  "product_id": 36,
+  "user_id": 51,
+  "username": "user51",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-01-31T23:02:00"
+ },
+ {
+  "product_id": 49,
+  "user_id": 51,
+  "username": "user51",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-02-11T23:06:00"
+ },
+ {
+  "product_id": 56,
+  "user_id": 51,
+  "username": "user51",
+  "rating": 2,
+  "comment_text": "Chất lượng chưa như kỳ vọng.",
+  "created_at": "2025-02-19T02:53:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 52,
+  "username": "user52",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-07T02:55:00"
+ },
+ {
+  "product_id": 284,
+  "user_id": 52,
+  "username": "user52",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-03-11T19:07:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 53,
+  "username": "user53",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-01T11:48:00"
+ },
+ {
+  "product_id": 153,
+  "user_id": 55,
+  "username": "user55",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-02-11T15:07:00"
+ },
+ {
+  "product_id": 160,
+  "user_id": 55,
+  "username": "user55",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-02-03T02:11:00"
+ },
+ {
+  "product_id": 214,
+  "user_id": 61,
+  "username": "user61",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Dùng ổn định.",
+  "created_at": "2025-02-02T17:39:00"
+ },
+ {
+  "product_id": 59,
+  "user_id": 71,
+  "username": "user71",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-04-03T05:29:00"
+ },
+ {
+  "product_id": 39,
+  "user_id": 72,
+  "username": "user72",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Máy chạy mượt.",
+  "created_at": "2025-03-30T03:12:00"
+ },
+ {
+  "product_id": 283,
+  "user_id": 72,
+  "username": "user72",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-04-08T21:47:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 73,
+  "username": "user73",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-04T04:32:00"
+ },
+ {
+  "product_id": 47,
+  "user_id": 73,
+  "username": "user73",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-02-11T15:40:00"
+ },
+ {
+  "product_id": 170,
+  "user_id": 76,
+  "username": "user76",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-01-27T23:16:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 77,
+  "username": "user77",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-20T23:11:00"
+ },
+ {
+  "product_id": 266,
+  "user_id": 77,
+  "username": "user77",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-01T09:30:00"
+ },
+ {
+  "product_id": 271,
+  "user_id": 78,
+  "username": "user78",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Chất lượng tốt so với giá.",
+  "created_at": "2025-01-10T22:11:00"
+ },
+ {
+  "product_id": 273,
+  "user_id": 78,
+  "username": "user78",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-06T07:53:00"
+ },
+ {
+  "product_id": 229,
+  "user_id": 81,
+  "username": "user81",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Lắp vừa xe mình.",
+  "created_at": "2025-01-23T15:05:00"
+ },
+ {
+  "product_id": 13,
+  "user_id": 87,
+  "username": "user87",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-21T01:08:00"
+ },
+ {
+  "product_id": 35,
+  "user_id": 91,
+  "username": "user91",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Máy chạy mượt.",
+  "created_at": "2025-03-22T18:54:00"
+ },
+ {
+  "product_id": 37,
+  "user_id": 91,
+  "username": "user91",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-03T08:18:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 91,
+  "username": "user91",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Máy chạy mượt.",
+  "created_at": "2025-03-24T19:43:00"
+ },
+ {
+  "product_id": 42,
+  "user_id": 93,
+  "username": "user93",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-01T18:08:00"
+ },
+ {
+  "product_id": 187,
+  "user_id": 93,
+  "username": "user93",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-01-31T19:09:00"
+ },
+ {
+  "product_id": 78,
+  "user_id": 96,
+  "username": "user96",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mặc vừa form.",
+  "created_at": "2025-02-07T03:51:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 97,
+  "username": "user97",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Bền, chắc chắn.",
+  "created_at": "2025-02-05T17:17:00"
+ },
+ {
+  "product_id": 39,
+  "user_id": 112,
+  "username": "user112",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-30T08:28:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 112,
+  "username": "user112",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-24T21:08:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 114,
+  "username": "user114",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-02-24T13:42:00"
+ },
+ {
+  "product_id": 11,
+  "user_id": 119,
+  "username": "user119",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-17T05:27:00"
+ },
+ {
+  "product_id": 60,
+  "user_id": 131,
+  "username": "user131",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Máy chạy mượt.",
+  "created_at": "2025-03-04T20:19:00"
+ },
+ {
+  "product_id": 49,
+  "user_id": 132,
+  "username": "user132",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-12T02:36:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 132,
+  "username": "user132",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Máy chạy mượt.",
+  "created_at": "2025-04-13T17:46:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 136,
+  "username": "user136",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-05T23:37:00"
+ },
+ {
+  "product_id": 126,
+  "user_id": 137,
+  "username": "user137",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-07T15:41:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 137,
+  "username": "user137",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-04T11:52:00"
+ },
+ {
+  "product_id": 34,
+  "user_id": 151,
+  "username": "user151",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-11T01:28:00"
+ },
+ {
+  "product_id": 79,
+  "user_id": 155,
+  "username": "user155",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Vải mát, đường may đẹp.",
+  "created_at": "2025-02-15T02:11:00"
+ },
+ {
+  "product_id": 17,
+  "user_id": 156,
+  "username": "user156",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-04-04T15:00:00"
+ },
+ {
+  "product_id": 78,
+  "user_id": 156,
+  "username": "user156",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Mặc vừa form.",
+  "created_at": "2025-03-23T20:53:00"
+ },
+ {
+  "product_id": 241,
+  "user_id": 157,
+  "username": "user157",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hàng tươi, date xa.",
+  "created_at": "2025-02-08T10:18:00"
+ },
+ {
+  "product_id": 263,
+  "user_id": 157,
+  "username": "user157",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-04T17:18:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 171,
+  "username": "user171",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-23T22:56:00"
+ },
+ {
+  "product_id": 39,
+  "user_id": 172,
+  "username": "user172",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Máy chạy mượt.",
+  "created_at": "2025-01-18T16:49:00"
+ },
+ {
+  "product_id": 50,
+  "user_id": 172,
+  "username": "user172",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-27T10:00:00"
+ },
+ {
+  "product_id": 38,
+  "user_id": 173,
+  "username": "user173",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Máy chạy mượt.",
+  "created_at": "2025-01-26T09:28:00"
+ },
+ {
+  "product_id": 77,
+  "user_id": 176,
+  "username": "user176",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-26T18:12:00"
+ },
+ {
+  "product_id": 141,
+  "user_id": 177,
+  "username": "user177",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Bền, chắc chắn.",
+  "created_at": "2025-03-19T13:53:00"
+ },
+ {
+  "product_id": 241,
+  "user_id": 177,
+  "username": "user177",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hàng tươi, date xa.",
+  "created_at": "2025-03-21T14:59:00"
+ },
+ {
+  "product_id": 248,
+  "user_id": 178,
+  "username": "user178",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-16T04:03:00"
+ },
+ {
+  "product_id": 11,
+  "user_id": 179,
+  "username": "user179",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-04-09T19:40:00"
+ },
+ {
+  "product_id": 161,
+  "user_id": 180,
+  "username": "user180",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-01-18T20:43:00"
+ },
+ {
+  "product_id": 164,
+  "user_id": 180,
+  "username": "user180",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-01-24T16:42:00"
+ },
+ {
+  "product_id": 50,
+  "user_id": 191,
+  "username": "user191",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-26T20:11:00"
+ },
+ {
+  "product_id": 52,
+  "user_id": 191,
+  "username": "user191",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-09T18:18:00"
+ },
+ {
+  "product_id": 56,
+  "user_id": 191,
+  "username": "user191",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-06T19:48:00"
+ },
+ {
+  "product_id": 1,
+  "user_id": 192,
+  "username": "user192",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-07T03:18:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 192,
+  "username": "user192",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-12T20:29:00"
+ },
+ {
+  "product_id": 10,
+  "user_id": 192,
+  "username": "user192",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-04T00:13:00"
+ },
+ {
+  "product_id": 290,
+  "user_id": 192,
+  "username": "user192",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-03-16T01:48:00"
+ },
+ {
+  "product_id": 274,
+  "user_id": 194,
+  "username": "user194",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-03-02T00:34:00"
+ },
+ {
+  "product_id": 277,
+  "user_id": 194,
+  "username": "user194",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-03-04T10:52:00"
+ },
+ {
+  "product_id": 152,
+  "user_id": 196,
+  "username": "user196",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-01-24T03:07:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 198,
+  "username": "user198",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-25T01:56:00"
+ },
+ {
+  "product_id": 3,
+  "user_id": 211,
+  "username": "user211",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-22T20:18:00"
+ },
+ {
+  "product_id": 33,
+  "user_id": 211,
+  "username": "user211",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-16T01:34:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 211,
+  "username": "user211",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-02T02:50:00"
+ },
+ {
+  "product_id": 292,
+  "user_id": 214,
+  "username": "user214",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-03-22T16:48:00"
+ },
+ {
+  "product_id": 153,
+  "user_id": 216,
+  "username": "user216",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-02-15T16:15:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 217,
+  "username": "user217",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Hàng tươi, date xa.",
+  "created_at": "2025-04-07T03:51:00"
+ },
+ {
+  "product_id": 246,
+  "user_id": 217,
+  "username": "user217",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-04-05T19:14:00"
+ },
+ {
+  "product_id": 12,
+  "user_id": 227,
+  "username": "user227",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-04-06T05:34:00"
+ },
+ {
+  "product_id": 10,
+  "user_id": 231,
+  "username": "user231",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-02-06T17:00:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 231,
+  "username": "user231",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-11T15:13:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 235,
+  "username": "user235",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-24T18:50:00"
+ },
+ {
+  "product_id": 74,
+  "user_id": 236,
+  "username": "user236",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Vải mát, đường may đẹp.",
+  "created_at": "2025-01-21T07:29:00"
+ },
+ {
+  "product_id": 157,
+  "user_id": 236,
+  "username": "user236",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-01-24T19:40:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 236,
+  "username": "user236",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-01-27T23:43:00"
+ },
+ {
+  "product_id": 139,
+  "user_id": 239,
+  "username": "user239",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Bền, chắc chắn.",
+  "created_at": "2025-01-29T09:13:00"
+ },
+ {
+  "product_id": 213,
+  "user_id": 239,
+  "username": "user239",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Lắp vừa xe mình.",
+  "created_at": "2025-01-29T17:13:00"
+ },
+ {
+  "product_id": 164,
+  "user_id": 240,
+  "username": "user240",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-15T11:15:00"
+ },
+ {
+  "product_id": 19,
+  "user_id": 247,
+  "username": "user247",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-22T21:13:00"
+ },
+ {
+  "product_id": 1,
+  "user_id": 251,
+  "username": "user251",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-29T20:59:00"
+ },
+ {
+  "product_id": 56,
+  "user_id": 251,
+  "username": "user251",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Máy chạy mượt.",
+  "created_at": "2025-01-26T14:12:00"
+ },
+ {
+  "product_id": 6,
+  "user_id": 252,
+  "username": "user252",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-18T11:41:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 252,
+  "username": "user252",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-28T07:05:00"
+ },
+ {
+  "product_id": 11,
+  "user_id": 256,
+  "username": "user256",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-27T09:24:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 256,
+  "username": "user256",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-12T09:42:00"
+ },
+ {
+  "product_id": 242,
+  "user_id": 257,
+  "username": "user257",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Hàng tươi, date xa.",
+  "created_at": "2025-02-02T03:37:00"
+ },
+ {
+  "product_id": 282,
+  "user_id": 258,
+  "username": "user258",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Chất lượng tốt so với giá.",
+  "created_at": "2025-03-26T13:51:00"
+ },
+ {
+  "product_id": 163,
+  "user_id": 260,
+  "username": "user260",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-14T12:23:00"
+ },
+ {
+  "product_id": 126,
+  "user_id": 264,
+  "username": "user264",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Tập luyện rất thoải mái.",
+  "created_at": "2025-04-01T06:40:00"
+ },
+ {
+  "product_id": 246,
+  "user_id": 264,
+  "username": "user264",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-29T18:26:00"
+ },
+ {
+  "product_id": 50,
+  "user_id": 271,
+  "username": "user271",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-04-10T04:20:00"
+ },
+ {
+  "product_id": 57,
+  "user_id": 271,
+  "username": "user271",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-09T02:26:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 272,
+  "username": "user272",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-08T18:57:00"
+ },
+ {
+  "product_id": 54,
+  "user_id": 272,
+  "username": "user272",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-12T20:21:00"
+ },
+ {
+  "product_id": 188,
+  "user_id": 273,
+  "username": "user273",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bé nhà mình rất thích.",
+  "created_at": "2025-03-20T14:33:00"
+ },
+ {
+  "product_id": 273,
+  "user_id": 274,
+  "username": "user274",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-17T03:12:00"
+ },
+ {
+  "product_id": 12,
+  "user_id": 276,
+  "username": "user276",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-26T15:52:00"
+ },
+ {
+  "product_id": 165,
+  "user_id": 276,
+  "username": "user276",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-02-23T20:25:00"
+ },
+ {
+  "product_id": 167,
+  "user_id": 276,
+  "username": "user276",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-02-23T23:46:00"
+ },
+ {
+  "product_id": 266,
+  "user_id": 277,
+  "username": "user277",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-01-16T19:17:00"
+ },
+ {
+  "product_id": 267,
+  "user_id": 277,
+  "username": "user277",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Hàng tươi, date xa.",
+  "created_at": "2025-01-18T20:08:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 278,
+  "username": "user278",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-30T13:27:00"
+ },
+ {
+  "product_id": 138,
+  "user_id": 279,
+  "username": "user279",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-06T12:23:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 291,
+  "username": "user291",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-02-06T05:43:00"
+ },
+ {
+  "product_id": 53,
+  "user_id": 291,
+  "username": "user291",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-16T01:31:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 291,
+  "username": "user291",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-10T17:16:00"
+ },
+ {
+  "product_id": 19,
+  "user_id": 296,
+  "username": "user296",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-22T01:24:00"
+ },
+ {
+  "product_id": 72,
+  "user_id": 296,
+  "username": "user296",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vải mát, đường may đẹp.",
+  "created_at": "2025-02-18T20:56:00"
+ },
+ {
+  "product_id": 157,
+  "user_id": 296,
+  "username": "user296",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-02-12T15:03:00"
+ },
+ {
+  "product_id": 268,
+  "user_id": 297,
+  "username": "user297",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-16T12:45:00"
+ },
+ {
+  "product_id": 282,
+  "user_id": 298,
+  "username": "user298",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Chất lượng tốt so với giá.",
+  "created_at": "2025-01-24T04:14:00"
+ },
+ {
+  "product_id": 219,
+  "user_id": 299,
+  "username": "user299",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Lắp vừa xe mình.",
+  "created_at": "2025-03-16T02:03:00"
+ },
+ {
+  "product_id": 217,
+  "user_id": 301,
+  "username": "user301",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Dùng ổn định.",
+  "created_at": "2025-02-27T03:13:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 312,
+  "username": "user312",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-01-26T13:37:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 312,
+  "username": "user312",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-29T23:06:00"
+ },
+ {
+  "product_id": 286,
+  "user_id": 312,
+  "username": "user312",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-28T00:24:00"
+ },
+ {
+  "product_id": 11,
+  "user_id": 316,
+  "username": "user316",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-21T08:43:00"
+ },
+ {
+  "product_id": 71,
+  "user_id": 316,
+  "username": "user316",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Mặc vừa form.",
+  "created_at": "2025-02-26T04:17:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 317,
+  "username": "user317",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Bền, chắc chắn.",
+  "created_at": "2025-03-01T09:22:00"
+ },
+ {
+  "product_id": 134,
+  "user_id": 317,
+  "username": "user317",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-03-03T23:33:00"
+ },
+ {
+  "product_id": 253,
+  "user_id": 317,
+  "username": "user317",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hàng tươi, date xa.",
+  "created_at": "2025-03-06T07:21:00"
+ },
+ {
+  "product_id": 68,
+  "user_id": 319,
+  "username": "user319",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Mặc vừa form.",
+  "created_at": "2025-01-21T13:57:00"
+ },
+ {
+  "product_id": 215,
+  "user_id": 319,
+  "username": "user319",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Lắp vừa xe mình.",
+  "created_at": "2025-01-22T12:11:00"
+ },
+ {
+  "product_id": 213,
+  "user_id": 321,
+  "username": "user321",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Lắp vừa xe mình.",
+  "created_at": "2025-03-18T01:22:00"
+ },
+ {
+  "product_id": 53,
+  "user_id": 331,
+  "username": "user331",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-21T16:53:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 331,
+  "username": "user331",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Máy chạy mượt.",
+  "created_at": "2025-03-08T08:12:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 331,
+  "username": "user331",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-20T20:32:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 332,
+  "username": "user332",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-25T07:13:00"
+ },
+ {
+  "product_id": 31,
+  "user_id": 333,
+  "username": "user333",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Máy chạy mượt.",
+  "created_at": "2025-02-04T07:09:00"
+ },
+ {
+  "product_id": 2,
+  "user_id": 334,
+  "username": "user334",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-06T16:33:00"
+ },
+ {
+  "product_id": 78,
+  "user_id": 336,
+  "username": "user336",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Mặc vừa form.",
+  "created_at": "2025-03-02T22:06:00"
+ },
+ {
+  "product_id": 163,
+  "user_id": 336,
+  "username": "user336",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-02-27T19:42:00"
+ },
+ {
+  "product_id": 166,
+  "user_id": 336,
+  "username": "user336",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-03-01T08:42:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 336,
+  "username": "user336",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-02-28T06:17:00"
+ },
+ {
+  "product_id": 247,
+  "user_id": 344,
+  "username": "user344",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-18T08:12:00"
+ },
+ {
+  "product_id": 20,
+  "user_id": 347,
+  "username": "user347",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-22T22:25:00"
+ },
+ {
+  "product_id": 76,
+  "user_id": 348,
+  "username": "user348",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Vải mát, đường may đẹp.",
+  "created_at": "2025-02-27T23:28:00"
+ },
+ {
+  "product_id": 50,
+  "user_id": 351,
+  "username": "user351",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-04-08T08:38:00"
+ },
+ {
+  "product_id": 56,
+  "user_id": 351,
+  "username": "user351",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-04-07T14:26:00"
+ },
+ {
+  "product_id": 57,
+  "user_id": 351,
+  "username": "user351",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Máy chạy mượt.",
+  "created_at": "2025-04-21T14:49:00"
+ },
+ {
+  "product_id": 4,
+  "user_id": 352,
+  "username": "user352",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-04-11T01:29:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 352,
+  "username": "user352",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Nội dung hay, in rõ nét.",
+  "created_at": "2025-04-10T12:56:00"
+ },
+ {
+  "product_id": 42,
+  "user_id": 352,
+  "username": "user352",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-04-18T01:33:00"
+ },
+ {
+  "product_id": 169,
+  "user_id": 356,
+  "username": "user356",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-01-16T04:22:00"
+ },
+ {
+  "product_id": 250,
+  "user_id": 357,
+  "username": "user357",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Hàng tươi, date xa.",
+  "created_at": "2025-04-09T08:28:00"
+ },
+ {
+  "product_id": 253,
+  "user_id": 357,
+  "username": "user357",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Hàng tươi, date xa.",
+  "created_at": "2025-04-06T22:28:00"
+ },
+ {
+  "product_id": 102,
+  "user_id": 358,
+  "username": "user358",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Lắp đặt dễ dàng.",
+  "created_at": "2025-04-01T16:43:00"
+ },
+ {
+  "product_id": 281,
+  "user_id": 358,
+  "username": "user358",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-04-02T02:23:00"
+ },
+ {
+  "product_id": 141,
+  "user_id": 359,
+  "username": "user359",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Tập luyện rất thoải mái.",
+  "created_at": "2025-01-22T22:07:00"
+ },
+ {
+  "product_id": 243,
+  "user_id": 360,
+  "username": "user360",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Hàng tươi, date xa.",
+  "created_at": "2025-02-17T23:12:00"
+ },
+ {
+  "product_id": 189,
+  "user_id": 363,
+  "username": "user363",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-02-01T21:27:00"
+ },
+ {
+  "product_id": 36,
+  "user_id": 371,
+  "username": "user371",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-21T10:26:00"
+ },
+ {
+  "product_id": 44,
+  "user_id": 373,
+  "username": "user373",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-09T12:54:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 374,
+  "username": "user374",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Giấy đẹp, dịch mượt.",
+  "created_at": "2025-04-01T12:37:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 374,
+  "username": "user374",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-05T20:53:00"
+ },
+ {
+  "product_id": 57,
+  "user_id": 374,
+  "username": "user374",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-02T23:26:00"
+ },
+ {
+  "product_id": 155,
+  "user_id": 375,
+  "username": "user375",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-02-15T19:06:00"
+ },
+ {
+  "product_id": 159,
+  "user_id": 375,
+  "username": "user375",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-02-08T07:19:00"
+ },
+ {
+  "product_id": 18,
+  "user_id": 376,
+  "username": "user376",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Nội dung hay, in rõ nét.",
+  "created_at": "2025-04-04T19:52:00"
+ },
+ {
+  "product_id": 129,
+  "user_id": 377,
+  "username": "user377",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Bền, chắc chắn.",
+  "created_at": "2025-02-28T17:46:00"
+ },
+ {
+  "product_id": 131,
+  "user_id": 377,
+  "username": "user377",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bền, chắc chắn.",
+  "created_at": "2025-02-22T23:27:00"
+ },
+ {
+  "product_id": 135,
+  "user_id": 377,
+  "username": "user377",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Tập luyện rất thoải mái.",
+  "created_at": "2025-02-21T18:15:00"
+ },
+ {
+  "product_id": 109,
+  "user_id": 378,
+  "username": "user378",
+  "rating": 3,
+  "comment_text": "Dùng được, nhưng chưa thật sự ấn tượng. Hợp với không gian nhà mình.",
+  "created_at": "2025-01-22T06:54:00"
+ },
+ {
+  "product_id": 275,
+  "user_id": 378,
+  "username": "user378",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-01-21T01:58:00"
+ },
+ {
+  "product_id": 247,
+  "user_id": 380,
+  "username": "user380",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-31T15:10:00"
+ },
+ {
+  "product_id": 255,
+  "user_id": 380,
+  "username": "user380",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-03-30T14:22:00"
+ },
+ {
+  "product_id": 53,
+  "user_id": 391,
+  "username": "user391",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-30T11:25:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 392,
+  "username": "user392",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Máy chạy mượt.",
+  "created_at": "2025-02-28T15:08:00"
+ },
+ {
+  "product_id": 50,
+  "user_id": 392,
+  "username": "user392",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-02-20T11:24:00"
+ },
+ {
+  "product_id": 35,
+  "user_id": 393,
+  "username": "user393",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Máy chạy mượt.",
+  "created_at": "2025-03-23T22:36:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 393,
+  "username": "user393",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-25T09:45:00"
+ },
+ {
+  "product_id": 42,
+  "user_id": 393,
+  "username": "user393",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-03-28T21:54:00"
+ },
+ {
+  "product_id": 244,
+  "user_id": 397,
+  "username": "user397",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Hàng tươi, date xa.",
+  "created_at": "2025-03-04T04:47:00"
+ },
+ {
+  "product_id": 17,
+  "user_id": 399,
+  "username": "user399",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-19T21:43:00"
+ },
+ {
+  "product_id": 79,
+  "user_id": 400,
+  "username": "user400",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mặc vừa form.",
+  "created_at": "2025-03-18T21:58:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 411,
+  "username": "user411",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Máy chạy mượt.",
+  "created_at": "2025-03-28T15:12:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 412,
+  "username": "user412",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-29T21:25:00"
+ },
+ {
+  "product_id": 183,
+  "user_id": 413,
+  "username": "user413",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-02-27T08:16:00"
+ },
+ {
+  "product_id": 128,
+  "user_id": 417,
+  "username": "user417",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Bền, chắc chắn.",
+  "created_at": "2025-04-01T13:37:00"
+ },
+ {
+  "product_id": 134,
+  "user_id": 417,
+  "username": "user417",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Tập luyện rất thoải mái.",
+  "created_at": "2025-04-12T03:29:00"
+ },
+ {
+  "product_id": 268,
+  "user_id": 417,
+  "username": "user417",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Hàng tươi, date xa.",
+  "created_at": "2025-04-09T01:19:00"
+ },
+ {
+  "product_id": 249,
+  "user_id": 418,
+  "username": "user418",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Hàng tươi, date xa.",
+  "created_at": "2025-04-01T19:00:00"
+ },
+ {
+  "product_id": 64,
+  "user_id": 419,
+  "username": "user419",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Mặc vừa form.",
+  "created_at": "2025-02-21T09:37:00"
+ },
+ {
+  "product_id": 76,
+  "user_id": 420,
+  "username": "user420",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Mặc vừa form.",
+  "created_at": "2025-03-10T22:34:00"
+ },
+ {
+  "product_id": 151,
+  "user_id": 420,
+  "username": "user420",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-17T13:17:00"
+ },
+ {
+  "product_id": 44,
+  "user_id": 432,
+  "username": "user432",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Máy chạy mượt.",
+  "created_at": "2025-03-20T15:43:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 432,
+  "username": "user432",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Máy chạy mượt.",
+  "created_at": "2025-04-04T21:47:00"
+ },
+ {
+  "product_id": 278,
+  "user_id": 434,
+  "username": "user434",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Chất lượng tốt so với giá.",
+  "created_at": "2025-03-19T18:07:00"
+ },
+ {
+  "product_id": 73,
+  "user_id": 436,
+  "username": "user436",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-14T02:13:00"
+ },
+ {
+  "product_id": 80,
+  "user_id": 436,
+  "username": "user436",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-13T04:34:00"
+ },
+ {
+  "product_id": 168,
+  "user_id": 436,
+  "username": "user436",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-08T16:26:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 436,
+  "username": "user436",
+  "rating": 2,
+  "comment_text": "Chất lượng chưa như kỳ vọng.",
+  "created_at": "2025-03-05T03:25:00"
+ },
+ {
+  "product_id": 14,
+  "user_id": 439,
+  "username": "user439",
+  "rating": 2,
+  "comment_text": "Chất lượng chưa như kỳ vọng.",
+  "created_at": "2025-03-20T02:03:00"
+ },
+ {
+  "product_id": 75,
+  "user_id": 440,
+  "username": "user440",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-14T04:35:00"
+ },
+ {
+  "product_id": 252,
+  "user_id": 445,
+  "username": "user445",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Hàng tươi, date xa.",
+  "created_at": "2025-03-14T20:41:00"
+ },
+ {
+  "product_id": 72,
+  "user_id": 448,
+  "username": "user448",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Vải mát, đường may đẹp.",
+  "created_at": "2025-03-08T10:31:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 451,
+  "username": "user451",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-02-15T03:53:00"
+ },
+ {
+  "product_id": 56,
+  "user_id": 451,
+  "username": "user451",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Máy chạy mượt.",
+  "created_at": "2025-02-16T10:28:00"
+ },
+ {
+  "product_id": 58,
+  "user_id": 452,
+  "username": "user452",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-21T17:28:00"
+ },
+ {
+  "product_id": 181,
+  "user_id": 453,
+  "username": "user453",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-02-22T13:38:00"
+ },
+ {
+  "product_id": 183,
+  "user_id": 453,
+  "username": "user453",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-03-02T09:51:00"
+ },
+ {
+  "product_id": 185,
+  "user_id": 453,
+  "username": "user453",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Chơi cùng gia đình rất vui.",
+  "created_at": "2025-03-04T05:39:00"
+ },
+ {
+  "product_id": 276,
+  "user_id": 454,
+  "username": "user454",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-08T14:22:00"
+ },
+ {
+  "product_id": 282,
+  "user_id": 454,
+  "username": "user454",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-02-04T15:04:00"
+ },
+ {
+  "product_id": 172,
+  "user_id": 456,
+  "username": "user456",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-04-09T21:17:00"
+ },
+ {
+  "product_id": 131,
+  "user_id": 457,
+  "username": "user457",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Tập luyện rất thoải mái.",
+  "created_at": "2025-01-31T03:11:00"
+ },
+ {
+  "product_id": 261,
+  "user_id": 457,
+  "username": "user457",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Hàng tươi, date xa.",
+  "created_at": "2025-02-06T16:27:00"
+ },
+ {
+  "product_id": 264,
+  "user_id": 457,
+  "username": "user457",
+  "rating": 3,
+  "comment_text": "Bình thường, không có gì đặc biệt. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-03T13:26:00"
+ },
+ {
+  "product_id": 63,
+  "user_id": 459,
+  "username": "user459",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Mặc vừa form.",
+  "created_at": "2025-03-15T12:57:00"
+ },
+ {
+  "product_id": 36,
+  "user_id": 471,
+  "username": "user471",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-01-26T00:20:00"
+ },
+ {
+  "product_id": 1,
+  "user_id": 472,
+  "username": "user472",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Nội dung hay, in rõ nét.",
+  "created_at": "2025-01-21T15:32:00"
+ },
+ {
+  "product_id": 219,
+  "user_id": 479,
+  "username": "user479",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Dùng ổn định.",
+  "created_at": "2025-03-17T15:31:00"
+ },
+ {
+  "product_id": 220,
+  "user_id": 481,
+  "username": "user481",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Lắp vừa xe mình.",
+  "created_at": "2025-03-27T21:11:00"
+ },
+ {
+  "product_id": 9,
+  "user_id": 483,
+  "username": "user483",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Nội dung hay, in rõ nét.",
+  "created_at": "2025-03-21T23:25:00"
+ },
+ {
+  "product_id": 6,
+  "user_id": 491,
+  "username": "user491",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Nội dung hay, in rõ nét.",
+  "created_at": "2025-02-19T14:32:00"
+ },
+ {
+  "product_id": 51,
+  "user_id": 492,
+  "username": "user492",
+  "rating": 5,
+  "comment_text": "Rất hài lòng, sẽ ủng hộ shop dài dài. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-04-02T10:20:00"
+ },
+ {
+  "product_id": 292,
+  "user_id": 494,
+  "username": "user494",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Dùng cho văn phòng rất tiện.",
+  "created_at": "2025-04-12T20:38:00"
+ },
+ {
+  "product_id": 165,
+  "user_id": 496,
+  "username": "user496",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-01-26T20:53:00"
+ },
+ {
+  "product_id": 170,
+  "user_id": 496,
+  "username": "user496",
+  "rating": 4,
+  "comment_text": "Sản phẩm tốt, giá hợp lý. Da cải thiện rõ sau 2 tuần.",
+  "created_at": "2025-01-23T01:36:00"
+ },
+ {
+  "product_id": 127,
+  "user_id": 497,
+  "username": "user497",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Bền, chắc chắn.",
+  "created_at": "2025-01-29T11:27:00"
+ },
+ {
+  "product_id": 134,
+  "user_id": 497,
+  "username": "user497",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Bền, chắc chắn.",
+  "created_at": "2025-01-24T01:01:00"
+ },
+ {
+  "product_id": 62,
+  "user_id": 499,
+  "username": "user499",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Vải mát, đường may đẹp.",
+  "created_at": "2025-04-07T21:27:00"
+ },
+ {
+  "product_id": 254,
+  "user_id": 500,
+  "username": "user500",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-02-18T16:11:00"
+ },
+ {
+  "product_id": 8,
+  "user_id": 511,
+  "username": "user511",
+  "rating": 2,
+  "comment_text": "Hàng giao bị móp hộp, sản phẩm thì tạm được.",
+  "created_at": "2025-01-22T03:19:00"
+ },
+ {
+  "product_id": 55,
+  "user_id": 511,
+  "username": "user511",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-18T08:13:00"
+ },
+ {
+  "product_id": 6,
+  "user_id": 512,
+  "username": "user512",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-01T18:45:00"
+ },
+ {
+  "product_id": 9,
+  "user_id": 512,
+  "username": "user512",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Giấy đẹp, dịch mượt.",
+  "created_at": "2025-03-05T15:25:00"
+ },
+ {
+  "product_id": 40,
+  "user_id": 515,
+  "username": "user515",
+  "rating": 5,
+  "comment_text": "Mua lần thứ hai rồi, vẫn rất ưng ý. Máy chạy mượt.",
+  "created_at": "2025-02-19T16:51:00"
+ },
+ {
+  "product_id": 159,
+  "user_id": 516,
+  "username": "user516",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-26T05:30:00"
+ },
+ {
+  "product_id": 165,
+  "user_id": 516,
+  "username": "user516",
+  "rating": 5,
+  "comment_text": "Chất lượng vượt mong đợi, đóng gói cẩn thận. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-24T00:25:00"
+ },
+ {
+  "product_id": 127,
+  "user_id": 517,
+  "username": "user517",
+  "rating": 4,
+  "comment_text": "Đúng mô tả, sẽ mua lại. Tập luyện rất thoải mái.",
+  "created_at": "2025-03-27T21:00:00"
+ },
+ {
+  "product_id": 100,
+  "user_id": 518,
+  "username": "user518",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Hợp với không gian nhà mình.",
+  "created_at": "2025-01-15T00:38:00"
+ },
+ {
+  "product_id": 5,
+  "user_id": 531,
+  "username": "user531",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Giấy đẹp, dịch mượt.",
+  "created_at": "2025-02-14T02:01:00"
+ },
+ {
+  "product_id": 57,
+  "user_id": 531,
+  "username": "user531",
+  "rating": 4,
+  "comment_text": "Chất lượng tốt, đóng gói chắc chắn. Máy chạy mượt.",
+  "created_at": "2025-02-12T00:39:00"
+ },
+ {
+  "product_id": 60,
+  "user_id": 531,
+  "username": "user531",
+  "rating": 4,
+  "comment_text": "Dùng được một thời gian, khá hài lòng. Pin trâu, hiệu năng tốt.",
+  "created_at": "2025-01-25T07:03:00"
+ },
+ {
+  "product_id": 43,
+  "user_id": 532,
+  "username": "user532",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Máy chạy mượt.",
+  "created_at": "2025-02-20T09:27:00"
+ },
+ {
+  "product_id": 44,
+  "user_id": 533,
+  "username": "user533",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Máy chạy mượt.",
+  "created_at": "2025-04-09T20:19:00"
+ },
+ {
+  "product_id": 73,
+  "user_id": 535,
+  "username": "user535",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Mặc vừa form.",
+  "created_at": "2025-02-10T22:13:00"
+ },
+ {
+  "product_id": 153,
+  "user_id": 536,
+  "username": "user536",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-27T13:44:00"
+ },
+ {
+  "product_id": 165,
+  "user_id": 536,
+  "username": "user536",
+  "rating": 5,
+  "comment_text": "Giao hàng nhanh, hàng chính hãng. 10 điểm! Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-23T04:08:00"
+ },
+ {
+  "product_id": 171,
+  "user_id": 536,
+  "username": "user536",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-03-22T17:30:00"
+ },
+ {
+  "product_id": 164,
+  "user_id": 540,
+  "username": "user540",
+  "rating": 4,
+  "comment_text": "Hàng ổn, giao hơi chậm một chút. Mùi dễ chịu, thấm nhanh.",
+  "created_at": "2025-01-13T19:00:00"
+ },
+ {
+  "product_id": 248,
+  "user_id": 542,
+  "username": "user542",
+  "rating": 5,
+  "comment_text": "Sản phẩm tuyệt vời, đúng như mô tả. Vị ngon, cả nhà đều thích.",
+  "created_at": "2025-01-13T14:44:00"
+ },
+ {
+  "product_id": 13,
+  "user_id": 547,
+  "username": "user547",
+  "rating": 3,
+  "comment_text": "Sản phẩm tạm ổn so với giá tiền. Nội dung hay, in rõ nét.",
+  "created_at": "2025-01-24T16:32:00"
+ }
+]

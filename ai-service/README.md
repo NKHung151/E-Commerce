@@ -51,8 +51,11 @@ lên ngay. Lúc này chatbot đã trả lời được (LLM) và gợi ý trả 
 
 ### Bước 2 — Có sản phẩm
 
-Thêm sản phẩm qua Back office (`/admin/products`) hoặc API của product-service. FAISS cần danh mục để
-xây index; chưa có sản phẩm thì tìm kiếm ngữ nghĩa và chatbot tư vấn sản phẩm chưa có gì để trả lời.
+Migration của các service đã nạp sẵn dữ liệu demo khớp với log hành vi trong `data/`: 10 danh mục
+(catalog), 300 sản phẩm id 1–300 (product), 445 review của người đã mua (comment-rate) và customer
+`user03`…`user550` (user, mật khẩu `customer123`). Dữ liệu sinh bởi
+`infrastructure/seed/generate_seed_data.py`. Sản phẩm thêm sau qua Back office (`/admin/products`) cần
+chạy lại `bootstrap.py index` để vào FAISS.
 
 ### Bước 3 — Có hành vi người dùng
 
