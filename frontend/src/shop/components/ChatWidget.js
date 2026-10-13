@@ -6,7 +6,9 @@ import { cx, ProductImage } from '../../shared/ui';
 import { formatPrice } from '../../shared/utils/format';
 import { aiApi } from '../api';
 
-const STORAGE_KEY = 'shop.chat';
+// One history per account: a shared key showed the previous user's conversation
+// (including their order links) after logging out and in as someone else.
+const storageKey = (user) => `shop.chat.${user?.id ?? 'guest'}`;
 const GREETING = {
   role: 'bot',
   text: 'Xin chào! Mình là trợ lý mua sắm AI 👋 Bạn đang tìm sản phẩm gì hôm nay?',
@@ -14,9 +16,9 @@ const GREETING = {
 };
 const SUGGESTIONS = ['Laptop dưới 15 triệu', 'Điện thoại pin trâu', 'Sách bán chạy', 'Đơn hàng của tôi'];
 
-function loadHistory() {
+function loadHistory(key) {
   try {
-    const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
+    const saved = JSON.parse(sessionStorage.getItem(key));
     return Array.isArray(saved) && saved.length ? saved : [GREETING];
   } catch {
     return [GREETING];
@@ -80,29 +82,45 @@ function Message({ message }) {
 
 export default function ChatWidget() {
   const { user } = useAuth();
+  const key = storageKey(user);
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState(loadHistory);
+  const [history, setHistory] = useState(() => ({ key, messages: loadHistory(key) }));
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const [unread, setUnread] = useState(0);
   const listRef = useRef(null);
+  // Read when a reply arrives, which may be after the panel was closed.
+  const openRef = useRef(open);
+  openRef.current = open;
+
+  // Switching account swaps in that account's conversation. Setting state during
+  // render makes React discard this render, so the previous user's messages are never painted.
+  if (history.key !== key) setHistory({ key, messages: loadHistory(key) });
+  const { messages } = history;
+  const setMessages = useCallback(
+    (update) => setHistory((h) => ({ ...h, messages: typeof update === 'function' ? update(h.messages) : update })),
+    []
+  );
 
   useEffect(() => {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(messages.slice(-50)));
-  }, [messages]);
+    try {
+      sessionStorage.setItem(history.key, JSON.stringify(history.messages.slice(-50)));
+    } catch {
+      // Storage full or disabled: the chat still works, it just is not restored.
+    }
+  }, [history]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, open, sending]);
 
   const toggle = () => {
-    setOpen((o) => {
-      if (!o) {
-        setUnread(0);
-        if (user) aiApi.track(null, 'open_chatbot');
-      }
-      return !o;
-    });
+    // Side effects stay out of the state updater, which React may call twice.
+    if (!open) {
+      setUnread(0);
+      if (user) aiApi.track(null, 'open_chatbot');
+    }
+    setOpen(!open);
   };
 
   const send = useCallback(
@@ -119,10 +137,10 @@ export default function ChatWidget() {
         setMessages((m) => [...m, { role: 'bot', text: 'Xin lỗi, mình đang gặp sự cố kết nối. Bạn thử lại sau nhé.', error: true }]);
       } finally {
         setSending(false);
-        setUnread((u) => (open ? u : u + 1));
+        if (!openRef.current) setUnread((u) => u + 1);
       }
     },
-    [user, sending, open]
+    [sending, setMessages]
   );
 
   return (
