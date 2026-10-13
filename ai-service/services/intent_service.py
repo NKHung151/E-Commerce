@@ -78,7 +78,18 @@ def extract_max_price(message: str) -> Optional[int]:
     return digits * 1_000_000 if 0 < digits < 1000 and not unit else (digits or None)
 
 
+# A greeting / thanks on its own ("xin chào", "cảm ơn shop") — not a product search.
+_SMALL_TALK_RE = re.compile(
+    r"^\W*(?:xin chào|chào|hello|hi|alo|cảm ơn|cám ơn|thanks?|thank you|ok|oke)(?:\s+\w+){0,2}\W*$",
+    re.IGNORECASE,
+)
+
+
 def get_fast_intent(message: str) -> Optional[IntentResult]:
+    small_talk = _SMALL_TALK_RE.match(message)
+    if small_talk:
+        thanks = re.search(r"c[ảá]m ơn|thank", small_talk.group(0), re.IGNORECASE)
+        return IntentResult(intent="thanks" if thanks else "small_talk", confidence=0.95)
     for intent, pattern in _RULE_PATTERNS:
         if pattern.search(message):
             return IntentResult(intent=intent, confidence=0.9)

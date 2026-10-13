@@ -37,26 +37,42 @@ STATIC_REPLIES = {
                      "Để bảo mật, tôi không thể thay đổi mật khẩu trực tiếp cho bạn."),
     "payment": ("Chúng tôi hỗ trợ thanh toán bằng thẻ tín dụng/ghi nợ, chuyển khoản ngân hàng và thanh toán khi "
                 "nhận hàng (COD). Đơn chuyển khoản được xử lý ngay khi cửa hàng xác nhận đã nhận tiền."),
+    "small_talk": (f"Xin chào, mình là trợ lý mua sắm của {SHOP_NAME}! Bạn có thể hỏi mình tìm sản phẩm "
+                   "(ví dụ: \"laptop chơi game dưới 25 triệu\"), thông số sản phẩm, chính sách đổi trả hoặc đơn hàng."),
+    "thanks": "Rất vui được hỗ trợ bạn! Nếu cần tìm thêm sản phẩm nào, cứ nhắn mình nhé.",
 }
+NO_SPEC_REPLY = "Xin lỗi, hiện chưa có thông tin chi tiết về thông số này, bạn xem trang sản phẩm bên dưới nhé."
+# Measurable specs in a reply ("16GB", "144Hz", "6.2L"): each must appear in the shop data.
+_SPEC_RE = re.compile(r"\d+(?:[.,]\d+)?\s*(?:gb|tb|mb|mah|hz|inch|mp|w|l|kg|g|ml|mm|cm)\b", re.IGNORECASE)
 
 POLICY = "Đổi trả trong 7 ngày, bảo hành 12 tháng, miễn phí vận chuyển, giao nhanh 2 giờ tại Hà Nội và TP.HCM."
 
-_VIETNAMESE_CHARS = re.compile(r"[\u0100-\u017F\u1E00-\u1EFF]")
+# Vietnamese letters: Latin-1 accents (\u00E1, \u00E0, \u00F3, \u00EA, \u00F4, ...) plus \u0103/\u0111/\u01A1/\u01B0 and the precomposed tones.
+_VIETNAMESE_CHARS = re.compile(r"[\u00C0-\u00FF\u0100-\u01B0\u1EA0-\u1EF9]")
+_ENGLISH_WORDS = re.compile(
+    r"\b(?:the|these|this|you|your|are|is|they|have|has|may|will|can|and|for|with|of|it|both|recommend|find)\b",
+    re.IGNORECASE,
+)
 _ENGLISH_TAILS = [re.compile(p, re.IGNORECASE) for p in (
     r"\s*Both of these .+$", r"\s*So you may find .+$", r"\s*[A-Z][a-z]+ of these .+$",
     r"\s*They (?:are|have|offer).+$", r"\s*These products?.+$", r"\s*You may find.+$", r"\s*I recommend.+$",
 )]
 
 
+def _is_english(sentence: str) -> bool:
+    # Product names are often English ("Clean Code", "Laptop Acer Nitro 5"), so a
+    # sentence only counts as English prose when it also reads like one.
+    return not _VIETNAMESE_CHARS.search(sentence) and len(_ENGLISH_WORDS.findall(sentence)) >= 3
+
+
 def clean_vietnamese_response(text: str) -> str:
-    """Small local models often append English sentences; drop sentences without Vietnamese diacritics."""
+    """Small local models often append English sentences; drop those (never the whole reply)."""
     if not text:
         return text
-    sentences = [s for s in text.split(". ") if _VIETNAMESE_CHARS.search(s) or not s.strip()]
-    result = ". ".join(sentences).strip()
+    result = ". ".join(s for s in text.split(". ") if not _is_english(s)).strip()
     for pattern in _ENGLISH_TAILS:
         result = pattern.sub("", result)
-    return result.strip()
+    return result.strip() or text.strip()
 
 
 async def ask_llm(prompt: str, fallback: str = LLM_DOWN_REPLY) -> str:
@@ -142,10 +158,11 @@ async def handle_product_search(message: str, max_price: Optional[float] = None)
     reply_lower = reply.lower()
 
     # Hallucination guard: only show cards for products the reply actually mentions
-    # (first two words of the name). An apology means "no exact match": show suggestions.
+    # (first two words of the name, punctuation ignored). An apology means "no exact match": show suggestions.
     if "xin lỗi" in reply_lower or "không có" in reply_lower:
         return reply, cards
-    mentioned = [c for c in cards if " ".join(c["name"].lower().split()[:2]) in reply_lower]
+    reply_words = " ".join(re.findall(r"\w+", reply_lower))
+    mentioned = [c for c in cards if " ".join(re.findall(r"\w+", c["name"].lower())[:2]) in reply_words]
     if cards and not mentioned:
         # The model talked about products that are not in stock.
         return NO_MATCH_REPLY, cards
@@ -167,11 +184,17 @@ async def handle_product_details(message: str) -> Tuple[str, List[dict]]:
         f"Khách hàng hỏi chi tiết: '{message}'\n"
         "Bạn là Trợ lý bán hàng. CHỈ TRẢ LỜI BẰNG TIẾNG VIỆT.\n"
         "1. Hãy tìm trong dữ liệu thông số (RAM, CPU, kích thước, v.v.) để TRẢ LỜI TRỰC TIẾP câu hỏi của khách hàng.\n"
-        "2. NẾU KHÔNG THẤY THÔNG SỐ TRONG DỮ LIỆU, hãy xin lỗi và nói rằng chưa có thông tin chi tiết.\n"
+        "2. Chỉ dùng thông số XUẤT HIỆN NGUYÊN VĂN trong dữ liệu (tên, thông số, chi tiết). TUYỆT ĐỐI KHÔNG đoán "
+        f"hay dùng hiểu biết bên ngoài. Nếu không thấy, trả lời: '{NO_SPEC_REPLY}'\n"
         "3. TRẢ LỜI NGẮN GỌN đúng trọng tâm câu hỏi (tối đa 2 câu). Không dài dòng giải thích thêm.\n"
         "4. TUYỆT ĐỐI KHÔNG chèn link, ID hay URL nào."
     )
     reply = await ask_llm(prompt, fallback="Xin lỗi, hiện tôi chưa tra cứu được thông số. Bạn xem chi tiết ở sản phẩm bên dưới nhé.")
+    # Spec guard: small models answer from general knowledge ("MacBook Pro M3 có 8GB RAM")
+    # despite the prompt. A number that is not in the shop data is not an answer.
+    specs = lambda text: {re.sub(r"[\s,]", "", s) for s in _SPEC_RE.findall(text.lower())}
+    if specs(reply) - specs(context):
+        reply = NO_SPEC_REPLY
     return reply, [product_card(p) for p in products[:1]]
 
 

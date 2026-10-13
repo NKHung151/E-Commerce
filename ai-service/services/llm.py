@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 LLM_TIMEOUT = 60.0  # seconds; the chat UI should not hang longer than this
 OPENAI_MODEL = "gpt-3.5-turbo"
+# Answers must restate shop data, not be creative: a low temperature cuts invented specs.
+TEMPERATURE = 0.2
 
 _http: Optional[httpx.AsyncClient] = None
 _openai = None
@@ -44,11 +46,12 @@ async def complete(prompt: str, json_mode: bool = False) -> str:
     if _use_openai():
         kwargs = {"response_format": {"type": "json_object"}} if json_mode else {}
         resp = await _openai_client().chat.completions.create(
-            model=OPENAI_MODEL, messages=[{"role": "user", "content": prompt}], **kwargs
+            model=OPENAI_MODEL, messages=[{"role": "user", "content": prompt}], temperature=TEMPERATURE, **kwargs
         )
         return resp.choices[0].message.content or ""
 
-    payload = {"model": settings.OLLAMA_MODEL, "prompt": prompt, "stream": False}
+    payload = {"model": settings.OLLAMA_MODEL, "prompt": prompt, "stream": False,
+               "options": {"temperature": TEMPERATURE}}
     if json_mode:
         payload["format"] = "json"
     resp = await _http_client().post(f"{settings.OLLAMA_BASE_URL}/api/generate", json=payload)
