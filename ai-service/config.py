@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str = ""
     OLLAMA_BASE_URL: str = "http://ollama:11434"
     OLLAMA_MODEL: str = "qwen2.5:3b"  # small, good Vietnamese, fits a 4 GB GPU
+    # How long Ollama keeps the model in (GPU) memory after a request; its default of
+    # 5 minutes makes the first chat after a quiet period wait for a reload.
+    OLLAMA_KEEP_ALIVE: str = "30m"
 
     # Sentence-transformers model for product / query embeddings (multilingual; see utils/embedder.py)
     EMBEDDING_MODEL: str = "intfloat/multilingual-e5-small"

@@ -112,7 +112,7 @@ async def get_intent(message: str) -> IntentResult:
                 entities=data.get("entities") or {},
             )
         except Exception as e:
-            logger.warning(f"Intent classification via LLM failed: {e}")
+            logger.warning(f"Intent classification via LLM failed ({type(e).__name__}): {e}")
             # Without an LLM a price-bounded message is still clearly a product search.
             result = IntentResult(intent="product_discovery" if max_price else "fallback", confidence=0.5)
 

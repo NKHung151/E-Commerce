@@ -51,12 +51,26 @@ async def complete(prompt: str, json_mode: bool = False) -> str:
         return resp.choices[0].message.content or ""
 
     payload = {"model": settings.OLLAMA_MODEL, "prompt": prompt, "stream": False,
-               "options": {"temperature": TEMPERATURE}}
+               "keep_alive": settings.OLLAMA_KEEP_ALIVE, "options": {"temperature": TEMPERATURE}}
     if json_mode:
         payload["format"] = "json"
     resp = await _http_client().post(f"{settings.OLLAMA_BASE_URL}/api/generate", json=payload)
     resp.raise_for_status()
     return resp.json().get("response", "")
+
+
+async def warm_up():
+    """Load the Ollama model at startup so the first customer does not wait for it."""
+    if _use_openai():
+        return
+    try:
+        # A request without a prompt only loads the model.
+        await _http_client().post(f"{settings.OLLAMA_BASE_URL}/api/generate",
+                                  json={"model": settings.OLLAMA_MODEL, "keep_alive": settings.OLLAMA_KEEP_ALIVE},
+                                  timeout=180)
+        logger.info(f"LLM ready: {settings.OLLAMA_MODEL}")
+    except Exception as e:
+        logger.warning(f"LLM warm-up failed ({type(e).__name__}): {e}")
 
 
 def parse_json(text: str) -> dict:

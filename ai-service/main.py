@@ -59,10 +59,12 @@ async def lifespan(app: FastAPI):
     # Load the embedding model in the background: the first run downloads ~470 MB, which
     # must not block startup (health checks); semantic search starts once it is ready.
     warmup = asyncio.create_task(asyncio.to_thread(lambda: embedder.available))
+    llm_warmup = asyncio.create_task(llm.warm_up())
     start_consumer(asyncio.get_running_loop())
     logger.info("AI-service startup complete")
     yield
     warmup.cancel()
+    llm_warmup.cancel()
     for close in (neo4j_client.close, llm.close):
         try:
             await close()

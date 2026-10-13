@@ -79,7 +79,7 @@ async def ask_llm(prompt: str, fallback: str = LLM_DOWN_REPLY) -> str:
     try:
         return clean_vietnamese_response(await llm.complete(prompt))
     except Exception as e:
-        logger.warning(f"LLM call failed: {e}")
+        logger.warning(f"LLM call failed ({type(e).__name__}): {e}")
         return fallback
 
 

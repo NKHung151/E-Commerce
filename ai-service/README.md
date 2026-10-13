@@ -40,7 +40,7 @@ tìm kiếm ngữ nghĩa và trợ lý mua sắm (chatbot) tiếng Việt.
 | Thường được mua cùng | `GET /recommend/bought-together` | Trang chi tiết sản phẩm |
 | Trợ lý mua sắm | `POST /chatbot` | Widget chat trên storefront |
 | Thu thập hành vi | RabbitMQ `user-behavior-queue`, `POST /behavior/track` | product / cart / order service, frontend |
-| Quản trị mô hình | `/admin/*` | Quản trị viên, script `bootstrap.py` |
+| Quản trị mô hình | `/admin/*` | product-service (tự xây lại index khi danh mục đổi), script `bootstrap.py`, quản trị viên |
 
 **Nguyên tắc thiết kế: suy giảm có kiểm soát (graceful degradation).** Service luôn khởi động được, kể
 cả khi chưa huấn luyện gì. Mỗi nguồn dữ liệu (LSTM, đồ thị, tìm kiếm ngữ nghĩa, LLM) độc lập; nguồn
@@ -233,6 +233,7 @@ docker exec ecommerce-ai-service-1 python -c "import sys; sys.path.insert(0, 'sc
 | `INTERNAL_SERVICE_TOKEN` | `internal-service-secret` | Secret cho các lệnh gọi giữa service, phải trùng các service Django |
 | `LLM_PROVIDER` | `ollama` | `ollama` hoặc `openai` |
 | `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://ollama:11434` / `qwen2.5:3b` | |
+| `OLLAMA_KEEP_ALIVE` | `30m` | Thời gian Ollama giữ model trong GPU; model được nạp sẵn khi service khởi động |
 | `OPENAI_API_KEY` | (trống) | Bắt buộc khi `LLM_PROVIDER=openai` |
 | `EMBEDDING_MODEL` | `intfloat/multilingual-e5-small` | Đổi model ⇒ phải chạy lại `bootstrap.py index`; service tự từ chối index cũ |
 | `LSTM_WEIGHT` / `GRAPH_WEIGHT` / `RAG_WEIGHT` | `0.15` / `0.15` / `0.7` | Trọng số trộn gợi ý |
@@ -255,9 +256,9 @@ Tài liệu OpenAPI tương tác: `/docs` của service (trong mạng Docker, ho
 | GET | `/recommend/bought-together` | — | Thường được mua cùng |
 | POST | `/chatbot` | Bearer JWT (tuỳ chọn) | Trợ lý mua sắm |
 | POST | `/behavior/track` | JWT hoặc `X-Internal-Token` | Ghi một sự kiện hành vi |
-| POST | `/admin/rebuild-index` | JWT `role=admin` | Xây lại FAISS và node sản phẩm |
-| POST | `/admin/reload` | JWT `role=admin` | Nạp lại FAISS và LSTM từ đĩa |
-| GET | `/admin/stats` | JWT `role=admin` | Trạng thái các thành phần |
+| POST | `/admin/rebuild-index` | JWT `role=admin` hoặc `X-Internal-Token` | Lên lịch xây lại FAISS và node sản phẩm (202) |
+| POST | `/admin/reload` | JWT `role=admin` hoặc `X-Internal-Token` | Nạp lại FAISS và LSTM từ đĩa |
+| GET | `/admin/stats` | JWT `role=admin` hoặc `X-Internal-Token` | Trạng thái các thành phần |
 | GET | `/health` | — | Liveness probe |
 | GET | `/metrics` | — | Prometheus metrics |
 
@@ -335,11 +336,19 @@ giả để đẩy sản phẩm lên mục gợi ý.
 
 | Sự kiện | Lệnh |
 |---|---|
-| Thêm / sửa / xoá sản phẩm | `bootstrap.py index` (hoặc `POST /admin/rebuild-index`) |
+| Thêm / sửa / xoá sản phẩm | **Tự động**: product-service gọi `/admin/rebuild-index` (xem bên dưới) |
 | Đổi `EMBEDDING_MODEL` | `bootstrap.py index` |
 | Hành vi mới tích luỹ (khuyến nghị: hằng ngày) | `bootstrap.py lstm` |
 | Neo4j bị xoá / khôi phục | `bootstrap.py graph` |
 | Triển khai mới hoàn toàn | `bootstrap.py` |
+
+**Tự động cập nhật danh mục.** Mỗi lần sản phẩm được tạo, sửa hoặc xoá qua API (Back office), sau khi
+transaction commit, product-service gọi `POST /admin/rebuild-index` kèm `X-Internal-Token` trong một
+thread nền. ai-service trả `202` ngay và **gom các thay đổi liên tiếp**: chỉ xây lại khi đã 3 giây không
+có thay đổi mới, và nếu có thay đổi trong lúc đang xây thì xây thêm đúng một lần. Mỗi lần xây lại cũng
+xoá khỏi đồ thị các sản phẩm đã bị xoá. Thay đổi tồn kho của saga đặt hàng không kích hoạt việc này.
+Đo thực tế: sản phẩm mới được chatbot tìm thấy sau khoảng 4 giây; 3 lần sửa liên tiếp chỉ gây 1 lần
+xây lại.
 
 Đồ thị được cập nhật theo thời gian thực theo từng sự kiện, nên chỉ cần chạy lại `graph` khi muốn dựng
 lại từ đầu hoặc khi cần tính lại `SIMILAR_TO`. Có thể lên lịch huấn luyện LSTM hằng đêm bằng cron:
@@ -407,7 +416,7 @@ Thư mục `data/` không được commit và không được đưa vào image (
 | `GET /recommend/similar` | ~200 ms |
 | Chatbot: ý định nhận bằng từ khoá + 1 lần gọi LLM | 0,4–1,5 s |
 | Chatbot: câu trả lời cố định (chào hỏi, thanh toán, …) | < 10 ms |
-| Chatbot: câu đầu tiên sau 5 phút không dùng | ~15 s (Ollama nạp model vào GPU) |
+| Chatbot: câu đầu tiên ngay sau khi khởi động | 2–4 s (model LLM được nạp sẵn lúc khởi động) |
 | `bootstrap.py` toàn bộ | ~40 s |
 | LSTM HitRate@10 (validation theo thời gian) | **66,8%** (ngẫu nhiên: ~4%) |
 | Tìm kiếm ngữ nghĩa precision@5 | 68% |
@@ -474,7 +483,8 @@ scripts/bootstrap.py        Pipeline index → graph → lstm → reload
 | `/recommend` luôn trả `fallback` | Không gửi JWT, người dùng mới, hoặc chưa có index / đồ thị | Gửi `Authorization: Bearer`; với người dùng mới thì bình thường; chạy `bootstrap.py` |
 | Token thật bị 401 `Invalid token` | `JWT_SECRET` của ai-service khác user-service | Đặt cùng giá trị trong `ai-service/.env` |
 | Chatbot trả lời "tôi đang bận xử lý" | Không gọi được LLM | Kiểm tra container `ollama`, `OLLAMA_BASE_URL`, `ollama list` |
-| Câu chatbot đầu tiên chậm ~15 s | Ollama giải phóng model sau 5 phút không dùng | Bình thường; có thể đặt `OLLAMA_KEEP_ALIVE` cho container ollama |
+| Chatbot chậm ~10 s sau thời gian dài không dùng | Ollama đã giải phóng model sau `OLLAMA_KEEP_ALIVE` (mặc định 30 phút) | Tăng `OLLAMA_KEEP_ALIVE` (ví dụ `24h`, hoặc `-1` để giữ mãi) |
+| Sản phẩm mới chưa được chatbot tìm thấy | Index đang xây lại (khoảng 4 giây), hoặc product-service không gọi được ai-service | Xem log product-service (`Could not notify ai-service`); chạy `bootstrap.py index` |
 | Gợi ý có điểm nhưng danh sách rỗng | Id sản phẩm trong log không còn tồn tại | Đồng bộ danh mục với log; chạy lại `bootstrap.py` |
 | `bootstrap.py` báo không gọi được service | Service chưa chạy | Restart ai-service để nạp artifact mới |
 | Lỗi 502 qua gateway sau khi recreate container | Nginx giữ IP cũ | `docker compose restart gateway` |
@@ -487,6 +497,6 @@ scripts/bootstrap.py        Pipeline index → graph → lstm → reload
 |---|---|---|
 | Log hành vi là file CSV | Không phù hợp nhiều replica; dung lượng tăng liên tục | Chuyển sang PostgreSQL / ClickHouse hoặc lưu theo partition |
 | LSTM chỉ biết sản phẩm có trong lúc huấn luyện | Sản phẩm mới chưa được LSTM gợi ý (FAISS và đồ thị vẫn gợi ý được) | Huấn luyện lại định kỳ |
-| FAISS xây lại toàn bộ | Chi phí tăng tuyến tính với danh mục | Cập nhật tăng dần (`add_with_ids`) hoặc chuyển sang `IndexHNSW` khi trên 100K sản phẩm |
+| FAISS xây lại toàn bộ khi danh mục đổi | Khoảng 1 giây cho 300 sản phẩm, tăng tuyến tính theo danh mục | Cập nhật tăng dần (`IndexIDMap.add_with_ids` / `remove_ids`) khi trên vài chục nghìn sản phẩm |
 | LLM 3B đôi khi quá thận trọng | Có thể trả "không có sản phẩm phù hợp" dù thẻ gợi ý vẫn đúng | Dùng model lớn hơn hoặc OpenAI |
 | Chưa có bộ test tự động | Thay đổi phải kiểm tra thủ công | Bổ sung pytest cho intent, guard và pipeline huấn luyện |
