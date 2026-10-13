@@ -229,16 +229,6 @@ class ProductViewSet(CatalogChangeNotifyMixin, viewsets.ModelViewSet):
         return Response({'status': 'stock restored', 'new_stock': new_stock})
 
 
-class AdminProductViewSet(ProductViewSet):
-    """Admin-specific product viewset. All write operations are admin-only here
-    so admin clients can manage products via endpoints under an `admin/` URL.
-    """
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            return [IsAdminRole()]
-        return super().get_permissions()
-
-
 class ProductCategoryViewSet(CatalogChangeNotifyMixin, viewsets.ModelViewSet):
     """Base viewset for category-specific product models (Book, Electronics, ...).
 

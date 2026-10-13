@@ -2,7 +2,7 @@ import logging
 import requests
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError as DjangoValidationError
 from django.db import transaction
 from rest_framework import serializers
 from .models import (
@@ -63,7 +63,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'image_url', 'rating', 'is_available', 'views',
             'category', 'category_name', 'details', 'created_at', 'updated_at'
         )
-        read_only_fields = ('id', 'views', 'created_at', 'updated_at')
+        # rating is the average of the reviews (set by comment-rate-service), views is a counter.
+        read_only_fields = ('id', 'rating', 'views', 'created_at', 'updated_at')
 
     def validate_stock(self, value):
         if value < 0:
@@ -102,6 +103,11 @@ class ProductSerializer(serializers.ModelSerializer):
                 for key, val in details.items():
                     if key in editable:
                         setattr(detail, key, val)
+                try:
+                    # e.g. warranty="abc" would otherwise fail in the database with a 500.
+                    detail.full_clean(exclude=['product'])
+                except DjangoValidationError as e:
+                    raise serializers.ValidationError({'details': e.message_dict})
                 detail.save()
         return instance
 

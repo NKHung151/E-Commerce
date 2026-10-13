@@ -1,27 +1,19 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from .views import (
-    ProductViewSet, AdminProductViewSet, BookViewSet, ElectronicsViewSet, FashionViewSet,
+    ProductViewSet, BookViewSet, ElectronicsViewSet, FashionViewSet,
     HomeLivingViewSet, SportsOutdoorsViewSet, BeautyHealthViewSet, ToysGamesViewSet,
     AutomotiveViewSet, FoodGroceryViewSet, OfficeSuppliesViewSet
 )
 
-# Public/customer router (list/retrieve)
-router = DefaultRouter()
+# Storefront and other services: browse products; internal actions
+# (update_rating, reduce_stock, rollback_stock) for services.
+router = SimpleRouter()
 router.register(r'products', ProductViewSet, basename='product')
-router.register(r'books', BookViewSet, basename='book')
-router.register(r'electronics', ElectronicsViewSet, basename='electronics')
-router.register(r'fashion', FashionViewSet, basename='fashion')
-router.register(r'home-living', HomeLivingViewSet, basename='home-living')
-router.register(r'sports-outdoors', SportsOutdoorsViewSet, basename='sports-outdoors')
-router.register(r'beauty-health', BeautyHealthViewSet, basename='beauty-health')
-router.register(r'toys-games', ToysGamesViewSet, basename='toys-games')
-router.register(r'automotive', AutomotiveViewSet, basename='automotive')
-router.register(r'food-grocery', FoodGroceryViewSet, basename='food-grocery')
-router.register(r'office-supplies', OfficeSuppliesViewSet, basename='office-supplies')
 
-# Staff router: endpoints intended for staff (and admin when permitted)
-staff_router = DefaultRouter()
+# Back office (staff and admin; deleting a product is admin-only). The typed endpoints
+# create a product together with its category-specific details in one request.
+staff_router = SimpleRouter()
 staff_router.register(r'products', ProductViewSet, basename='staff-product')
 staff_router.register(r'books', BookViewSet, basename='staff-book')
 staff_router.register(r'electronics', ElectronicsViewSet, basename='staff-electronics')
@@ -34,22 +26,7 @@ staff_router.register(r'automotive', AutomotiveViewSet, basename='staff-automoti
 staff_router.register(r'food-grocery', FoodGroceryViewSet, basename='staff-food-grocery')
 staff_router.register(r'office-supplies', OfficeSuppliesViewSet, basename='staff-office-supplies')
 
-# Admin router: admin management endpoints (admin-only write operations)
-admin_router = DefaultRouter()
-admin_router.register(r'products', AdminProductViewSet, basename='admin-product')
-admin_router.register(r'books', BookViewSet, basename='admin-book')
-admin_router.register(r'electronics', ElectronicsViewSet, basename='admin-electronics')
-admin_router.register(r'fashion', FashionViewSet, basename='admin-fashion')
-admin_router.register(r'home-living', HomeLivingViewSet, basename='admin-home-living')
-admin_router.register(r'sports-outdoors', SportsOutdoorsViewSet, basename='admin-sports-outdoors')
-admin_router.register(r'beauty-health', BeautyHealthViewSet, basename='admin-beauty-health')
-admin_router.register(r'toys-games', ToysGamesViewSet, basename='admin-toys-games')
-admin_router.register(r'automotive', AutomotiveViewSet, basename='admin-automotive')
-admin_router.register(r'food-grocery', FoodGroceryViewSet, basename='admin-food-grocery')
-admin_router.register(r'office-supplies', OfficeSuppliesViewSet, basename='admin-office-supplies')
-
 urlpatterns = [
     path('', include(router.urls)),
     path('staff/', include(staff_router.urls)),
-    path('admin/', include(admin_router.urls)),
 ]
