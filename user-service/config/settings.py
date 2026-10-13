@@ -60,10 +60,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config('DB_ENGINE', default='django.db.backends.mysql'),
-        'NAME': config('DB_NAME', default='mydb'),
+        'NAME': config('DB_NAME', default='user_db'),
         'USER': config('DB_USER', default='root'),
         'PASSWORD': config('DB_PASSWORD', default='123456'),
-        'HOST': config('DB_HOST', default='mysql'),
+        'HOST': config('DB_HOST', default='mysql-container'),
         'PORT': config('DB_PORT', default='3306'),
     }
 }

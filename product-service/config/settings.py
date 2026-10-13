@@ -57,7 +57,7 @@ DATABASES = {
         'NAME': config('DB_NAME', default='product_db'),
         'USER': config('DB_USER', default='admin'),
         'PASSWORD': config('DB_PASSWORD', default='123456'),
-        'HOST': config('DB_HOST', default='postgres'),
+        'HOST': config('DB_HOST', default='host.docker.internal'),
         'PORT': config('DB_PORT', default='5432'),
     }
 }
