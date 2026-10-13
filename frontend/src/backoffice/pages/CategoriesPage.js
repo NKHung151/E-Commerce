@@ -48,7 +48,6 @@ export default function CategoriesPage() {
   const remove = async (c) => {
     const ok = await confirm({
       title: `Xoá danh mục “${c.name}”?`,
-      message: c.productCount ? `${c.productCount} sản phẩm đang thuộc danh mục này sẽ không còn danh mục.` : undefined,
       danger: true,
       confirmText: 'Xoá',
     });

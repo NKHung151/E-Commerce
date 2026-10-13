@@ -88,6 +88,7 @@ REST_FRAMEWORK = {
 }
 
 JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
+PRODUCT_SERVICE_URL = config('PRODUCT_SERVICE_URL', default='http://product-service:8002')
 
 LOGGING = {
     'version': 1,
