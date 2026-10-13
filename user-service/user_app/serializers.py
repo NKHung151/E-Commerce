@@ -1,3 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
@@ -10,18 +12,20 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 
-class StaffUserSerializer(UserSerializer):
-    """Staff may edit basic profile fields but must never change roles."""
-    class Meta(UserSerializer.Meta):
-        read_only_fields = UserSerializer.Meta.read_only_fields + ('role',)
-
-
 class UserCreateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=6)
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'role')
+
+    def validate(self, attrs):
+        # AUTH_PASSWORD_VALIDATORS: length, too common, all digits, too close to the username.
+        try:
+            validate_password(attrs['password'], User(username=attrs.get('username'), email=attrs.get('email')))
+        except DjangoValidationError as e:
+            raise serializers.ValidationError({'password': list(e.messages)})
+        return attrs
 
     def create(self, validated_data):
         return User.objects.create_user(

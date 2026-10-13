@@ -22,7 +22,9 @@ It manages user roles (admin, staff, customer) and issues JWT tokens.
 
 ### Authentication
 - `POST /api/v1/auth/register/` - User registration (AllowAny)
-  - Body: `{"username": "...", "email": "...", "password": "...", "role": "customer"}`
+  - Body: `{"username": "...", "email": "...", "password": "..."}`; the account is always a `customer`
+    (a `role` in the body is ignored). Admin and staff accounts are seeded by migration `0002`.
+  - Password rules: at least 6 characters, not too common, not all digits, not similar to the username
   - Returns: User data
   
 - `POST /api/v1/auth/login/` - Login & get tokens (AllowAny)
@@ -33,12 +35,17 @@ It manages user roles (admin, staff, customer) and issues JWT tokens.
   - Body: `{"refresh": "..."}`
   - Returns: `{"access": "..."}`
 
-### User Management
-- `GET /api/v1/users/` - List all users (IsAdminRole)
-  - Returns: Array of users
-  
-- `GET /api/v1/users/{id}/` - Get user by ID (IsAdminRole)
-  - Returns: User data
+### Current user
+- `GET /api/v1/users/me/` - Profile of the logged-in user (IsAuthenticated)
+
+### User management (admin only)
+- `GET /api/v1/admin/users/` - List all users
+- `POST /api/v1/admin/users/` - Create a user with any role (same password rules)
+- `GET|PUT|PATCH|DELETE /api/v1/admin/users/{id}/` - Read, edit, delete (an admin cannot delete themselves)
+
+### Errors
+Validation errors return `400 {"error": "<field>: <message>", "code": 400, "fields": {...}}`; messages
+are in Vietnamese (`LANGUAGE_CODE = 'vi'`) because the storefront shows them as is.
 
 ## JWT Token Structure
 The issued JWT tokens include:
@@ -88,8 +95,7 @@ curl -X POST http://localhost:8080/api/v1/auth/register/ \
   -d '{
     "username": "john_doe",
     "email": "john@example.com",
-    "password": "SecurePass123!",
-    "role": "customer"
+    "password": "SecurePass123!"
   }'
 ```
 
@@ -105,7 +111,7 @@ curl -X POST http://localhost:8080/api/v1/auth/login/ \
 
 ### List Users (Admin only)
 ```bash
-curl -X GET http://localhost:8080/api/v1/users/ \
+curl -X GET http://localhost:8080/api/v1/admin/users/ \
   -H "Authorization: Bearer <access_token>"
 ```
 
