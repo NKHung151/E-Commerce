@@ -12,6 +12,10 @@ from utils.scores import normalize
 
 logger = logging.getLogger(__name__)
 
+# Products the user interacted with most recently are not recommended back: semantic
+# search for "like the last viewed product" would otherwise rank that product first.
+RECENT_EXCLUDE = 20
+
 
 async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, query: str = "") -> Tuple[List[ProductSummary], str]:
     # Content-based (RAG) dominates so recent views strongly steer results; LSTM and
@@ -24,9 +28,11 @@ async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, que
     lstm_scores = {}
     graph_scores = {}
     rag_query = query
+    recent = set()
 
     if user_id is not None:
         history = get_user_history(user_id)
+        recent = set(history[-RECENT_EXCLUDE:])
         logger.debug(f"History length for user {user_id} = {len(history)}")
 
         if not rag_query and history:
@@ -44,7 +50,7 @@ async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, que
     # Content similarity only makes sense for a real query (explicit context or the
     # last viewed product). The old placeholder query "popular products" still got
     # the 0.7 weight and drowned out the LSTM / graph signals.
-    rag_scores = normalize(await get_rag_scores(rag_query, top_k=top_n)) if rag_query else {}
+    rag_scores = normalize(await get_rag_scores(rag_query, top_k=top_n + len(recent))) if rag_query else {}
 
     sources = [name for name, scores in (("lstm", lstm_scores), ("graph", graph_scores), ("rag", rag_scores)) if scores]
 
@@ -54,7 +60,7 @@ async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, que
         products = sorted(all_products, key=lambda p: p.get("created_at", ""), reverse=True)
         return to_summaries(products[:top_n], score=0.5), "fallback"
 
-    all_ids = set(lstm_scores) | set(graph_scores) | set(rag_scores)
+    all_ids = (set(lstm_scores) | set(graph_scores) | set(rag_scores)) - recent
     final = {
         pid: W1 * lstm_scores.get(pid, 0) + W2 * graph_scores.get(pid, 0) + W3 * rag_scores.get(pid, 0)
         for pid in all_ids
