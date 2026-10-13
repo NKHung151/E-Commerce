@@ -1,199 +1,155 @@
+"""Train the LSTM next-item recommender on the behaviour log.
+
+Data preparation
+- Events are ordered per user by time; consecutive events on the same product
+  (view -> click -> add_to_cart -> purchase) are collapsed into one step. Otherwise
+  more than half of the targets are "the item you are looking at", which the model
+  learns to repeat while inference deliberately skips already-seen items.
+- Each (last <= LSTM_SEQUENCE_LENGTH items -> next item) window is one sample.
+- Validation = the last transition of every user (predict the future from the past),
+  not a random split, which leaked future items into training.
+
+The checkpoint keeps the epoch with the best validation HitRate@10.
+"""
+import os
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, Dataset
-import pandas as pd
-import numpy as np
-from pathlib import Path
-import os
-import sys
+from torch.utils.data import DataLoader, TensorDataset
 
-# Add parent directory to path to import models and config
 sys.path.append(str(Path(__file__).parent.parent))
 
-from models.lstm_model import LSTMRecommender
-from config import settings
+from config import settings  # noqa: E402
+from models.lstm_model import LSTMRecommender  # noqa: E402
 
-class EarlyStopping:
-    def __init__(self, patience=5, min_delta=0):
-        self.patience = patience
-        self.min_delta = min_delta
-        self.counter = 0
-        self.best_loss = None
-        self.early_stop = False
+HIT_K = 10
 
-    def __call__(self, val_loss):
-        if self.best_loss is None:
-            self.best_loss = val_loss
-        elif val_loss > self.best_loss - self.min_delta:
-            self.counter += 1
-            if self.counter >= self.patience:
-                self.early_stop = True
-        else:
-            self.best_loss = val_loss
-            self.counter = 0
 
-class UserBehaviorDataset(Dataset):
-    def __init__(self, sequences, targets):
-        self.sequences = torch.LongTensor(sequences)
-        self.targets = torch.LongTensor(targets)
+def load_sequences(csv_path: Path) -> list:
+    """Per-user product sequences, oldest first, with consecutive repeats collapsed."""
+    df = pd.read_csv(csv_path).dropna(subset=["product_id"])
+    df["product_id"] = df["product_id"].astype(int)
+    df = df.sort_values(["user_id", "timestamp"], kind="stable")
+    sequences = []
+    for _, items in df.groupby("user_id")["product_id"]:
+        seq = [p for i, p in enumerate(items.tolist()) if i == 0 or p != items.iloc[i - 1]]
+        if len(seq) >= 2:
+            sequences.append(seq)
+    return sequences
 
-    def __len__(self):
-        return len(self.sequences)
 
-    def __getitem__(self, idx):
-        return self.sequences[idx], self.targets[idx]
+def make_windows(sequences: list, product_to_idx: dict, seq_len: int):
+    """Split every sequence into training windows; the last transition goes to validation."""
+    train, val = [], []
+    for seq in sequences:
+        idx = [product_to_idx[p] for p in seq]
+        for i in range(1, len(idx)):
+            window = idx[max(0, i - seq_len):i]
+            sample = ([0] * (seq_len - len(window)) + window, idx[i] - 1)  # 0 = padding
+            # Users with only one transition stay in training (nothing to hold out).
+            (val if i == len(idx) - 1 and len(idx) > 2 else train).append(sample)
+    to_tensors = lambda rows: (torch.tensor([r[0] for r in rows]), torch.tensor([r[1] for r in rows]))
+    return to_tensors(train), to_tensors(val)
 
-def prepare_data(file_path: Path):
-    df = pd.read_csv(file_path)
 
-    df = df[df['product_id'].notna()]
-    df['product_id'] = df['product_id'].astype(int)
+def evaluate(model, loader, criterion):
+    model.eval()
+    loss, hits, total = 0.0, 0, 0
+    with torch.no_grad():
+        for x, y in loader:
+            logits = model(x)
+            loss += criterion(logits, y).item() * len(y)
+            top = logits.topk(min(HIT_K, logits.shape[1]), dim=1).indices
+            hits += (top == y.unsqueeze(1)).any(dim=1).sum().item()
+            total += len(y)
+    return loss / max(total, 1), hits / max(total, 1)
 
-    unique_products = sorted(df['product_id'].unique())
-    # Plain ints (not numpy.int64) so the checkpoint stays portable; index 0 = padding.
-    product_to_idx = {int(pid): i + 1 for i, pid in enumerate(unique_products)}
-    num_products = len(unique_products)
 
-    if 'timestamp' in df.columns:
-        df = df.sort_values(['user_id', 'timestamp'])
-
-    user_sequences = df.groupby('user_id')['product_id'].apply(list)
-
-    X, y = [], []
-    seq_len = settings.LSTM_SEQUENCE_LENGTH
-
-    for seq in user_sequences:
-        if len(seq) < 2: continue
-        idx_seq = [product_to_idx[pid] for pid in seq]
-        for i in range(1, len(idx_seq)):
-            start = max(0, i - seq_len)
-            window = idx_seq[start:i]
-            if len(window) < seq_len:
-                window = [0] * (seq_len - len(window)) + window
-            X.append(window)
-            y.append(idx_seq[i] - 1)
-
-    X, y = np.array(X), np.array(y)
-    indices = np.arange(len(X))
-    np.random.shuffle(indices)
-
-    split = int(0.8 * len(X))
-    train_idx, val_idx = indices[:split], indices[split:]
-
-    return (X[train_idx], y[train_idx]), (X[val_idx], y[val_idx]), num_products, product_to_idx
-
-def calculate_accuracy(outputs, targets):
-    _, predicted = torch.max(outputs, 1)
-    correct = (predicted == targets).sum().item()
-    return correct / targets.size(0)
-
-def train(epochs=50, batch_size=32, lr=1e-3, weight_decay=1e-5):
-    print("🚀 Starting LSTM Recommender Training...")
-
+def train(epochs=50, batch_size=64, lr=1e-3, weight_decay=1e-5, patience=5):
     data_path = Path(settings.BEHAVIOR_CSV_PATH)
     if not data_path.exists():
         raise FileNotFoundError(f"Behavior data file not found at {data_path}")
 
-    (X_train, y_train), (X_val, y_val), num_products, product_to_idx = prepare_data(data_path)
+    sequences = load_sequences(data_path)
+    products = sorted({p for seq in sequences for p in seq})
+    product_to_idx = {int(p): i + 1 for i, p in enumerate(products)}  # plain ints: portable checkpoint
+    (x_train, y_train), (x_val, y_val) = make_windows(sequences, product_to_idx, settings.LSTM_SEQUENCE_LENGTH)
+    print(f"{len(sequences)} users, {len(products)} products, "
+          f"{len(y_train)} training / {len(y_val)} validation transitions")
 
-    train_loader = DataLoader(UserBehaviorDataset(X_train, y_train), batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(UserBehaviorDataset(X_val, y_val), batch_size=batch_size)
+    train_loader = DataLoader(TensorDataset(x_train, y_train), batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(TensorDataset(x_val, y_val), batch_size=256)
 
-    model = LSTMRecommender(num_products=num_products)
+    model = LSTMRecommender(num_products=len(products))
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    early_stopping = EarlyStopping(patience=5)
+    history = {"train_loss": [], "val_loss": [], "val_hit": []}
+    best_hit, best_state, stale = -1.0, None, 0
 
-    history = {'train_loss': [], 'val_loss': [], 'val_acc': []}
-    best_val_loss, best_state = float('inf'), None
-
-    for epoch in range(epochs):
+    for epoch in range(1, epochs + 1):
         model.train()
-        train_loss = 0
-        for batch_X, batch_y in train_loader:
+        running = 0.0
+        for x, y in train_loader:
             optimizer.zero_grad()
-            outputs = model(batch_X)
-            loss = criterion(outputs, batch_y)
+            loss = criterion(model(x), y)
             loss.backward()
             optimizer.step()
-            train_loss += loss.item()
+            running += loss.item() * len(y)
+        val_loss, val_hit = evaluate(model, val_loader, criterion)
+        history["train_loss"].append(running / len(y_train))
+        history["val_loss"].append(val_loss)
+        history["val_hit"].append(val_hit)
+        print(f"Epoch {epoch:2d} | train loss {history['train_loss'][-1]:.3f} | "
+              f"val loss {val_loss:.3f} | val HitRate@{HIT_K} {val_hit:.1%}")
 
-        model.eval()
-        val_loss, val_acc = 0, 0
-        with torch.no_grad():
-            for batch_X, batch_y in val_loader:
-                outputs = model(batch_X)
-                val_loss += criterion(outputs, batch_y).item()
-                val_acc += calculate_accuracy(outputs, batch_y)
-
-        avg_train_loss = train_loss / len(train_loader)
-        avg_val_loss = val_loss / len(val_loader)
-        avg_val_acc = val_acc / len(val_loader)
-
-        history['train_loss'].append(avg_train_loss)
-        history['val_loss'].append(avg_val_loss)
-        history['val_acc'].append(avg_val_acc)
-
-        print(f"Epoch [{epoch+1}/{epochs}] - Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f} | Val Acc: {avg_val_acc:.2%}")
-
-        # Keep the weights of the best epoch, not the last one (which early stopping
-        # only reaches after `patience` epochs without improvement).
-        if avg_val_loss < best_val_loss:
-            best_val_loss = avg_val_loss
+        if val_hit > best_hit:
+            best_hit, stale = val_hit, 0
             best_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
+        else:
+            stale += 1
+            if stale >= patience:
+                print(f"Early stopping (no improvement for {patience} epochs)")
+                break
 
-        early_stopping(avg_val_loss)
-        if early_stopping.early_stop:
-            print(f"Early stopping at epoch {epoch+1}")
-            break
-
-    # Save checkpoint
     os.makedirs(Path(settings.LSTM_CHECKPOINT_PATH).parent, exist_ok=True)
-    checkpoint = {
-        "num_products": num_products,
+    torch.save({
+        "num_products": len(products),
         "product2idx": product_to_idx,
-        "model_state": best_state or model.state_dict(),
-    }
-    torch.save(checkpoint, settings.LSTM_CHECKPOINT_PATH)
-    print(f"💾 LSTM model checkpoint saved to {settings.LSTM_CHECKPOINT_PATH}")
-
+        "model_state": best_state,
+        "val_hit_rate": best_hit,
+    }, settings.LSTM_CHECKPOINT_PATH)
+    print(f"Saved best model (val HitRate@{HIT_K} {best_hit:.1%}) to {settings.LSTM_CHECKPOINT_PATH}")
     save_plots(history)
+    return best_hit
 
 
 def save_plots(history):
-    """Loss / accuracy curves; optional because matplotlib is not part of the service image."""
+    """Loss / hit-rate curves; optional because matplotlib is not part of the service image."""
     try:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
-        print("matplotlib not installed — skipping training plots")
         return
     os.makedirs("data/plots", exist_ok=True)
-    plt.figure(figsize=(10, 5))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    ax1.plot(history["train_loss"], label="train")
+    ax1.plot(history["val_loss"], label="validation")
+    ax1.set_title("Loss")
+    ax1.legend()
+    ax2.plot(history["val_hit"], color="green")
+    ax2.set_title(f"Validation HitRate@{HIT_K}")
+    fig.tight_layout()
+    fig.savefig("data/plots/lstm_training.png")
+    plt.close(fig)
 
-    plt.subplot(1, 2, 1)
-    plt.plot(history['train_loss'], label='Train Loss')
-    plt.plot(history['val_loss'], label='Val Loss')
-    plt.title('Loss Curve')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.grid(True)
-
-    plt.subplot(1, 2, 2)
-    plt.plot(history['val_acc'], color='green', label='Val Accuracy')
-    plt.title('Validation Accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.legend()
-    plt.grid(True)
-
-    plt.tight_layout()
-    plt.savefig("data/plots/lstm_training.png")
-    plt.close()
-    print("📈 Training plots saved to data/plots/lstm_training.png")
 
 if __name__ == "__main__":
-    train(epochs=20)
+    np.random.seed(0)
+    torch.manual_seed(0)
+    train()

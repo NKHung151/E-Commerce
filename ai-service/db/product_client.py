@@ -55,10 +55,10 @@ class ProductClient:
                     break
         return all_products
 
-    async def get_all_products(self) -> list:
+    async def get_all_products(self, fresh: bool = False) -> list:
         """Full catalogue, cached briefly: several fallback paths call this per request."""
         async with self._all_lock:
-            if self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL:
+            if not fresh and self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL:
                 return self._all_cache
             self._all_cache = await self._fetch_all_products()
             self._all_cache_at = time.monotonic()

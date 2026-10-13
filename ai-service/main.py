@@ -14,6 +14,7 @@ from db.neo4j_client import neo4j_client
 from db.faiss_client import faiss_client
 from models.lstm_inference import lstm_inference
 from services import llm
+from utils.embedder import embedder
 from services.rabbitmq_consumer import start_consumer
 
 REQUEST_COUNT = Counter(
@@ -55,9 +56,13 @@ async def lifespan(app: FastAPI):
                 await result
         except Exception as e:
             logger.warning(f"{name} unavailable: {e}")
+    # Load the embedding model in the background: the first run downloads ~470 MB, which
+    # must not block startup (health checks); semantic search starts once it is ready.
+    warmup = asyncio.create_task(asyncio.to_thread(lambda: embedder.available))
     start_consumer(asyncio.get_running_loop())
     logger.info("AI-service startup complete")
     yield
+    warmup.cancel()
     for close in (neo4j_client.close, llm.close):
         try:
             await close()

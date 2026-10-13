@@ -82,7 +82,7 @@ async def search_products(message: str, top_k: int, max_price: Optional[float] =
     return products
 
 
-async def process_chat(user_id: int, message: str, token: Optional[str] = None) -> Dict:
+async def process_chat(message: str, token: Optional[str] = None) -> Dict:
     intent_res = await get_intent(message)
     intent = intent_res.intent
     max_price = intent_res.entities.get("max_price")
@@ -179,7 +179,9 @@ async def handle_faq(message: str) -> str:
     prompt = (
         f"Bạn là trợ lý giải đáp chính sách của {SHOP_NAME}. CHỈ TRẢ LỜI BẰNG TIẾNG VIỆT.\n"
         f"Khách hỏi: '{message}'.\n"
-        f"Dựa trên chính sách: {POLICY}\n"
-        "Hãy trả lời ngắn gọn, súc tích bằng tiếng Việt. TUYỆT ĐỐI KHÔNG dùng tiếng Anh."
+        f"CHÍNH SÁCH (nguồn duy nhất): {POLICY}\n"
+        "Chỉ diễn đạt lại đúng các ý trong CHÍNH SÁCH liên quan tới câu hỏi. TUYỆT ĐỐI KHÔNG thêm điều kiện, "
+        "con số hay ưu đãi nào không có trong CHÍNH SÁCH. Nếu chính sách không đề cập, hãy nói là chưa có thông tin.\n"
+        "Trả lời ngắn gọn (tối đa 2 câu) bằng tiếng Việt. TUYỆT ĐỐI KHÔNG dùng tiếng Anh."
     )
     return await ask_llm(prompt, fallback=f"Chính sách của {SHOP_NAME}: {POLICY}")

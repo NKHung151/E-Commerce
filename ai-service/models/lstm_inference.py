@@ -13,10 +13,12 @@ class LSTMInference:
         self.product2idx = {}
         self.idx2product = {}
         self.loaded = False
+        self.val_hit_rate = None
 
     def load(self):
         path = Path(settings.LSTM_CHECKPOINT_PATH)
         if not path.exists():
+            self.loaded = False
             logger.info("LSTM checkpoint not found — LSTM scores disabled")
             return
         ckpt = torch.load(path, map_location="cpu")
@@ -25,6 +27,7 @@ class LSTMInference:
         self.model = LSTMRecommender(num_products=ckpt.get("num_products", 0))
         self.model.load_state_dict(ckpt.get("model_state", {}))
         self.model.eval()
+        self.val_hit_rate = ckpt.get("val_hit_rate")
         self.loaded = True
         logger.info(f"LSTM loaded: {ckpt.get('num_products', 0)} products")
 
@@ -32,7 +35,9 @@ class LSTMInference:
         if not self.loaded or not product_history:
             return {}
         seq_len = settings.LSTM_SEQUENCE_LENGTH
-        encoded = [self.product2idx.get(p, 0) for p in product_history[-seq_len:]]
+        # Same preparation as training: consecutive repeats of one product are one step.
+        steps = [p for i, p in enumerate(product_history) if i == 0 or p != product_history[i - 1]]
+        encoded = [self.product2idx.get(p, 0) for p in steps[-seq_len:]]
         if len(encoded) < seq_len:
             encoded = [0] * (seq_len - len(encoded)) + encoded
 

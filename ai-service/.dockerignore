@@ -1,0 +1,6 @@
+# data/ is mounted as a volume (logs, index, checkpoints, model cache)
+data/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/

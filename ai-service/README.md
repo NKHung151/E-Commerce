@@ -1,400 +1,197 @@
-# AI Service — E-Commerce Platform
+# AI Service — Novamart
 
-**FastAPI microservice for AI-powered recommendations and chatbot**, integrated with Neo4j graph database, FAISS vector search, and hybrid recommendation engine.
-
----
-
-## Quick Start
-
-### Prerequisites
-- Docker & Docker Compose (for containerized deployment)
-- Python 3.11+ (for local development)
-- Neo4j running at `bolt://neo4j:7687` (credentials: `neo4j` / `12345678`)
-
-### Build & Run with Docker
-
-```bash
-cd infrastructure
-docker compose build ai-service
-docker compose up -d ai-service
-```
-
-Service runs at `http://localhost:8007`, routed through gateway at `http://localhost:8080`.
-
-### Local Development
-
-```bash
-# Create virtual environment
-python3.11 -m venv venv
-source venv/bin/activate  # on Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env from .env.example
-cp .env.example .env
-
-# Run development server
-uvicorn main:app --reload --port 8007
-```
+Dịch vụ FastAPI (cổng **8007**) cung cấp **gợi ý sản phẩm**, **tìm kiếm ngữ nghĩa** và **chatbot tư vấn**
+cho cửa hàng. Service luôn khởi động được kể cả khi chưa huấn luyện gì: thành phần nào chưa có dữ liệu
+thì tạm tắt, các thành phần còn lại vẫn chạy.
 
 ---
 
-## API Endpoints
+## 1. Các "mô hình" trong service
 
-### Public Endpoints (no auth required for testing)
+| Thành phần | Công nghệ | Huấn luyện? | Dùng để |
+|---|---|---|---|
+| **Embedding** | `intfloat/multilingual-e5-small` (Transformer 12 lớp, 384 chiều, đa ngôn ngữ) | Không — model có sẵn, tự tải ~470 MB lần đầu | Biến tên/mô tả sản phẩm và câu hỏi thành vector |
+| **FAISS index** | `IndexFlatIP` (tìm kiếm cosine chính xác) | *Build* từ danh mục sản phẩm | Tìm sản phẩm giống câu hỏi / giống món vừa xem |
+| **LSTM** | PyTorch: Embedding 64 → LSTM 2 lớp × 128 → Linear | **Có** — học từ log hành vi | Dự đoán món tiếp theo user sẽ xem/mua |
+| **Đồ thị** | Neo4j + truy vấn Cypher (đếm đồng xuất hiện) | Không — *dựng* từ log hành vi | Lọc cộng tác, "thường mua cùng", sản phẩm tương tự |
+| **LLM** | `qwen2.5:3b` qua Ollama (hoặc OpenAI) | Không — model có sẵn | Phân loại ý định chatbot, viết câu trả lời |
 
-**Health check:**
+Chỉ **LSTM** thực sự được *huấn luyện*. FAISS index và đồ thị được *xây dựng* từ dữ liệu; embedding và LLM là
+model tiền huấn luyện dùng nguyên.
+
+Embedding được chọn bằng đo đạc: với 8 câu hỏi mua sắm tiếng Việt trên 300 sản phẩm, precision@5 của
+`multilingual-e5-small` là **68%**, so với 45% (`paraphrase-multilingual-MiniLM-L12-v2`) và 28%
+(`all-MiniLM-L6-v2`, model tiếng Anh dùng trước đây).
+
+---
+
+## 2. Chạy từ con số 0
+
+### Bước 0 — Hạ tầng (một lần, dùng chung cho các dự án)
+
 ```bash
-GET /health
+docker network create shared-infra
+docker run -d --name neo4j --network shared-infra -p 7474:7474 -p 7687:7687 \
+  -e NEO4J_AUTH=neo4j/12345678 -v neo4j_data:/data neo4j:5
+docker run -d --name rabbitmq --network shared-infra -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+docker run -d --name ollama --gpus all --network shared-infra -p 11434:11434 \
+  -v ollama_data:/root/.ollama ollama/ollama            # bỏ --gpus all nếu không có GPU NVIDIA
+docker exec ollama ollama pull qwen2.5:3b               # ~1,9 GB
 ```
 
-### Customer/Staff Endpoints (require JWT token)
+### Bước 1 — Cấu hình và khởi động
 
-**Send chatbot message:**
 ```bash
-POST /chatbot
-Content-Type: application/json
-Authorization: Bearer <jwt_token>
-
-Body:
-{
-  "user_id": 1,
-  "message": "I need a cheap laptop"
-}
-
-Response:
-{
-  "reply": "Here are some affordable laptops...",
-  "products": [101, 205, 88],
-  "intent": "product_search",
-  "confidence": 0.95
-}
+cp ai-service/.env.example ai-service/.env              # JWT_SECRET phải trùng user-service
+cd infrastructure && docker compose up -d --build ai-service
 ```
 
-**Get recommendations:**
-```bash
-GET /recommend?user_id=1&top_n=10
-Authorization: Bearer <jwt_token>
+Lần đầu, model embedding (~470 MB) được tải **ở chế độ nền** vào `ai-service/data/hf-cache`; service vẫn
+lên ngay. Lúc này chatbot đã trả lời được (LLM) và gợi ý trả về sản phẩm mới nhất (fallback).
 
-Response:
-{
-  "user_id": 1,
-  "products": [
-    {"id": 101, "name": "Laptop XYZ", "price": 15000000, "image": "...", "category": "Electronics", "score": 0.85},
-    ...
-  ],
-  "source": "hybrid"
-}
+### Bước 2 — Có sản phẩm
+
+Thêm sản phẩm qua Back office (`/admin/products`) hoặc API của product-service. FAISS cần danh mục để
+xây index; chưa có sản phẩm thì tìm kiếm ngữ nghĩa và chatbot tư vấn sản phẩm chưa có gì để trả lời.
+
+### Bước 3 — Có hành vi người dùng
+
+LSTM và đồ thị học từ `data/user_behavior.csv`. File này **tự đầy lên** khi người dùng xem / click /
+thêm giỏ / mua (product, cart, order service gửi sự kiện qua RabbitMQ). Cần tối thiểu 100 sự kiện để
+huấn luyện LSTM; đồ thị dùng được ngay từ những sự kiện đầu tiên.
+
+### Bước 4 — Huấn luyện / xây dựng (một lệnh)
+
+```bash
+docker exec ecommerce-ai-service-1 python scripts/bootstrap.py          # tất cả
+docker exec ecommerce-ai-service-1 python scripts/bootstrap.py index    # chỉ FAISS (sau khi đổi sản phẩm)
+docker exec ecommerce-ai-service-1 python scripts/bootstrap.py lstm     # chỉ huấn luyện lại LSTM
 ```
 
-**Track user behavior:**
+| Bước | Làm gì | Đầu ra |
+|---|---|---|
+| `index` | Embed toàn bộ danh mục | `data/product_embeddings/index.faiss`, `data/product_metadata.json` |
+| `graph` | Xoá cạnh hành vi cũ, nạp lại toàn bộ log theo lô, tính cạnh `SIMILAR_TO` | Đồ thị Neo4j |
+| `lstm` | Huấn luyện, giữ epoch có HitRate@10 tốt nhất | `data/checkpoints/lstm_checkpoint.pt` |
+
+Mỗi bước chạy lại an toàn. Cuối cùng script gọi `POST /admin/reload` để service nạp kết quả mới, không cần
+restart. Đo trên log mẫu 21.497 sự kiện / 550 user / 226 sản phẩm: **toàn bộ mất ~40 giây**, LSTM đạt
+**HitRate@10 = 67%** trên tập kiểm tra (gợi ý ngẫu nhiên: ~4%).
+
+### Bước 5 — Kiểm tra
+
 ```bash
-POST /behavior/track
-Content-Type: application/json
-
-Body:
-{
-  "user_id": 1,
-  "product_id": 101,
-  "action": "view",
-  "timestamp": "2026-04-26T14:32:00Z"
-}
-
-Response:
-{
-  "status": "ok",
-  "message": "Event recorded"
-}
-```
-
-### Admin Endpoints
-
-**Rebuild FAISS index (re-embed all products, requires an admin JWT):**
-```bash
-POST /admin/rebuild-index
-Authorization: Bearer <admin access token>
-
-Response:
-{
-  "status": "ok",
-  "products_indexed": 150
-}
-```
-
-**Get AI service stats:**
-```bash
-GET /admin/stats
-
-Response:
-{
-  "faiss_vectors": 150,
-  "lstm_loaded": false
-}
+curl "localhost:8007/recommend?user_id=1&top_n=5"          # source: lstm / graph / rag / fallback
+curl -X POST localhost:8007/chatbot -H "Content-Type: application/json" -d '{"message":"Tai nghe dưới 2 triệu"}'
+curl localhost:8007/admin/stats -H "Authorization: Bearer <admin JWT>"
 ```
 
 ---
 
-## Setup & Initialization
+## 3. Cách hoạt động
 
-### 1. Build FAISS Index (fetch products from product-service)
+### Gợi ý — `GET /recommend?user_id=&top_n=&context=`
 
-```bash
-python scripts/setup_ai.py
+```
+lịch sử user (log CSV, chỉ đọc lại khi file thay đổi)
+ ├─► LSTM: 10 bước gần nhất → xác suất món kế tiếp (bỏ món đã xem)
+ ├─► Neo4j (3 truy vấn song song):
+ │     user khác mua cùng món với bạn còn mua gì   ×0,4
+ │     SIMILAR_TO từ món bạn đã tương tác          ×0,3
+ │     thường mua cùng món bạn xem gần nhất        ×0,8
+ └─► FAISS: giống `context` hoặc giống tên món bạn xem gần nhất
+        mỗi nguồn chuẩn hoá 0..1 → 0,15·LSTM + 0,15·Graph + 0,7·RAG → top N
+        không nguồn nào có dữ liệu (khách mới) → sản phẩm mới nhất
 ```
 
-This:
-- Fetches all products from product-service
-- Embeds product names/categories using `sentence-transformers`
-- Builds FAISS index (~2-3 min for 500+ products)
-- Saves to `data/product_embeddings/index.faiss`
+Trọng số chỉnh trong `.env` (`LSTM_WEIGHT`, `GRAPH_WEIGHT`, `RAG_WEIGHT`). product-service gọi endpoint này
+(top 50) để sắp xếp danh sách sản phẩm theo từng người. `/recommend/similar` và
+`/recommend/bought-together` dùng đồ thị; chưa có dữ liệu thì lấy sản phẩm cùng danh mục.
 
-**Or call via API:**
-```bash
-curl -X POST http://localhost:8007/admin/rebuild-index -H "Authorization: Bearer $ADMIN_TOKEN"
-```
+### Chatbot — `POST /chatbot {message}`
 
-### 2. Rebuild the Neo4j graph from the behaviour log (optional)
+1. **Ý định**: luật từ khoá (đơn hàng, tài khoản, thanh toán, chính sách, thông số, mua/tìm); còn lại hỏi
+   LLM. Mức giá ("dưới 15 triệu", "tối đa 500k") luôn được trích bằng regex.
+2. **Trả lời**: đơn hàng → order-service (bằng JWT của user); thanh toán / tài khoản → câu cố định;
+   chính sách → LLM chỉ diễn đạt lại văn bản chính sách; còn lại → **tìm sản phẩm**: FAISS lấy 15 món,
+   lọc giá, LLM chỉ được tư vấn trong 5 món đó; chỉ hiện thẻ sản phẩm mà câu trả lời thật sự nhắc tới.
+3. LLM lỗi → câu dự phòng + kết quả tìm kiếm.
 
-```bash
-python scripts/sync_neo4j.py
-```
+### Ghi hành vi
 
-Imports `data/user_behavior.csv` into Neo4j in batches (User -[VIEW|ADD_TO_CART|BUY]-> Product),
-then computes `SIMILAR_TO` edges between products co-purchased by at least two users.
-New events are added to the graph automatically as they arrive.
+RabbitMQ `user-behavior-queue` (hoặc `POST /behavior/track`) → 1 dòng vào CSV + 1 truy vấn Cypher
+(upsert User/Product, tăng bộ đếm quan hệ). Đồ thị cập nhật ngay; LSTM học sự kiện mới ở lần
+`bootstrap.py lstm` sau.
 
-### 3. Train LSTM Model (after 100+ behavior events)
+### Huấn luyện LSTM (chi tiết)
 
-```bash
-python scripts/train_lstm.py
-```
-
-Trains the sequence model on `data/user_behavior.csv` and saves the best epoch to
-`data/checkpoints/lstm_checkpoint.pt` (plots in `data/plots/` if matplotlib is installed).
+- Sắp xếp sự kiện của từng user theo thời gian; các sự kiện liên tiếp trên **cùng một sản phẩm**
+  (view → click → add_to_cart → purchase) gộp thành 1 bước — nếu không, 55% mẫu chỉ là "món kế tiếp = món
+  đang xem".
+- Mỗi cửa sổ ≤ 10 bước → bước tiếp theo là một mẫu; bước cuối của mỗi user dùng làm tập kiểm tra
+  (dự đoán tương lai từ quá khứ).
+- Cross-entropy trên toàn bộ sản phẩm, Adam, dừng sớm theo HitRate@10; lưu epoch tốt nhất.
 
 ---
 
-## Architecture
+## 4. API
+
+| Method | Path | Auth | Mô tả |
+|---|---|---|---|
+| GET | `/recommend` | — | Gợi ý cá nhân hoá (`user_id`, `top_n` ≤ 50, `context`) |
+| GET | `/recommend/similar` | — | Sản phẩm tương tự (`product_id`) |
+| GET | `/recommend/bought-together` | — | Thường mua cùng (`product_id`) |
+| POST | `/chatbot` | JWT tuỳ chọn | Chatbot; JWT cần cho câu hỏi về đơn hàng |
+| POST | `/behavior/track` | — | Ghi hành vi `{user_id, product_id, action}` |
+| POST | `/admin/rebuild-index` | admin | Build lại FAISS từ danh mục hiện tại |
+| POST | `/admin/reload` | admin | Nạp lại FAISS + LSTM từ đĩa |
+| GET | `/admin/stats` | admin | Trạng thái từng thành phần |
+| GET | `/health`, `/metrics` | — | Healthcheck, Prometheus |
+
+## 5. Cấu trúc
 
 ```
-AI-Service (FastAPI):
-├── /routers
-│   ├── behavior.py      → POST /behavior/track — record user actions
-│   ├── recommend.py     → GET /recommend, /recommend/similar, /recommend/bought-together
-│   ├── chatbot.py       → POST /chatbot — shopping assistant
-│   └── admin.py         → POST /admin/rebuild-index, GET /admin/stats (admin JWT)
-│
-├── /services
-│   ├── behavior_service.py    → Persist events (CSV log + Neo4j), cached user history
-│   ├── rabbitmq_consumer.py   → user-behavior-queue → behavior_service (on the FastAPI loop)
-│   ├── lstm_service.py        → Next-item scores from the LSTM
-│   ├── graph_service.py       → Collaborative / similar / bought-together scores (Neo4j)
-│   ├── rag_service.py         → Semantic product search (FAISS)
-│   ├── hybrid_service.py      → Weighted blend of the three sources + fallback
-│   ├── indexing_service.py    → Build FAISS index + sync product nodes to Neo4j
-│   ├── intent_service.py      → Chatbot intent: keyword rules, then LLM; price extraction
-│   ├── chatbot_service.py     → Intent dispatch, grounded product answers
-│   └── llm.py                 → Shared OpenAI / Ollama client
-│
-├── /db
-│   ├── neo4j_client.py   → Async Neo4j driver, Cypher queries (single + batched writes)
-│   ├── faiss_client.py   → FAISS index load/search/rebuild
-│   ├── product_client.py → HTTP client for product-service (cached catalogue)
-│   └── order_client.py   → HTTP client for order-service (chatbot order lookup)
-│
-├── /models
-│   ├── lstm_model.py          → PyTorch LSTM architecture
-│   ├── train_lstm.py          → Training pipeline
-│   └── lstm_inference.py      → Load checkpoint + predict (skips already-seen products)
-│
-├── /utils
-│   ├── embedder.py       → Sentence-Transformers wrapper (with fallback)
-│   └── scores.py         → Score normalisation
-│
-└── main.py               → FastAPI app, lifespan, metrics, routers
+main.py                    FastAPI app: khởi động từng thành phần (lỗi thì bỏ qua), metrics
+config.py                  cấu hình từ .env
+routers/                   recommend, chatbot, behavior, admin
+services/
+  hybrid_service.py        trộn LSTM + graph + RAG
+  lstm_service.py          điểm LSTM
+  graph_service.py         điểm đồ thị
+  rag_service.py           tìm kiếm ngữ nghĩa (FAISS)
+  indexing_service.py      build FAISS + node sản phẩm
+  behavior_service.py      ghi hành vi, đọc lịch sử (cache)
+  rabbitmq_consumer.py     nhận sự kiện hành vi
+  intent_service.py        phân loại ý định, trích giá
+  chatbot_service.py       xử lý hội thoại
+  llm.py                   client OpenAI / Ollama dùng chung
+db/                        neo4j_client, faiss_client, product_client (cache), order_client
+models/                    lstm_model, lstm_inference, train_lstm
+utils/                     embedder (e5), scores
+scripts/bootstrap.py       huấn luyện / xây dựng từ đầu
+data/                      (volume, không commit) log, index, checkpoint, cache model
 ```
 
----
+## 6. Biến môi trường chính
 
-## Data Flow
+| Biến | Mặc định | Ghi chú |
+|---|---|---|
+| `NEO4J_URI` / `NEO4J_PASSWORD` | `bolt://neo4j:7687` / `12345678` | |
+| `PRODUCT_SERVICE_URL`, `ORDER_SERVICE_URL` | `http://product-service:8002`, `http://order-service:8004` | |
+| `JWT_SECRET` | `shared-jwt-secret` | Phải trùng user-service |
+| `LLM_PROVIDER` | `ollama` | `openai` cần `OPENAI_API_KEY` |
+| `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://ollama:11434` / `qwen2.5:3b` | |
+| `EMBEDDING_MODEL` | `intfloat/multilingual-e5-small` | Đổi model ⇒ phải `bootstrap.py index` lại (service tự phát hiện) |
+| `LSTM_WEIGHT` / `GRAPH_WEIGHT` / `RAG_WEIGHT` | `0.15` / `0.15` / `0.7` | |
+| `BEHAVIOR_CSV_PATH` | `data/user_behavior.csv` | |
 
-### Recommendation Pipeline (GET /recommend)
+## 7. Xử lý sự cố
 
-1. **History** → the user's interactions from the behaviour log (parsed once per file change)
-2. **LSTM** → probability of each product being the *next* one, given the last 10 interactions
-3. **Graph** → Neo4j: users who bought the same things, `SIMILAR_TO` products, items bought
-   together with the last viewed product
-4. **RAG** → FAISS similarity to the `context` query or to the last viewed product's name
-5. **Hybrid** → each source normalised to 0..1, then `0.15×LSTM + 0.15×Graph + 0.7×RAG`
-6. **Fallback** → no source at all (anonymous / new user): newest products
-
-### Chatbot Pipeline (POST /chatbot)
-
-1. **Intent** → keyword rules (orders, account, payment, policy, specs), otherwise the LLM;
-   a price bound ("dưới 15 triệu") is always extracted locally
-2. **Static answers** → account / payment questions answered from fixed, accurate text
-3. **Orders** → latest order of the logged-in user (JWT forwarded to order-service)
-4. **Products** → FAISS search, price filter, LLM answers only from those products;
-   cards are shown only for products the answer actually mentions
-5. **LLM unavailable** → a friendly fallback text plus the search results
-
-### Behavior Tracking (RabbitMQ `user-behavior-queue` or POST /behavior/track)
-
-1. Append event to `data/user_behavior.csv` (history + LSTM training data)
-2. One Cypher query upserts User + Product and increments the relationship counter
-
----
-
-## Configuration
-
-### `.env` Variables
-
-```env
-# Neo4j
-NEO4J_URI=bolt://neo4j:7687
-NEO4J_USER=neo4j
-NEO4J_PASSWORD=12345678
-
-# Services
-PRODUCT_SERVICE_URL=http://product-service:8002
-JWT_SECRET=your-shared-secret-key-here
-
-# LLM (choose one: openai, ollama)
-LLM_PROVIDER=ollama
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3
-OPENAI_API_KEY=sk-...
-
-# Embedding
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-
-# Paths
-FAISS_INDEX_PATH=data/product_embeddings/index.faiss
-LSTM_CHECKPOINT_PATH=data/checkpoints/lstm_checkpoint.pt
-BEHAVIOR_CSV_PATH=data/user_behavior.csv
-
-# Hybrid weights (must sum to ~1.0)
-LSTM_WEIGHT=0.15
-GRAPH_WEIGHT=0.15
-RAG_WEIGHT=0.7
-```
-
-### Hybrid Recommendation Weights
-
-Adjust in `.env` or `config.py`:
-- **LSTM_WEIGHT** (0.15): Sequence-based predictions
-- **GRAPH_WEIGHT** (0.15): Collaborative + similarity
-- **RAG_WEIGHT** (0.7): Semantic relevance (content-based, dominant by default)
-
-Example: For a more collaborative system, raise GRAPH_WEIGHT and lower RAG_WEIGHT.
-
----
-
-## Integration with Other Services
-
-### Frontend Chatbot Widget
-
-```javascript
-// POST /chatbot (routed through gateway)
-const response = await fetch('http://localhost:8080/chatbot', {
-  method: 'POST',
-  headers: { 'Authorization': `Bearer ${token}` },
-  body: JSON.stringify({ user_id: 1, message: 'I need a laptop' })
-})
-```
-
-### Backend Services (track behavior)
-
-Add to **product-service** (on product view):
-```python
-httpx.post("http://ai-service:8007/behavior/track", json={
-    "user_id": user.id, "product_id": product.id,
-    "action": "view", "timestamp": str(datetime.utcnow())
-}, timeout=1.0)
-```
-
-Add to **cart-service** (on add to cart):
-```python
-httpx.post("http://ai-service:8007/behavior/track", json={
-    "user_id": user.id, "product_id": product_id,
-    "action": "add_to_cart"
-})
-```
-
-Add to **order-service** (on purchase):
-```python
-httpx.post("http://ai-service:8007/behavior/track", json={
-    "user_id": user.id, "product_id": item.product_id,
-    "action": "purchase"
-})
-```
-
----
-
-## Troubleshooting
-
-### FAISS Index Not Found
-```
-⚠️ FAISS index not found — run scripts/build_faiss_index.py first
-```
-**Fix:** Run `python scripts/setup_ai.py` to build index from product catalog.
-
-### Neo4j Connection Failed
-```
-neo4j.exceptions.ServiceUnavailable: Unable to connect to bolt://neo4j:7687
-```
-**Fix:** Ensure Neo4j container is running: `docker ps | grep neo4j`
-
-### LSTM Model Not Loaded
-```
-⚠️ LSTM checkpoint not found — using fallback
-```
-**Normal:** LSTM is optional. Add 100+ behavior events then run `python scripts/train_lstm.py`.
-
-### Ollama/LLM Generation Fails
-```
-ERROR: Failed to connect to Ollama at http://localhost:11434
-```
-**Fix:** Install Ollama locally or use `LLM_PROVIDER=openai` with `OPENAI_API_KEY`.
-
----
-
-## Performance Tips
-
-1. **FAISS Index Build** (~2-3 min for 500 products)
-   - Run once on setup, rebuild only when product catalog changes significantly
-   
-2. **Neo4j Queries**
-   - Enable indexes on `User.id`, `Product.id` (auto-created)
-   - Limit graph query results (default: 15 products per source)
-
-3. **LLM Latency**
-   - Ollama local (fast, no external calls)
-   - OpenAI (reliable, costs money, requires API key)
-
-4. **Recommendation Weights**
-   - Graph queries fastest (pre-computed relationships)
-   - RAG moderate (FAISS search, one LLM call)
-   - LSTM slowest if checkpoint large (but highly accurate)
-
----
-
-## Tests
-
-```bash
-# Basic smoke test
-curl http://localhost:8007/health
-
-# With authentication (get JWT from frontend login)
-curl -H "Authorization: Bearer <token>" \
-     http://localhost:8007/recommend?user_id=1&top_n=5
-```
-
----
-
-## License & Attribution
-
-*E-Commerce Platform — Software Architecture & Design (SoAD)*  
-*GVHD: Trần Đình Quế — April 2026*  
-*AI-Service Component*
+| Triệu chứng | Nguyên nhân | Cách xử lý |
+|---|---|---|
+| Log: *FAISS index not built yet* / *built with another model* | Chưa build hoặc đã đổi model embedding | `bootstrap.py index` |
+| Log: *LSTM checkpoint not found* | Chưa huấn luyện | `bootstrap.py lstm` (cần ≥ 100 sự kiện) |
+| `/recommend` luôn trả `source: fallback` | User chưa có lịch sử, hoặc chưa có index/đồ thị | Bình thường với user mới; chạy `bootstrap.py` |
+| Chatbot: *"tôi đang bận xử lý"* | Không gọi được LLM | Kiểm tra container `ollama` và `OLLAMA_BASE_URL` |
+| Câu trả lời đầu tiên chậm (~15 s) | Ollama nạp model vào GPU sau 5 phút không dùng | Bình thường; các câu sau ~1 s |
+| Gợi ý có điểm nhưng danh sách rỗng | Id trong log không còn trong product-service | Thêm sản phẩm / dùng log khớp danh mục |

@@ -70,6 +70,18 @@ class Neo4jClient:
             user_id=user_id, product_id=product_id, name=name, category=category, price=price,
         )
 
+    async def clear_behaviour(self, batch_size: int = 10000):
+        """Delete interaction and similarity edges (nodes are kept) so the graph can be
+        rebuilt from the behaviour log without double-counting."""
+        types = list(REL_TYPES.values()) + ["INTERACT", "SIMILAR_TO"]
+        while True:
+            rows = await self.run(
+                "MATCH ()-[r]->() WHERE type(r) IN $types WITH r LIMIT $n DELETE r RETURN count(*) AS deleted",
+                types=types, n=batch_size,
+            )
+            if not rows or rows[0]["deleted"] == 0:
+                return
+
     async def record_events(self, rows: list, batch_size: int = 2000):
         """Bulk version for imports: rows of {user_id, product_id, action}, grouped per relationship type."""
         by_type = {}

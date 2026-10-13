@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://ollama:11434"
     OLLAMA_MODEL: str = "qwen2.5:3b"  # small, good Vietnamese, fits a 4 GB GPU
 
-    # Sentence-transformers model for product / query embeddings
-    EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
+    # Sentence-transformers model for product / query embeddings (multilingual; see utils/embedder.py)
+    EMBEDDING_MODEL: str = "intfloat/multilingual-e5-small"
 
     # Hybrid recommendation weights (content-based dominates, see hybrid_service)
     LSTM_WEIGHT: float = 0.15

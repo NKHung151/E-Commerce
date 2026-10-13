@@ -1,66 +1,75 @@
-import faiss
+"""FAISS index of product embeddings (exact cosine search with IndexFlatIP)."""
 import json
-import numpy as np
-from pathlib import Path
-from config import settings
 import logging
+from pathlib import Path
+
+import faiss
+import numpy as np
+
+from config import settings
 
 logger = logging.getLogger(__name__)
+
 
 class FaissClient:
     def __init__(self):
         self.index = None
-        self.metadata = {}
-        self.id_map = []
+        self.id_map = []      # FAISS row -> product id
+        self.metadata = {}    # product id -> {name, price, image, category} (for inspection)
+        self.model_name = None
 
     def load_index(self):
         index_path = Path(settings.FAISS_INDEX_PATH)
         meta_path = Path(settings.PRODUCT_METADATA_PATH)
+        if not index_path.exists() or not meta_path.exists():
+            self.index = None
+            logger.warning("FAISS index not built yet — run scripts/bootstrap.py or POST /admin/rebuild-index")
+            return
 
-        if index_path.exists():
-            self.index = faiss.read_index(str(index_path))
-            logger.info(f"FAISS index loaded: {self.index.ntotal} vectors")
-        else:
-            logger.warning("FAISS index not found — run admin rebuild-index")
+        raw = json.loads(meta_path.read_text(encoding="utf-8"))
+        self.model_name = raw.get("model")
+        if self.model_name != settings.EMBEDDING_MODEL:
+            # Vectors from another model live in a different space: searching them is meaningless.
+            self.index = None
+            logger.warning(f"FAISS index was built with {self.model_name or 'an unknown model'}, "
+                           f"current model is {settings.EMBEDDING_MODEL} — rebuild the index")
+            return
 
-        if meta_path.exists():
-            with open(meta_path) as f:
-                raw = json.load(f)
-            self.metadata = {int(k): v for k, v in raw.get("metadata", {}).items()}
-            self.id_map = raw.get("id_map", [])
+        self.index = faiss.read_index(str(index_path))
+        self.id_map = raw.get("id_map", [])
+        self.metadata = {int(k): v for k, v in raw.get("metadata", {}).items()}
+        logger.info(f"FAISS index loaded: {self.index.ntotal} products")
 
-    def search(self, query_vector: np.ndarray, top_k: int = 5):
+    def search(self, query_vector: np.ndarray, top_k: int = 5) -> list:
         if self.index is None or self.index.ntotal == 0:
             return []
-        query = query_vector.reshape(1, -1).astype("float32")
-        faiss.normalize_L2(query)
-        distances, indices = self.index.search(query, top_k)
-        results = []
-        for dist, idx in zip(distances[0], indices[0]):
-            if idx != -1 and idx < len(self.id_map):
-                pid = self.id_map[idx]
-                # IndexFlatIP returns Inner Product (cosine similarity since vectors are normalized L2)
-                # Max similarity is 1.0, we just return dist directly.
-                results.append({"product_id": pid, "score": float(dist)})
-        return results
+        scores, rows = self.index.search(query_vector.reshape(1, -1).astype("float32"), top_k)
+        # Vectors are L2-normalised, so the inner product is the cosine similarity.
+        return [
+            {"product_id": self.id_map[row], "score": float(score)}
+            for score, row in zip(scores[0], rows[0])
+            if 0 <= row < len(self.id_map)
+        ]
 
-    def rebuild(self, embeddings: np.ndarray, product_ids: list, metadata: dict):
+    def rebuild(self, embeddings: np.ndarray, product_ids: list, metadata: dict, model_name: str):
         if embeddings is None or embeddings.size == 0:
-            logger.info("No embeddings provided — skipping rebuild")
+            logger.info("No products to index")
             return
-        dim = embeddings.shape[1]
-        self.index = faiss.IndexFlatIP(dim)
-        embeddings = embeddings.astype("float32")
+        embeddings = np.ascontiguousarray(embeddings, dtype="float32")
         faiss.normalize_L2(embeddings)
-        self.index.add(embeddings)
-        self.id_map = product_ids
-        self.metadata = metadata
+        index = faiss.IndexFlatIP(embeddings.shape[1])
+        index.add(embeddings)
 
         Path(settings.FAISS_INDEX_PATH).parent.mkdir(parents=True, exist_ok=True)
-        faiss.write_index(self.index, settings.FAISS_INDEX_PATH)
+        faiss.write_index(index, settings.FAISS_INDEX_PATH)
+        Path(settings.PRODUCT_METADATA_PATH).write_text(json.dumps({
+            "model": model_name,
+            "id_map": product_ids,
+            "metadata": {str(k): v for k, v in metadata.items()},
+        }, ensure_ascii=False), encoding="utf-8")
 
-        with open(settings.PRODUCT_METADATA_PATH, "w") as f:
-            json.dump({"id_map": product_ids, "metadata": {str(k): v for k, v in metadata.items()}}, f)
+        self.index, self.id_map, self.metadata, self.model_name = index, product_ids, metadata, model_name
         logger.info(f"FAISS rebuilt: {len(product_ids)} products indexed")
+
 
 faiss_client = FaissClient()

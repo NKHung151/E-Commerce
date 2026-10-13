@@ -48,6 +48,7 @@ KEYWORD_RULES = (
     ("payment", ("thanh toán", "chuyển khoản", "trừ tiền", "cod", "trả góp")),
     ("policy_faq", ("đổi trả", "hoàn tiền", "chính sách", "phí vận chuyển", "phí ship", "bảo hành")),
     ("product_details", ("thông số", "cấu hình", "ram", "cpu", "chip", "màn hình", "kích thước", "dung lượng", "chất liệu")),
+    ("product_discovery", ("muốn mua", "cần mua", "định mua", "tìm", "gợi ý", "tư vấn", "có bán", "có loại")),
 )
 _RULE_PATTERNS = [
     (intent, re.compile(r"(?<!\w)(?:" + "|".join(map(re.escape, words)) + r")(?!\w)", re.IGNORECASE))
