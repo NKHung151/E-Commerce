@@ -1,123 +1,81 @@
 # User Service
 
-## Overview
-The User Service handles user authentication, registration, and user management for the e-commerce platform.
-It manages user roles (admin, staff, customer) and issues JWT tokens.
+## Tổng quan
+Quản lý tài khoản, đăng ký, đăng nhập và cấp JWT cho toàn hệ thống. Có 3 vai trò: `admin`, `staff`,
+`customer`. Các service khác tự kiểm tra JWT bằng secret dùng chung, không cần gọi lại service này.
 
-## Port
-- **8001** (internal service port)
-- Accessed via Nginx gateway at `http://localhost:8080/api/v1/`
+## Cổng
+- **8001** (cổng nội bộ)
+- Truy cập qua gateway: `http://localhost:8080/api/v1/`
 
-## Database
-- **MySQL** at `mysql:3306`
-- Database: `mydb`
-- Credentials: root/123456
+## Cơ sở dữ liệu
+- **MySQL** (container `mysql-container`), database `user_db`
+- Migration `0002_seed_admin_staff`: tạo sẵn 1 tài khoản admin và 1 tài khoản staff (thông tin lấy từ
+  `SEED_ADMIN_*`, `SEED_STAFF_*` trong `.env`, mặc định `admin_user` / `admin123`, `staff_user` / `staff123`)
+- Migration `0003_seed_customers`: tạo 548 khách hàng demo `user03` … `user550` (mật khẩu
+  `SEED_CUSTOMER_PASSWORD`, mặc định `customer123`), khớp với log hành vi của AI
+- Tài khoản đã tồn tại (trùng id, username hoặc email) không bao giờ bị ghi đè
 
-## Models
-- **User** (extends Django AbstractUser)
-  - Fields: id, username, email (unique), password, role (admin/staff/customer), created_at, updated_at
-  - Roles: admin, staff, customer
+## Model
+- **User** (kế thừa `AbstractUser`): id, username, email (duy nhất), password (băm PBKDF2), role,
+  created_at, updated_at
 
-## API Endpoints
+## API
 
-### Authentication
-- `POST /api/v1/auth/register/` - User registration (AllowAny)
-  - Body: `{"username": "...", "email": "...", "password": "..."}`; the account is always a `customer`
-    (a `role` in the body is ignored). Admin and staff accounts are seeded by migration `0002`.
-  - Password rules: at least 6 characters, not too common, not all digits, not similar to the username
-  - Returns: User data
-  
-- `POST /api/v1/auth/login/` - Login & get tokens (AllowAny)
-  - Body: `{"username": "...", "password": "..."}`
-  - Returns: `{"access": "...", "refresh": "..."}`
-  
-- `POST /api/v1/auth/refresh/` - Refresh access token (AllowAny)
-  - Body: `{"refresh": "..."}`
-  - Returns: `{"access": "..."}`
+### Xác thực
+- `POST /api/v1/auth/register/` - Đăng ký (không cần đăng nhập)
+  - Body: `{"username": "...", "email": "...", "password": "..."}`
+  - Tài khoản tự đăng ký luôn là `customer` (trường `role` gửi lên bị bỏ qua)
+  - Quy tắc mật khẩu: tối thiểu 6 ký tự, không quá phổ biến, không toàn số, không giống tên đăng nhập
+- `POST /api/v1/auth/login/` - Đăng nhập, trả về `{"access": "...", "refresh": "..."}`
+- `POST /api/v1/auth/refresh/` - Lấy access token mới từ `{"refresh": "..."}`
 
-### Current user
-- `GET /api/v1/users/me/` - Profile of the logged-in user (IsAuthenticated)
+### Người dùng hiện tại
+- `GET /api/v1/users/me/` - Thông tin của người đang đăng nhập
 
-### User management (admin only)
-- `GET /api/v1/admin/users/` - List all users
-- `POST /api/v1/admin/users/` - Create a user with any role (same password rules)
-- `GET|PUT|PATCH|DELETE /api/v1/admin/users/{id}/` - Read, edit, delete (an admin cannot delete themselves)
+### Quản lý người dùng (chỉ admin)
+- `GET /api/v1/admin/users/` - Danh sách người dùng
+- `POST /api/v1/admin/users/` - Tạo người dùng với vai trò bất kỳ (cùng quy tắc mật khẩu)
+- `GET|PUT|PATCH|DELETE /api/v1/admin/users/{id}/` - Xem, sửa, xoá (admin không thể tự xoá chính mình)
 
-### Errors
-Validation errors return `400 {"error": "<field>: <message>", "code": 400, "fields": {...}}`; messages
-are in Vietnamese (`LANGUAGE_CODE = 'vi'`) because the storefront shows them as is.
+### Lỗi
+Lỗi kiểm tra dữ liệu trả về `400 {"error": "<trường>: <thông báo>", "code": 400, "fields": {...}}`.
+Thông báo bằng tiếng Việt (`LANGUAGE_CODE = 'vi'`) vì cửa hàng hiển thị trực tiếp cho khách.
 
-## JWT Token Structure
-The issued JWT tokens include:
-- `user_id`: ID of the authenticated user
-- `role`: User role (admin, staff, customer)
-- `email`: User email
-- `exp`: Expiration timestamp (1 hour)
-- `iat`: Issued at timestamp
-- `iss`: Issuer (ecommerce-user-service)
+## Nội dung JWT
+| Claim | Ý nghĩa |
+|---|---|
+| `user_id`, `username`, `email`, `role` | Thông tin người dùng, các service dùng để phân quyền |
+| `exp`, `iat` | Hết hạn (access 1 giờ, refresh 7 ngày), thời điểm cấp |
+| `iss` | `ecommerce-user-service` (các service khác kiểm tra) |
 
-## Setup & Running
+## Chạy
 
-### Local Development
+### Local
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Create .env file
 cp .env.example .env
-
-# Run migrations
 python manage.py migrate
-
-# Create superuser (optional)
-python manage.py createsuperuser
-
-# Start server
 python manage.py runserver 0.0.0.0:8001
 ```
 
 ### Docker
 ```bash
-# Build image
-docker build -t user-service .
-
-# Run with Docker Compose
 cd infrastructure
-docker-compose up user-service
+docker compose up -d --build user-service
 ```
 
-## Example Requests
+## Ví dụ
 
-### Register
 ```bash
-curl -X POST http://localhost:8080/api/v1/auth/register/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "john_doe",
-    "email": "john@example.com",
-    "password": "SecurePass123!"
-  }'
-```
+# Đăng ký
+curl -X POST http://localhost:8080/api/v1/auth/register/ -H "Content-Type: application/json" \
+  -d '{"username": "john_doe", "email": "john@example.com", "password": "SecurePass123!"}'
 
-### Login
-```bash
-curl -X POST http://localhost:8080/api/v1/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "john_doe",
-    "password": "SecurePass123!"
-  }'
-```
+# Đăng nhập
+curl -X POST http://localhost:8080/api/v1/auth/login/ -H "Content-Type: application/json" \
+  -d '{"username": "john_doe", "password": "SecurePass123!"}'
 
-### List Users (Admin only)
-```bash
-curl -X GET http://localhost:8080/api/v1/admin/users/ \
-  -H "Authorization: Bearer <access_token>"
+# Danh sách người dùng (admin)
+curl http://localhost:8080/api/v1/admin/users/ -H "Authorization: Bearer <access_token>"
 ```
-
-## Security
-- Passwords are hashed using Django's default PBKDF2 algorithm
-- JWT tokens are signed with shared secret key
-- Token issuer must be 'ecommerce-user-service'
-- Access tokens expire after 1 hour
-- Refresh tokens expire after 7 days

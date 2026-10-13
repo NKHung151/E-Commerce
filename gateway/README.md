@@ -1,15 +1,15 @@
 # API Gateway (Nginx)
 
-Single entry point for the API. The frontend container forwards `/api`, `/recommend`, `/chatbot` and
-`/behavior` here (same origin for the browser); everything else is the React app.
+Điểm vào duy nhất của API. Container frontend chuyển `/api`, `/recommend`, `/chatbot` và `/behavior`
+về đây (cùng origin với trình duyệt); mọi đường dẫn khác là ứng dụng React.
 
-## Port
-- **8080**. The configuration (`nginx.conf`) is mounted read-only by docker compose, so
-  `docker compose restart gateway` applies a change.
+## Cổng
+- **8080**. File cấu hình (`nginx.conf`) được docker compose mount ở chế độ chỉ đọc, nên sửa xong chỉ cần
+  `docker compose restart gateway`.
 
-## Routing
+## Định tuyến
 
-| Path | Service |
+| Đường dẫn | Service |
 |---|---|
 | `/api/v1/auth/*`, `/api/v1/users/*`, `/api/v1/admin/users/*` | user-service :8001 |
 | `/api/v1/products/*` | product-service :8002 |
@@ -21,16 +21,16 @@ Single entry point for the API. The frontend container forwards `/api`, `/recomm
 | `/api/v1/payment/*` | payment-service :8005 |
 | `/api/v1/staff/shipping/*` | shipping-service :8006 |
 | `/recommend*`, `/chatbot`, `/behavior/track` | ai-service :8007 |
-| any other `/api/*` | `404 {"error": "Not found", "code": 404}` |
-| everything else | frontend |
+| mọi `/api/*` khác | `404 {"error": "Not found", "code": 404}` |
+| còn lại | frontend |
 
-## Behaviour
-- **Rate limiting:** 10 requests/second per client IP, burst 20, then `429`. Browser traffic arrives
-  through the frontend container, so the client IP is taken from its `X-Real-IP` header (trusted only from
-  the Docker networks `172.16.0.0/12`); otherwise all users would share one limit.
-- **Headers:** `Host` is forwarded with its port (DRF builds correct pagination links), plus `X-Real-IP`,
-  `X-Forwarded-For`, `X-Forwarded-Proto`; `Authorization` passes through untouched.
-- **CORS:** allowed origin `http://localhost:3000` (only needed when the API is called cross-origin; the
-  bundled frontend uses the same origin).
-- **Timeouts:** 300 s (chatbot answers from the LLM can take a while on a cold start).
-- **Logs:** access log to stdout with request time and upstream time (collected by Promtail into Loki).
+## Hoạt động
+- **Giới hạn tốc độ:** 10 request/giây mỗi IP, burst 20, vượt quá trả `429`. Request từ trình duyệt đi qua
+  container frontend, nên IP thật của người dùng lấy từ header `X-Real-IP` (chỉ tin từ mạng Docker
+  `172.16.0.0/12`); nếu không, mọi người dùng sẽ dùng chung một hạn mức.
+- **Header:** `Host` được chuyển tiếp kèm cổng (để DRF tạo link phân trang đúng), cùng `X-Real-IP`,
+  `X-Forwarded-For`, `X-Forwarded-Proto`; `Authorization` được giữ nguyên.
+- **CORS:** cho phép origin `http://localhost:3000` (chỉ cần khi gọi API khác origin; frontend đi kèm
+  dùng cùng origin).
+- **Timeout:** 300 giây (câu trả lời của chatbot có thể lâu khi LLM vừa khởi động).
+- **Log:** access log ra stdout kèm thời gian xử lý và thời gian của service phía sau (Promtail đẩy về Loki).

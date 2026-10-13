@@ -1,49 +1,49 @@
 # Frontend — Novamart
 
-React 18 + React Router 6 + Tailwind CSS. One bundle, two apps with separate sessions:
+React 18 + React Router 6 + Tailwind CSS. Một bundle chứa hai ứng dụng với phiên đăng nhập riêng:
 
-| URL | App | Who |
+| URL | Ứng dụng | Dành cho |
 |---|---|---|
-| `/` | **Shop** — catalogue, product page, cart, checkout, orders, AI chatbot & recommendations | guests, customers |
-| `/staff`, `/admin` | **Back office** — dashboard, orders (status, payment confirmation, shipment), products, categories, users (admin only) | staff, admins |
+| `/` | **Cửa hàng**: danh mục, trang sản phẩm, giỏ hàng, thanh toán, đơn hàng, chatbot và gợi ý AI | khách vãng lai, khách hàng |
+| `/staff`, `/admin` | **Back office**: tổng quan, đơn hàng (trạng thái, xác nhận thanh toán, vận đơn), sản phẩm, danh mục, người dùng (chỉ admin) | nhân viên, quản trị viên |
 
-The back office is code-split, so shoppers never download it.
+Back office được tách bundle (code-split), nên khách mua hàng không phải tải phần này.
 
-## Run
+## Chạy
 
 ```bash
 npm install
-npm start          # http://localhost:3000, API calls proxied to the gateway on :8080 ("proxy" in package.json)
+npm start          # http://localhost:3000, API được proxy tới gateway :8080 ("proxy" trong package.json)
 npm run build
 ```
 
-In Docker the bundle is served by nginx, which also proxies `/api`, `/recommend`, `/chatbot`
-and `/behavior` to the `gateway` container (see `nginx.conf`). All requests are same-origin,
-so no CORS setup or hard-coded host is needed. Set `REACT_APP_GATEWAY_URL` at build time only
-if the gateway lives on another origin.
+Trong Docker, bundle được nginx phục vụ; nginx cũng chuyển `/api`, `/recommend`, `/chatbot` và
+`/behavior` tới container `gateway` (xem `nginx.conf`). Mọi request đều cùng origin nên không cần cấu
+hình CORS hay ghi cứng địa chỉ máy chủ. Chỉ đặt `REACT_APP_GATEWAY_URL` lúc build khi gateway nằm ở
+origin khác.
 
-## Structure
+## Cấu trúc
 
 ```
 src/
-  index.js · App.js        entry; App picks Shop or Back office from the URL prefix
-  config.js                gateway / API base URLs
-  styles/index.css         Tailwind layers + a few shared component classes
+  index.js · App.js        điểm vào; App chọn Cửa hàng hay Back office theo tiền tố URL
+  config.js                địa chỉ gateway / API
+  styles/index.css         các layer Tailwind và vài class component dùng chung
 
-  shared/                  app-agnostic, used by both apps
-    api/client.js          axios factory (JWT + single-flight refresh), pagination & error helpers
-    api/tokens.js          per-app token storage, JWT decoding
-    auth/AuthProvider.js   session context (useAuth)
-    hooks/                 useAsync, useDebounced, useQueryParams (URL-driven filters)
-    utils/constants.js     mirrors backend state machines, payment methods, product types
-    utils/format.js        currency / dates / address packing / item counts
-    utils/products.js      attach product details to cart & order lines
-    ui/                    design system (import from 'shared/ui'): Button, form controls,
-                           Card/PageHeader/Avatar, Badge/StatusBadge/Alert, loading & empty
-                           states, Pagination, Modal/toast/confirm, product image/price/stars/
-                           quantity stepper, Logo, AuthShell
+  shared/                  dùng chung cho cả hai ứng dụng, không phụ thuộc ứng dụng nào
+    api/client.js          tạo client axios (gắn JWT, làm mới token một lần cho nhiều request), tiện ích phân trang và lỗi
+    api/tokens.js          lưu token riêng cho từng ứng dụng, giải mã JWT
+    auth/AuthProvider.js   context phiên đăng nhập (useAuth)
+    hooks/                 useAsync, useDebounced, useQueryParams (bộ lọc theo URL)
+    utils/constants.js     phản chiếu máy trạng thái của backend, phương thức thanh toán, loại sản phẩm
+    utils/format.js        định dạng tiền, ngày, địa chỉ, số lượng
+    utils/products.js      gắn thông tin sản phẩm vào dòng giỏ hàng và đơn hàng
+    ui/                    bộ component giao diện (import từ 'shared/ui'): Button, ô nhập liệu,
+                           Card/PageHeader/Avatar, Badge/StatusBadge/Alert, trạng thái tải và rỗng,
+                           Pagination, Modal/toast/confirm, ảnh/giá/sao/bộ chọn số lượng sản phẩm,
+                           Logo, AuthShell
 
-  shop/                    storefront
+  shop/                    cửa hàng
     api.js · ShopApp.js · categoryMeta.js
     context/CartContext.js
     layout/                Header, Footer, ShopLayout
@@ -51,16 +51,19 @@ src/
                            OrderTimeline, ChatWidget
     pages/                 Home, Catalog, Product, Cart, Checkout, Orders, Order, Profile, Auth
 
-  backoffice/              staff & admin area
+  backoffice/              khu vực nhân viên và quản trị
     api.js · BackofficeApp.js
     layout/                Layout, Sidebar
     components/            StatCard, TransitionButtons, ProductCell, UserFormModal
     pages/                 Dashboard, Orders, Order, Products, ProductForm, Categories, Users, Login
 ```
 
-Rules of thumb: `shared/` never imports from `shop/` or `backoffice/`; each app talks to the
-backend only through its own `api.js`; anything used by two pages of one app goes in that
-app's `components/`, anything used by both apps goes in `shared/`.
+Quy ước:
+- `shared/` không bao giờ import từ `shop/` hay `backoffice/`.
+- Mỗi ứng dụng chỉ gọi backend qua `api.js` của chính nó.
+- Thứ dùng ở hai trang trong cùng một ứng dụng đặt vào `components/` của ứng dụng đó; thứ dùng ở cả hai
+  ứng dụng đặt vào `shared/`.
 
-`shared/utils/constants.js` mirrors the order / shipment state machines and product categories
-of the backend — keep them in sync when those change.
+`shared/utils/constants.js` phản chiếu máy trạng thái đơn hàng và danh mục sản phẩm của backend; khi
+backend thay đổi các phần này thì phải cập nhật theo. Trạng thái vận đơn chỉ để hiển thị, vì vận đơn
+đi theo trạng thái đơn hàng.

@@ -1,131 +1,70 @@
 # Cart Service
 
-## Overview
-The Cart Service manages shopping carts for customers.
-Each user has one cart that persists across sessions.
-Cart items include product references with captured unit prices.
+## Tổng quan
+Quản lý giỏ hàng. Mỗi khách hàng có đúng một giỏ, được giữ lại giữa các lần đăng nhập. Giá, tình trạng
+còn hàng và tồn kho luôn lấy từ product-service, không bao giờ tin giá trị trình duyệt gửi lên.
 
-## Port
-- **8003** (internal service port)
-- Accessed via Nginx gateway at `http://localhost:8080/api/v1/cart/`
+## Cổng
+- **8003** (cổng nội bộ)
+- Truy cập qua gateway: `http://localhost:8080/api/v1/cart/`
 
-## Database
-- **PostgreSQL** at `postgres:5432`
-- Database: `cart_db`
-- Credentials: admin/123456
+## Cơ sở dữ liệu
+- **PostgreSQL**, database `cart_db`
 
-## Models
-- **Cart**
-  - Fields: id, user_id (indexed), created_at, updated_at
-  - Relationship: One-to-many with CartItem
+## Model
+- **Cart**: user_id (duy nhất), created_at, updated_at
+- **CartItem**: cart, product_id, quantity, unit_price (giá tại lần thêm/sửa gần nhất), created_at,
+  updated_at; mỗi sản phẩm chỉ xuất hiện một lần trong một giỏ
 
-- **CartItem**
-  - Fields: id, cart_id, product_id, quantity, unit_price (DecimalField), created_at, updated_at
-  - Relationship: Many-to-one with Cart
+## API
+Mọi endpoint đều cần JWT và chỉ thao tác trên giỏ của chính người gọi (`user_id` lấy từ token).
 
-## API Endpoints
+- `GET /api/v1/cart/list_cart/` - Giỏ hàng hiện tại
+- `POST /api/v1/cart/add_item/` - Thêm sản phẩm `{"product_id": 1, "quantity": 2}`
+  - Tổng số lượng trong giỏ không được vượt tồn kho; sản phẩm hết hàng bị từ chối
+  - 404 nếu sản phẩm không tồn tại, 503 nếu không gọi được product-service
+  - Sự kiện `add_to_cart` được gửi cho AI service
+- `PUT /api/v1/cart/update_item/` - Đổi số lượng `{"product_id": 1, "quantity": 5}` (0 là xoá); kiểm tra
+  tồn kho và cập nhật lại giá
+- `DELETE /api/v1/cart/remove_item/` - Xoá một sản phẩm `{"product_id": 1}`
+- `DELETE /api/v1/cart/clear_cart/` - Xoá toàn bộ giỏ
 
-All endpoints require JWT authentication (IsCustomerOrAbove permission).
+Thông báo lỗi cho khách bằng tiếng Việt (ví dụ "Chỉ còn 5 sản phẩm trong kho").
 
-### Cart Operations
-- `GET /api/v1/cart/list_cart/` - Get current user's cart
-  - Returns: Cart with all items
+## Chạy
 
-- `POST /api/v1/cart/add_item/` - Add item to cart
-  - Body: `{"product_id": 1, "quantity": 2}`
-  - Price, availability and stock come from product-service (a client price is ignored); the total
-    quantity in the cart may not exceed the stock. 503 if product-service is unreachable.
-  - Returns: Created CartItem
-
-- `PUT /api/v1/cart/update_item/` - Update cart item quantity
-  - Body: `{"product_id": 1, "quantity": 5}` (0 removes the item); checked against the stock, price refreshed
-  - Returns: Updated CartItem
-
-- `DELETE /api/v1/cart/remove_item/` - Remove item from cart
-  - Body: `{"product_id": 1}`
-  - Returns: 204 No Content
-
-- `DELETE /api/v1/cart/clear_cart/` - Clear entire cart
-  - Returns: 204 No Content
-
-## Security
-- User can only access/modify their own cart (enforced by user_id from JWT)
-- Never accept user_id from request body
-- Always extract user_id from JWT auth_payload
-
-## Setup & Running
-
-### Local Development
+### Local
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Create .env file
 cp .env.example .env
-
-# Run migrations
 python manage.py migrate
-
-# Start server
 python manage.py runserver 0.0.0.0:8003
 ```
 
 ### Docker
 ```bash
-# Build image
-docker build -t cart-service .
-
-# Run with Docker Compose
 cd infrastructure
-docker-compose up cart-service
+docker compose up -d --build cart-service
 ```
 
-## Example Requests
+## Ví dụ
 
-### Get Cart
 ```bash
-curl -X GET http://localhost:8080/api/v1/cart/list_cart/ \
-  -H "Authorization: Bearer <access_token>"
-```
+# Xem giỏ
+curl http://localhost:8080/api/v1/cart/list_cart/ -H "Authorization: Bearer <access_token>"
 
-### Add Item to Cart
-```bash
+# Thêm sản phẩm
 curl -X POST http://localhost:8080/api/v1/cart/add_item/ \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <access_token>" \
-  -d '{
-    "product_id": 1,
-    "quantity": 2
-  }'
-```
+  -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" \
+  -d '{"product_id": 1, "quantity": 2}'
 
-### Update Item Quantity
-```bash
+# Đổi số lượng
 curl -X PUT http://localhost:8080/api/v1/cart/update_item/ \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <access_token>" \
-  -d '{
-    "product_id": 1,
-    "quantity": 5
-  }'
-```
+  -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" \
+  -d '{"product_id": 1, "quantity": 5}'
 
-### Remove Item from Cart
-```bash
+# Xoá một sản phẩm / xoá cả giỏ
 curl -X DELETE http://localhost:8080/api/v1/cart/remove_item/ \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <access_token>" \
-  -d '{"product_id": 1}'
+  -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" -d '{"product_id": 1}'
+curl -X DELETE http://localhost:8080/api/v1/cart/clear_cart/ -H "Authorization: Bearer <access_token>"
 ```
-
-### Clear Cart
-```bash
-curl -X DELETE http://localhost:8080/api/v1/cart/clear_cart/ \
-  -H "Authorization: Bearer <access_token>"
-```
-
-## Notes
-- Each user has only one cart (get_or_create pattern)
-- Unit prices are snapshots from product-service at time of adding to cart
-- Quantities can be updated without re-fetching product info
-- Cart persists even if not accessed for long periods

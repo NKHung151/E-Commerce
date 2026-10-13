@@ -1,47 +1,47 @@
 # Infrastructure
 
-Everything needed to run the platform locally. The step-by-step setup (shared containers, databases,
-`.env` files, AI bootstrap) is in the [main README](../README.md#5-cài-đặt-và-chạy).
+Mọi thứ cần để chạy hệ thống trên máy. Hướng dẫn cài đặt từng bước (container dùng chung, tạo database,
+file `.env`, bootstrap AI) nằm ở [README tổng](../README.md#5-cài-đặt-và-chạy).
 
-## Files
+## Các file
 
-| File | Purpose |
+| File | Mục đích |
 |---|---|
-| `docker-compose.yml` | Compose project `ecommerce`: gateway, 9 services, frontend, Prometheus, Loki, Promtail, Grafana |
-| `prometheus.yml` | Scrapes `/metrics` of the eight Django services and ai-service |
-| `promtail-config.yml` | Ships every container's logs to Loki |
-| `seed/generate_seed_data.py` | Regenerates the demo catalogue and reviews (see below) |
+| `docker-compose.yml` | Project compose `ecommerce`: gateway, 9 service, frontend, Prometheus, Loki, Promtail, Grafana |
+| `prometheus.yml` | Thu thập `/metrics` của 8 service Django và ai-service |
+| `promtail-config.yml` | Đẩy log của mọi container về Loki |
+| `seed/generate_seed_data.py` | Sinh lại danh mục và đánh giá demo (xem bên dưới) |
 
-## What runs where
+## Thành phần chạy ở đâu
 
-| Inside this compose project | Outside it (shared with other projects) |
+| Trong project compose này | Bên ngoài (dùng chung với các dự án khác) |
 |---|---|
-| gateway, frontend, the 9 application services, Prometheus, Loki, Promtail, Grafana | `mysql-container`, `rabbitmq`, `neo4j`, `ollama` on the external Docker network `shared-infra`; PostgreSQL installed on the host, reached at `host.docker.internal:5432` |
+| gateway, frontend, 9 service ứng dụng, Prometheus, Loki, Promtail, Grafana | `mysql-container`, `rabbitmq`, `neo4j`, `ollama` trên mạng Docker ngoài `shared-infra`; PostgreSQL cài trên máy, truy cập qua `host.docker.internal:5432` |
 
-Services join both the compose network and `shared-infra`. Each service reads its `../<service>/.env`;
-compose only overrides `RABBITMQ_HOST`, the MySQL host of user-service and the Neo4j URI of ai-service.
+Các service tham gia cả mạng của compose lẫn `shared-infra`. Mỗi service đọc file `../<service>/.env`;
+compose chỉ ghi đè `RABBITMQ_HOST`, host MySQL của user-service và URI Neo4j của ai-service.
 
 ```bash
-docker compose up -d --build            # everything
-docker compose up -d --build <service>  # one service after a code change
-docker compose restart gateway          # after re-creating a service container (fresh IP)
+docker compose up -d --build            # toàn bộ
+docker compose up -d --build <service>  # một service sau khi sửa code
+docker compose restart gateway          # sau khi tạo lại container của một service (IP mới)
 docker compose logs -f <service>
 docker compose down
 ```
 
-## Demo data (`seed/`)
+## Dữ liệu demo (`seed/`)
 
-`generate_seed_data.py` turns the catalogue table it contains and the AI behaviour log
-(`ai-service/data/user_behavior.csv`) into:
+`generate_seed_data.py` dùng bảng danh mục khai báo trong script và log hành vi của AI
+(`ai-service/data/user_behavior.csv`) để sinh ra:
 
-- `product-service/product_app/seed/products.json` - 300 products with ids 1-300 (the ids used in the log)
-- `comment-rate-service/comment_app/seed/reviews.json` - 445 reviews by customers who bought the product
+- `product-service/product_app/seed/products.json` - 300 sản phẩm id 1-300 (đúng các id trong log)
+- `comment-rate-service/comment_app/seed/reviews.json` - 445 đánh giá do chính khách đã mua viết
 
-Product `views` are counted from the log and `rating` uses the same Bayesian average as
-comment-rate-service. The files are loaded by data migrations (`catalog 0002`, `product 0002`,
-`comment-rate 0002`, `user 0002`/`0003` for the admin, staff and 548 customer accounts) on a fresh database;
-existing rows are never overwritten.
+Lượt xem (`views`) của sản phẩm được đếm từ log, còn `rating` dùng cùng công thức trung bình Bayes với
+comment-rate-service. Các file này được nạp bởi data migration (`catalog 0002`, `product 0002`,
+`comment-rate 0002`, `user 0002`/`0003` cho tài khoản admin, staff và 548 khách hàng) khi database còn
+mới; dữ liệu đã có không bao giờ bị ghi đè.
 
 ```bash
-python infrastructure/seed/generate_seed_data.py   # after editing the catalogue table
+python infrastructure/seed/generate_seed_data.py   # sau khi sửa bảng danh mục
 ```

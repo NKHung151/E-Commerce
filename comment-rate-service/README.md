@@ -1,37 +1,37 @@
 # Comment & Rating Service
 
-## Overview
-Product reviews (1-5 stars and a comment). Every change recomputes the product's rating and pushes it to
-product-service, which stores it read-only on the product.
+## Tổng quan
+Quản lý đánh giá sản phẩm (1-5 sao kèm nhận xét). Mỗi lần đánh giá thay đổi, service tính lại điểm của
+sản phẩm và gửi sang product-service, nơi điểm được lưu ở dạng chỉ đọc.
 
-## Port
-- **8009** (internal service port)
-- Accessed via the Nginx gateway at `http://localhost:8080/api/v1/comments/`
+## Cổng
+- **8009** (cổng nội bộ)
+- Truy cập qua gateway: `http://localhost:8080/api/v1/comments/`
 
-## Database
+## Cơ sở dữ liệu
 - **PostgreSQL**, database `comment_db`
-- Migration `0002_seed_reviews` loads 445 demo reviews written by customers who bought the product
-  (`comment_app/seed/reviews.json`, generated with the demo catalogue)
+- Migration `0002_seed_reviews` nạp 445 đánh giá demo, do chính khách đã mua sản phẩm viết
+  (`comment_app/seed/reviews.json`, sinh cùng danh mục demo)
 
 ## Model
-- **Comment**: product_id, user_id, username (both from the JWT), rating (1-5), comment_text,
-  created_at, updated_at. **One review per user and product** (unique constraint).
+- **Comment**: product_id, user_id, username (cả hai lấy từ JWT), rating (1-5), comment_text,
+  created_at, updated_at. **Mỗi người chỉ đánh giá một sản phẩm một lần** (ràng buộc duy nhất).
 
-## API Endpoints
-- `GET /api/v1/comments/?product_id={id}` - Reviews of a product, newest first (public)
-- `POST /api/v1/comments/` - `{"product_id": 1, "rating": 5, "comment_text": "..."}` (logged-in user).
-  400 if the user already reviewed the product (edit that review instead) or the product does not exist.
-- `PATCH|PUT /api/v1/comments/{id}/` - Author or admin; the product of a review cannot be changed
-- `DELETE /api/v1/comments/{id}/` - Author or admin
+## API
+- `GET /api/v1/comments/?product_id={id}` - Đánh giá của một sản phẩm, mới nhất trước (công khai)
+- `POST /api/v1/comments/` - `{"product_id": 1, "rating": 5, "comment_text": "..."}` (cần đăng nhập).
+  Trả 400 nếu người dùng đã đánh giá sản phẩm này (hãy sửa đánh giá cũ) hoặc sản phẩm không tồn tại.
+- `PATCH|PUT /api/v1/comments/{id}/` - Tác giả hoặc admin; không đổi được sản phẩm của đánh giá
+- `DELETE /api/v1/comments/{id}/` - Tác giả hoặc admin
 
-Validation messages are in Vietnamese (`LANGUAGE_CODE = 'vi'`), as the storefront shows them.
+Thông báo lỗi bằng tiếng Việt (`LANGUAGE_CODE = 'vi'`) vì cửa hàng hiển thị trực tiếp.
 
-## Rating
-`rating = (sum of stars + 5 x 5.0) / (number of reviews + 5)`: a Bayesian average with five virtual 5-star
-reviews, so a single bad review does not sink a product. With no review left the rating is `0` ("not
-rated yet"). It is sent to `POST /api/v1/products/{id}/update_rating/` with the `X-Internal-Token`.
+## Cách tính điểm
+`rating = (tổng số sao + 5 x 5.0) / (số đánh giá + 5)`: trung bình Bayes với 5 đánh giá 5 sao "ảo", để
+một đánh giá xấu đầu tiên không kéo sập điểm sản phẩm. Khi không còn đánh giá nào, điểm là `0` ("chưa có
+đánh giá"). Điểm được gửi tới `POST /api/v1/products/{id}/update_rating/` kèm `X-Internal-Token`.
 
-## Setup & Running
+## Chạy
 ```bash
 pip install -r requirements.txt
 cp .env.example .env

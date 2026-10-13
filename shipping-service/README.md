@@ -1,39 +1,40 @@
 # Shipping Service
 
-## Overview
-Keeps one shipment per order. Shipments are created and moved forward only by the order saga; the order
-status is the single source of truth, and the back office only reads shipments.
+## Tổng quan
+Mỗi đơn hàng có một vận đơn. Vận đơn chỉ được tạo và chuyển trạng thái bởi saga; trạng thái đơn hàng là
+nguồn dữ liệu duy nhất, back office chỉ xem vận đơn.
 
-## Port
-- **8006** (internal service port)
-- Accessed via the Nginx gateway at `http://localhost:8080/api/v1/staff/shipping/` (staff/admin only)
+## Cổng
+- **8006** (cổng nội bộ)
+- Truy cập qua gateway: `http://localhost:8080/api/v1/staff/shipping/` (chỉ staff/admin)
 
-## Database
+## Cơ sở dữ liệu
 - **PostgreSQL**, database `shipping_db`
 
 ## Model
-- **Shipment**: order_id (unique), address, status (`pending_payment`, `processing`, `shipping`,
+- **Shipment**: order_id (duy nhất), address, status (`pending_payment`, `processing`, `shipping`,
   `delivered`, `cancelled`), created_at, updated_at
 
-## Saga role (RabbitMQ exchange `saga-events`)
-| Consumes | Does | Publishes |
+## Vai trò trong saga (RabbitMQ, exchange `saga-events`)
+| Nhận | Xử lý | Phát |
 |---|---|---|
-| `saga-stock-reduced` | card / cash: shipment `processing`. Bank transfer: `pending_payment` (waits for staff to confirm the money) | `saga-shipping-created` (card / cash) |
+| `saga-stock-reduced` | Thẻ / COD: vận đơn `processing`. Chuyển khoản: `pending_payment` (chờ nhân viên xác nhận tiền) | `saga-shipping-created` (thẻ / COD) |
 | `saga-payment-confirmed` | `pending_payment` -> `processing` | `saga-shipping-created` |
-| `saga-order-shipped` / `saga-order-delivered` | follows the order: `shipping` / `delivered` | |
+| `saga-order-shipped` / `saga-order-delivered` | Đi theo đơn hàng: `shipping` / `delivered` | |
 | `saga-order-cancelled` | `pending_payment` / `processing` -> `cancelled` | |
 
-`saga-shipping-created` is what moves the order to `processing` (and reports the purchase to the AI service).
+`saga-shipping-created` là sự kiện chuyển đơn hàng sang `processing` (và báo lượt mua cho AI).
 
-## API Endpoints
-- `GET /api/v1/staff/shipping/status/?order_id={id}` - Shipment of an order (staff/admin); 404 until the
-  saga has created it
+## API
+- `GET /api/v1/staff/shipping/status/?order_id={id}` - Vận đơn của một đơn (staff/admin); trả 404 khi
+  saga chưa tạo vận đơn
 
-To move a shipment, change the order status in the back office (`PATCH /api/v1/staff/orders/{id}/update_status/`).
+Muốn chuyển trạng thái vận đơn, hãy đổi trạng thái đơn hàng trên back office
+(`PATCH /api/v1/staff/orders/{id}/update_status/`).
 
-## Setup & Running
+## Chạy
 
-### Local Development
+### Local
 ```bash
 pip install -r requirements.txt
 cp .env.example .env
@@ -47,7 +48,7 @@ cd infrastructure
 docker compose up -d --build shipping-service
 ```
 
-## Example Request
+## Ví dụ
 ```bash
 curl "http://localhost:8080/api/v1/staff/shipping/status/?order_id=5" -H "Authorization: Bearer <staff_token>"
 ```
