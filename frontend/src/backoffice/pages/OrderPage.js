@@ -10,7 +10,6 @@ import {
   PAYMENT_METHODS,
   PAYMENT_STATUS,
   SHIPMENT_STATUS,
-  SHIPMENT_TRANSITIONS,
 } from '../../shared/utils/constants';
 import { addressLines, formatDateTime, formatPrice } from '../../shared/utils/format';
 import { attachProducts } from '../../shared/utils/products';
@@ -56,7 +55,8 @@ function PaymentCard({ order, payment, busy, onConfirm }) {
   );
 }
 
-function ShipmentCard({ shipment, busy, onChange }) {
+/** Read-only: the shipment follows the order status through the saga (one source of truth). */
+function ShipmentCard({ shipment }) {
   return (
     <Card>
       <CardHeader title="Vận chuyển" action={shipment && <StatusBadge map={SHIPMENT_STATUS} value={shipment.status} />} />
@@ -67,14 +67,8 @@ function ShipmentCard({ shipment, busy, onChange }) {
           </p>
         ) : (
           <>
-            <p className="mb-3 text-slate-500">Vận đơn #{shipment.id}</p>
-            <TransitionButtons
-              statusMap={SHIPMENT_STATUS}
-              transitions={SHIPMENT_TRANSITIONS}
-              current={shipment.status}
-              busy={busy}
-              onSelect={onChange}
-            />
+            <p className="text-slate-500">Vận đơn #{shipment.id}</p>
+            <p className="mt-1 text-xs text-slate-400">Cập nhật theo trạng thái đơn hàng.</p>
           </>
         )}
       </div>
@@ -136,9 +130,6 @@ export default function OrderPage() {
       message: `${formatPrice(payment.amount)} cho đơn #${order.id}. Đơn sẽ được chuyển sang xử lý và tạo vận đơn.`,
       confirmText: 'Xác nhận',
     });
-
-  const changeShipment = (status) =>
-    act(() => shippingApi.updateStatus(shipment.id, status), `Vận đơn: ${SHIPMENT_STATUS[status].label}`);
 
   return (
     <>
@@ -220,7 +211,7 @@ export default function OrderPage() {
             </div>
           </Card>
           <PaymentCard order={order} payment={payment} busy={busy} onConfirm={confirmPayment} />
-          <ShipmentCard shipment={shipment} busy={busy} onChange={changeShipment} />
+          <ShipmentCard shipment={shipment} />
           <p className="flex items-center gap-2 px-1 text-xs text-slate-400">
             <FiCreditCard /> Thanh toán và vận đơn được cập nhật tự động qua Saga (RabbitMQ).
           </p>

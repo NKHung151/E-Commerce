@@ -44,7 +44,6 @@ export const paymentApi = {
 
 export const shippingApi = {
   status: (orderId) => api.get('/staff/shipping/status/', { params: { order_id: orderId } }).then((r) => r.data),
-  updateStatus: (id, status) => api.patch(`/staff/shipping/${id}/update_status/`, { status }).then((r) => r.data),
 };
 
 export const userApi = {

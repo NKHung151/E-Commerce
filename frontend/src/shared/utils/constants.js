@@ -41,14 +41,6 @@ export const SHIPMENT_STATUS = {
   cancelled: { label: 'Đã huỷ', tone: 'red' },
 };
 
-export const SHIPMENT_TRANSITIONS = {
-  pending_payment: ['processing', 'cancelled'],
-  processing: ['shipping', 'cancelled'],
-  shipping: ['delivered'],
-  delivered: [],
-  cancelled: [],
-};
-
 export const ROLES = {
   admin: { label: 'Quản trị viên', tone: 'red' },
   staff: { label: 'Nhân viên', tone: 'blue' },

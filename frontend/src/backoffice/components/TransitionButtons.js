@@ -3,7 +3,7 @@ import { Button } from '../../shared/ui';
 
 /**
  * One button per allowed next state of a backend state machine
- * (ORDER_TRANSITIONS / SHIPMENT_TRANSITIONS); "cancelled" is rendered as a danger action.
+ * (ORDER_TRANSITIONS); "cancelled" is rendered as a danger action.
  */
 export default function TransitionButtons({ statusMap, transitions, current, busy, onSelect }) {
   const next = transitions[current] || [];
