@@ -56,10 +56,7 @@ class Neo4jClient:
     async def record_event(self, user_id: int, product_id: int, action: str,
                            name: str = None, category: str = None, price: float = None):
         """Upsert user + product and count the interaction, in one round trip.
-
-        (Previously three separate queries: merge_user, merge_product, record_action.)
-        Product properties are only overwritten when known.
-        """
+        Product properties are only overwritten when known."""
         rel_type = REL_TYPES.get(action, "INTERACT")  # whitelisted: safe to interpolate
         await self.run(
             f"""
@@ -112,10 +109,10 @@ class Neo4jClient:
     async def recommend_collaborative(self, user_id: int, limit: int = 10):
         result = await self.run(
             """
-            MATCH (u:User {id: $user_id})-[r:BUY|PURCHASE|VIEW|ADD_TO_CART]->(p:Product)
+            MATCH (u:User {id: $user_id})-[r:VIEW|ADD_TO_CART|BUY]->(p:Product)
             WITH u, p ORDER BY coalesce(r.last_at, 0) DESC LIMIT 10
-            MATCH (p)<-[:BUY|PURCHASE]-(other:User)-[:BUY|PURCHASE]->(rec:Product)
-            WHERE NOT (u)-[:BUY|PURCHASE|VIEW]->(rec)
+            MATCH (p)<-[:BUY]-(other:User)-[:BUY]->(rec:Product)
+            WHERE NOT (u)-[:BUY|VIEW]->(rec)
             RETURN rec.id AS product_id, count(*) AS score
             ORDER BY score DESC LIMIT $limit
             """,
@@ -128,8 +125,8 @@ class Neo4jClient:
             """
             MATCH (u:User {id: $user_id})-[r:VIEW|ADD_TO_CART|BUY]->(p:Product)
             WITH u, p ORDER BY coalesce(r.last_at, 0) DESC LIMIT 10
-            MATCH (p)-[:SIMILAR_TO|SIMILAR]->(rec:Product)
-            WHERE NOT (u)-[:BUY|PURCHASE]->(rec)
+            MATCH (p)-[:SIMILAR_TO]->(rec:Product)
+            WHERE NOT (u)-[:BUY]->(rec)
             RETURN rec.id AS product_id, count(*) AS score
             ORDER BY score DESC LIMIT $limit
             """,
@@ -140,7 +137,7 @@ class Neo4jClient:
     async def compute_similarity_edges(self):
         await self.run(
             """
-            MATCH (p1:Product)<-[:BUY|PURCHASE]-(u:User)-[:BUY|PURCHASE]->(p2:Product)
+            MATCH (p1:Product)<-[:BUY]-(u:User)-[:BUY]->(p2:Product)
             WHERE p1.id < p2.id
             WITH p1, p2, count(u) AS shared
             WHERE shared >= 2
@@ -152,7 +149,7 @@ class Neo4jClient:
     async def recommend_similar_p2p(self, product_id: int, limit: int = 10):
         result = await self.run(
             """
-            MATCH (p:Product {id: $product_id})-[s:SIMILAR_TO|SIMILAR]-(rec:Product)
+            MATCH (p:Product {id: $product_id})-[s:SIMILAR_TO]-(rec:Product)
             RETURN rec.id AS product_id, s.score AS score
             ORDER BY score DESC LIMIT $limit
             """,
@@ -163,7 +160,7 @@ class Neo4jClient:
     async def recommend_bought_together(self, product_id: int, limit: int = 5):
         result = await self.run(
             """
-            MATCH (p:Product {id: $product_id})<-[:BUY|PURCHASE]-(u:User)-[:BUY|PURCHASE]->(rec:Product)
+            MATCH (p:Product {id: $product_id})<-[:BUY]-(u:User)-[:BUY]->(rec:Product)
             WHERE rec.id <> $product_id
             RETURN rec.id AS product_id, count(u) AS score
             ORDER BY score DESC LIMIT $limit

@@ -15,7 +15,6 @@ class FaissClient:
     def __init__(self):
         self.index = None
         self.id_map = []      # FAISS row -> product id
-        self.metadata = {}    # product id -> {name, price, image, category} (for inspection)
         self.model_name = None
 
     def load_index(self):
@@ -37,7 +36,6 @@ class FaissClient:
 
         self.index = faiss.read_index(str(index_path))
         self.id_map = raw.get("id_map", [])
-        self.metadata = {int(k): v for k, v in raw.get("metadata", {}).items()}
         logger.info(f"FAISS index loaded: {self.index.ntotal} products")
 
     def search(self, query_vector: np.ndarray, top_k: int = 5) -> list:
@@ -51,7 +49,7 @@ class FaissClient:
             if 0 <= row < len(self.id_map)
         ]
 
-    def rebuild(self, embeddings: np.ndarray, product_ids: list, metadata: dict, model_name: str):
+    def rebuild(self, embeddings: np.ndarray, product_ids: list, model_name: str):
         if embeddings is None or embeddings.size == 0:
             logger.info("No products to index")
             return
@@ -62,13 +60,11 @@ class FaissClient:
 
         Path(settings.FAISS_INDEX_PATH).parent.mkdir(parents=True, exist_ok=True)
         faiss.write_index(index, settings.FAISS_INDEX_PATH)
-        Path(settings.PRODUCT_METADATA_PATH).write_text(json.dumps({
-            "model": model_name,
-            "id_map": product_ids,
-            "metadata": {str(k): v for k, v in metadata.items()},
-        }, ensure_ascii=False), encoding="utf-8")
+        # The model name guards against searching an index built with another model.
+        Path(settings.PRODUCT_METADATA_PATH).write_text(
+            json.dumps({"model": model_name, "id_map": product_ids}), encoding="utf-8")
 
-        self.index, self.id_map, self.metadata, self.model_name = index, product_ids, metadata, model_name
+        self.index, self.id_map, self.model_name = index, product_ids, model_name
         logger.info(f"FAISS rebuilt: {len(product_ids)} products indexed")
 
 

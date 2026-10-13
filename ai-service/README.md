@@ -281,7 +281,7 @@ số này bị bỏ qua, vì gợi ý tiết lộ lịch sử duyệt web của 
   "source": "lstm+graph+rag",
   "products": [
     {"id": 63, "name": "Áo sơ mi nam Calvin Klein Slim Fit Oxford Stretch", "price": 990000.0,
-     "image": "https://placehold.co/600x400?text=...", "category": "Fashion", "score": 0.81}
+     "image": null, "category": "Fashion", "score": 0.81}
   ]
 }
 ```
@@ -362,10 +362,9 @@ lại từ đầu hoặc khi cần tính lại `SIMILAR_TO`. Có thể lên lị
 | Đường dẫn trong `data/` | Nội dung | Có tạo lại được? |
 |---|---|---|
 | `user_behavior.csv` | Log hành vi, **dữ liệu gốc duy nhất** | **Không, cần sao lưu** |
-| `product_embeddings/`, `product_metadata.json` | Index FAISS | Có (`index`) |
+| `product_embeddings/`, `product_metadata.json` | Index FAISS, bảng ánh xạ hàng → product id, tên model embedding | Có (`index`) |
 | `checkpoints/lstm_checkpoint.pt` | Trọng số LSTM | Có (`lstm`) |
 | `hf-cache/` | Cache model embedding | Có (tự tải lại) |
-| `plots/` | Biểu đồ huấn luyện (chỉ khi có matplotlib) | Có |
 
 Thư mục `data/` không được commit và không được đưa vào image (`.dockerignore`).
 

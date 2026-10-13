@@ -21,8 +21,7 @@ def start_consumer(loop: asyncio.AbstractEventLoop = None):
 
     `loop` is the FastAPI event loop. Events are processed on it with
     run_coroutine_threadsafe so they also reach Neo4j (the async driver is bound to
-    that loop). Previously this path only appended to the CSV, so the graph was
-    only updated by the rarely used HTTP fallback.
+    that loop); without a running loop only the CSV log is written.
     """
     rabbitmq_host = os.getenv('RABBITMQ_HOST', 'rabbitmq')
 
@@ -71,7 +70,7 @@ def start_consumer(loop: asyncio.AbstractEventLoop = None):
                 pass
 
     def _run():
-        # Reconnect forever instead of recursing (the old self-call grew the stack on every failure).
+        # Reconnect forever (a loop, not recursion, so failures do not grow the stack).
         while True:
             _consume_once()
             time.sleep(5)

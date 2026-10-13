@@ -88,7 +88,6 @@ def train(epochs=50, batch_size=64, lr=1e-3, weight_decay=1e-5, patience=5):
     model = LSTMRecommender(num_products=len(products))
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    history = {"train_loss": [], "val_loss": [], "val_hit": []}
     best_hit, best_state, stale = -1.0, None, 0
 
     for epoch in range(1, epochs + 1):
@@ -101,10 +100,7 @@ def train(epochs=50, batch_size=64, lr=1e-3, weight_decay=1e-5, patience=5):
             optimizer.step()
             running += loss.item() * len(y)
         val_loss, val_hit = evaluate(model, val_loader, criterion)
-        history["train_loss"].append(running / len(y_train))
-        history["val_loss"].append(val_loss)
-        history["val_hit"].append(val_hit)
-        print(f"Epoch {epoch:2d} | train loss {history['train_loss'][-1]:.3f} | "
+        print(f"Epoch {epoch:2d} | train loss {running / len(y_train):.3f} | "
               f"val loss {val_loss:.3f} | val HitRate@{HIT_K} {val_hit:.1%}")
 
         if val_hit > best_hit:
@@ -124,29 +120,7 @@ def train(epochs=50, batch_size=64, lr=1e-3, weight_decay=1e-5, patience=5):
         "val_hit_rate": best_hit,
     }, settings.LSTM_CHECKPOINT_PATH)
     print(f"Saved best model (val HitRate@{HIT_K} {best_hit:.1%}) to {settings.LSTM_CHECKPOINT_PATH}")
-    save_plots(history)
     return best_hit
-
-
-def save_plots(history):
-    """Loss / hit-rate curves; optional because matplotlib is not part of the service image."""
-    try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-    except ImportError:
-        return
-    os.makedirs("data/plots", exist_ok=True)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-    ax1.plot(history["train_loss"], label="train")
-    ax1.plot(history["val_loss"], label="validation")
-    ax1.set_title("Loss")
-    ax1.legend()
-    ax2.plot(history["val_hit"], color="green")
-    ax2.set_title(f"Validation HitRate@{HIT_K}")
-    fig.tight_layout()
-    fig.savefig("data/plots/lstm_training.png")
-    plt.close(fig)
 
 
 if __name__ == "__main__":

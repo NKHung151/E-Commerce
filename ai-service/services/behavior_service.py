@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 CSV_COLUMNS = ["user_id", "product_id", "action", "timestamp"]
 
 _write_lock = threading.Lock()
-# Parsed behaviour log, reloaded only when the file changes. Recommendation requests
-# used to parse the whole CSV up to three times each (hybrid, lstm and graph services).
+# Parsed behaviour log, reloaded only when the file changes (every recommendation
+# request reads the history from it).
 _history_cache = {"key": None, "by_user": {}}
 _history_lock = threading.Lock()
 

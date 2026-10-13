@@ -2,12 +2,11 @@
 
 Default model: intfloat/multilingual-e5-small (384-dim, multilingual). On 8 Vietnamese
 shopping queries over the 300-product catalogue it reached 68% precision@5, versus 28%
-for the English-only all-MiniLM-L6-v2 used before. E5 models expect "query: " /
-"passage: " prefixes, which are added automatically.
+for the English-only all-MiniLM-L6-v2. E5 models expect "query: " / "passage: "
+prefixes, which are added automatically.
 
 If the model cannot be loaded, `available` is False and semantic search is disabled
-(it used to fall back to random vectors seeded with Python's per-process hash(), which
-silently returned meaningless results).
+rather than returning meaningless results.
 """
 import logging
 

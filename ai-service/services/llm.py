@@ -1,7 +1,6 @@
 """Single entry point for LLM calls (OpenAI or a local Ollama).
 
-Clients are created once and reused; previously every chat message built a new
-OpenAI / httpx client in two separate places with a 5-minute timeout.
+Clients are created once and reused, with a 60 s timeout.
 """
 import json
 import logging

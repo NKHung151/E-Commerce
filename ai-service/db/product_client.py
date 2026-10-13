@@ -25,6 +25,7 @@ class ProductClient:
     def __init__(self):
         self.base_url = settings.PRODUCT_SERVICE_URL
         self._all_cache = None
+        self._by_id = {}
         self._all_cache_at = 0.0
         self._all_lock = asyncio.Lock()
 
@@ -61,27 +62,23 @@ class ProductClient:
             if not fresh and self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL:
                 return self._all_cache
             self._all_cache = await self._fetch_all_products()
+            self._by_id = {p["id"]: p for p in self._all_cache}
             self._all_cache_at = time.monotonic()
             return self._all_cache
 
     async def get_product(self, product_id: int):
-        """Return the product dict, or None if it does not exist."""
-        async with httpx.AsyncClient(timeout=10.0) as client:
-            resp = await client.get(f"{self.base_url}/api/v1/products/{product_id}/")
-            if resp.status_code == 404:
-                return None
-            resp.raise_for_status()
-            return resp.json()
-
-    def _cached_catalogue(self):
-        fresh = self._all_cache is not None and time.monotonic() - self._all_cache_at < ALL_PRODUCTS_CACHE_TTL
-        return {p["id"]: p for p in self._all_cache} if fresh else None
+        """The product dict (from the catalogue cache when possible), or None if it does not exist."""
+        found = await self.get_products_by_ids([product_id])
+        return found[0] if found else None
 
     async def get_products_by_ids(self, product_ids: list) -> list:
-        """Products in input order. Served from the catalogue cache when it is warm
-        (product-service asks /recommend for 50 ids on every catalogue page); otherwise
-        fetched concurrently."""
-        cached = self._cached_catalogue() or {}
+        """Products in input order, from the cached catalogue (one paginated fetch per
+        minute at most); ids not in it yet (just created) are fetched individually."""
+        try:
+            await self.get_all_products()
+        except httpx.HTTPError:
+            pass  # product-service briefly unreachable: fall back to single fetches
+        cached = self._by_id
         missing = [pid for pid in product_ids if pid not in cached]
         fetched = {p["id"]: p for p in await self._fetch_many(missing)} if missing else {}
         return [cached.get(pid) or fetched[pid] for pid in product_ids if pid in cached or pid in fetched]

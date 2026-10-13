@@ -19,8 +19,7 @@ RECENT_EXCLUDE = 20
 
 async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, query: str = "") -> Tuple[List[ProductSummary], str]:
     # Content-based (RAG) dominates so recent views strongly steer results; LSTM and
-    # graph share the rest. Weights are configurable (they used to be hard-coded here,
-    # silently overriding the values in config).
+    # graph share the rest (weights from config).
     W1 = settings.LSTM_WEIGHT
     W2 = settings.GRAPH_WEIGHT
     W3 = settings.RAG_WEIGHT
@@ -48,8 +47,8 @@ async def get_recommendations(user_id: Optional[int] = None, top_n: int = 5, que
             get_lstm_scores(user_id), _safe_graph_scores(user_id))
 
     # Content similarity only makes sense for a real query (explicit context or the
-    # last viewed product). The old placeholder query "popular products" still got
-    # the 0.7 weight and drowned out the LSTM / graph signals.
+    # last viewed product); a generic query would get the 0.7 weight and drown out
+    # the LSTM / graph signals.
     rag_scores = normalize(await get_rag_scores(rag_query, top_k=top_n + len(recent))) if rag_query else {}
 
     sources = [name for name, scores in (("lstm", lstm_scores), ("graph", graph_scores), ("rag", rag_scores)) if scores]
@@ -89,15 +88,12 @@ async def _safe_graph_scores(user_id: int) -> dict:
 def to_summaries(products: list, score_map: dict = None, score: float = 1.0) -> list[ProductSummary]:
     result = []
     for p in products:
-        img = p.get("image_url") or p.get("image")
-        if not img or not img.strip():
-            img = f"https://placehold.co/600x400?text={p['name'].replace(' ', '+')}"
-
         result.append(ProductSummary(
             id=p["id"],
             name=p["name"],
             price=p.get("price", 0),
-            image=img,
+            # No image -> null; the storefront draws its own placeholder.
+            image=p.get("image_url") or p.get("image") or None,
             category=category_name(p),
             score=score_map.get(p["id"], score) if score_map else score
         ))

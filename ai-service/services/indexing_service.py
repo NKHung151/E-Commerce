@@ -1,8 +1,7 @@
 """Builds the FAISS product index and syncs product nodes into Neo4j.
 
-Single implementation used by POST /admin/rebuild-index and scripts/bootstrap.py.
-(There used to be three copies that embedded different text, so search quality
-depended on which one ran last.)
+Single implementation used by POST /admin/rebuild-index and scripts/bootstrap.py, so
+the indexed text is always the same.
 """
 import asyncio
 import logging
@@ -34,18 +33,9 @@ async def build_product_index(sync_graph: bool = True) -> int:
         return 0
 
     ids = [p["id"] for p in products]
-    metadata = {
-        p["id"]: {
-            "name": p["name"],
-            "price": p.get("price", 0),
-            "image": p.get("image_url") or p.get("image"),
-            "category": category_name(p),
-        }
-        for p in products
-    }
     # Embedding the catalogue is CPU-heavy: run it in a worker thread so the API stays responsive.
     vectors = await asyncio.to_thread(embedder.encode_documents, [product_document(p) for p in products])
-    await asyncio.to_thread(faiss_client.rebuild, vectors, ids, metadata, embedder.model_name)
+    await asyncio.to_thread(faiss_client.rebuild, vectors, ids, embedder.model_name)
 
     if sync_graph:
         await neo4j_client.create_constraints()
