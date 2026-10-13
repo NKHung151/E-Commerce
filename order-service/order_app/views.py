@@ -1,4 +1,5 @@
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
 from django.db import transaction
 from django.db.models import Q
@@ -9,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 from .models import Order, OrderItem
 from .serializers import OrderSerializer
 from .permissions import JWTAuthentication, IsStaffOrAdmin, IsCustomerOrAbove
-from .utils import error_response, track_behavior
+from .utils import error_response
 from . import services
 from django.http import JsonResponse
 
@@ -53,32 +54,30 @@ class OrderViewSet(viewsets.ViewSet):
     pagination_class = StandardResultsSetPagination
 
     def get_permissions(self):
-        if self.action in ['update_status', 'partial_update']:
+        if self.action == 'update_status':
             return [IsStaffOrAdmin()]
         return [IsCustomerOrAbove()]
 
     def create(self, request):
-        """
-        Create an order with Saga orchestration.
+        """Create an order and start the saga (choreographed over RabbitMQ).
 
-        Saga flow:
-        1. Validate products exist and have sufficient stock
-        2. Resolve prices from product-service (NEVER from client body)
-        3. Create Order with status='pending_payment'
-        4. Call payment-service
-           - success: set Order.status='paid'
-           - failure: set Order.status='cancelled', return 402
-        5. If paid: call shipping-service
-           - if fails: log error, keep order as 'paid'
+        1. Validate the lines, price them from product-service (never from the client)
+           and pre-check stock; the authoritative stock check happens in product-service.
+        2. Save the order as "pending" and publish saga-order-created.
+        3. payment-service charges (or accepts COD) -> product-service reserves stock ->
+           shipping-service creates the shipment -> this service sets "processing"
+           (see rabbitmq_saga). Any failure cancels the order and compensates.
         """
         user_id = request.auth_payload['user_id']
         items_data = request.data.get('items', [])
-        address = request.data.get('address', '')
+        address = (request.data.get('address') or '').strip()
 
         if not items_data or not isinstance(items_data, list):
-            return error_response('items list is required', 400)
+            return error_response('Đơn hàng phải có ít nhất một sản phẩm', 400)
         if len(items_data) > MAX_ORDER_LINES:
-            return error_response(f'An order can contain at most {MAX_ORDER_LINES} lines', 400)
+            return error_response(f'Một đơn hàng có tối đa {MAX_ORDER_LINES} sản phẩm', 400)
+        if not address:
+            return error_response('Vui lòng nhập địa chỉ giao hàng', 400)
 
         logger.info(f'[order-service] Creating order for user {user_id}')
 
@@ -96,30 +95,26 @@ class OrderViewSet(viewsets.ViewSet):
                 return error_response('product_id must be an integer', 400)
             requested[product_id] = requested.get(product_id, 0) + quantity
 
-        # Step 1 & 2: Validate products and resolve prices
+        # Validate products and resolve prices; products are fetched concurrently.
         total_price = Decimal('0')
         order_items_data = []
+        try:
+            with ThreadPoolExecutor(max_workers=min(8, len(requested))) as pool:
+                products = dict(zip(requested, pool.map(services.get_product, requested)))
+        except Exception as e:
+            logger.error(f'[order-service] Failed to fetch products: {e}')
+            return error_response('Không lấy được thông tin sản phẩm, vui lòng thử lại sau', 503)
 
         for product_id, quantity in requested.items():
-            # Get product from product-service
-            try:
-                product = services.get_product(product_id)
-            except Exception as e:
-                logger.error(f'[order-service] Failed to fetch product {product_id}: {e}')
-                return error_response(f'Product service unavailable while fetching product {product_id}', 503)
-
+            product = products[product_id]
             if product is None:
-                return error_response(f'Product {product_id} not found', 400)
-
-            if not product.get('is_available', True):
-                return error_response(f'Product {product_id} is not available', 400)
-
-            # Check stock (the authoritative check happens atomically in product-service via the saga)
+                return error_response(f'Sản phẩm #{product_id} không tồn tại', 400)
+            name = product.get('name', f'#{product_id}')
+            if not product.get('is_available', True) or product['stock'] <= 0:
+                return error_response(f'{name} đã hết hàng', 400)
+            # Pre-check only: the authoritative check happens atomically in product-service.
             if product['stock'] < quantity:
-                return error_response(
-                    f'Insufficient stock for product {product_id}: available {product["stock"]}, requested {quantity}',
-                    400
-                )
+                return error_response(f'{name} chỉ còn {product["stock"]} sản phẩm', 400)
 
             # Use price from product-service (NEVER from client body)
             unit_price = Decimal(str(product['price']))
@@ -179,10 +174,8 @@ class OrderViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.error(f'[order-service] Failed to publish saga-order-created: {e}')
 
-        # Track behavior
-        for item_data in order_items_data:
-            track_behavior(user_id=user_id, product_id=item_data['product_id'], action='purchase')
-
+        # The purchase is reported to the AI service once the saga succeeds (rabbitmq_saga),
+        # so failed or cancelled orders do not count as purchases.
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

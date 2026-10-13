@@ -24,57 +24,43 @@ All order amounts use DecimalField for precision.
   - Fields: id, order_id, product_id (indexed), quantity, unit_price (DecimalField), created_at
   - Relationship: Many-to-one with Order
 
-## Saga Orchestration Flow
-
-**POST /api/v1/orders/create/**
+## Saga (choreographed over RabbitMQ, exchange `saga-events`)
 
 ```
-1. Validate Products
-   - Fetch product from product-service
-   - Verify stock >= quantity
-   - Collect unit_price from product (NEVER from client)
-   - If validation fails: return 400, abort
+POST /api/v1/orders/
+ 1. Validate: items (max 50 lines, duplicates merged), address required, payment_method in card|bank|cash
+ 2. Price every line from product-service (never from the client), pre-check stock (products fetched in parallel)
+ 3. Save Order (status=pending) + items, publish saga-order-created          -> 201 {order}
 
-2. Create Order
-   - Status = 'pending_payment'
-   - Create OrderItems with validated prices
-
-3. Call Payment Service
-   - POST payment-service: order_id, amount, auth token
-   - Success (HTTP 200): Order.status = 'paid'
-   - Failure (non-200 or exception after 2 retries):
-     - Order.status = 'cancelled'
-     - Return 402 {"error": "Payment failed", "code": 402}
-
-4. Create Shipment (if Order.status = 'paid')
-   - POST shipping-service: order_id, address, auth token
-   - If fails: log error, keep order as 'paid' (no rollback)
-
-5. Return Order (status='paid')
+payment-service   saga-order-created  -> saga-payment-success | saga-payment-pending (COD/bank) | saga-payment-failed
+product-service   saga-payment-*      -> reserve stock atomically -> saga-stock-reduced | saga-stock-failed
+shipping-service  saga-stock-reduced  -> create shipment -> saga-shipping-created
+order-service     saga-shipping-created -> status=processing, report a "purchase" per item to the AI service
+                  saga-payment-failed / saga-stock-failed / saga-payment-refunded -> status=cancelled
+staff cancels     -> saga-order-cancelled: product-service restores stock, payment-service refunds
 ```
+
+Purchases are reported to the AI service only when the saga succeeds, so failed or cancelled-at-checkout
+orders do not teach the recommender anything.
 
 ## API Endpoints
 
-All endpoints require JWT authentication (IsCustomerOrAbove).
+All endpoints require JWT authentication.
 
-### Order Management
-- `POST /api/v1/orders/create/` - Create order with Saga (IsCustomerOrAbove)
-  - Body: `{"items": [{"product_id": 1, "quantity": 2}], "address": "123 Main St"}`
-  - Returns: Created Order (status: pending_payment or paid)
-  - Errors: 400 (validation), 402 (payment failed), 500 (internal error)
+### Customers (own orders)
+- `POST /api/v1/orders/` - Place an order
+  - Body: `{"items": [{"product_id": 1, "quantity": 2}], "address": "123 Main St", "payment_method": "cash"}`
+  - Returns 201 with the order (`status: pending`); 400 with a Vietnamese message on validation errors,
+    503 if product-service is unreachable
+- `GET /api/v1/orders/` - Own orders, paginated (`page`, `page_size`)
+- `GET /api/v1/orders/{id}/` - One own order
 
-- `GET /api/v1/orders/` - List orders (IsCustomerOrAbove)
-  - Customers: own orders only
-  - Staff/Admin: all orders
-  - Query params: `?page=1&page_size=10`
-
-- `GET /api/v1/orders/{id}/` - Get order details (IsCustomerOrAbove)
-  - Customers: own orders only
-  - Staff/Admin: any order
-
-- `PATCH /api/v1/orders/{id}/update_status/` - Update status (IsStaffOrAdmin)
-  - Body: `{"status": "cancelled"}`
-  - Status choices: pending_payment, paid, cancelled
+### Back office (staff / admin) - `/api/v1/staff/orders/`
+- `GET /staff/orders/` - All orders; `search` matches order id, user id, status or address
+- `GET /staff/orders/{id}/`
+- `PATCH /staff/orders/{id}/update_status/` - `{"status": "..."}`; allowed transitions:
+  pending -> processing | cancelled, processing -> shipped | cancelled, shipped -> delivered.
+  cancelled / shipped / delivered publish the matching saga event.
 
 ## Security
 - user_id always from JWT payload (never from request body)

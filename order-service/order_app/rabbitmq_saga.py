@@ -10,10 +10,8 @@ from django.db import close_old_connections
 logger = logging.getLogger(__name__)
 
 # Saga events are published to a direct exchange and every service binds its own
-# queue ("<service>.<event>") to it. Previously events were published straight to a
-# shared queue named after the event, so when two services consumed the same event
-# (e.g. saga-order-cancelled: product + payment) RabbitMQ load-balanced the messages
-# and each event reached only ONE of them.
+# queue ("<service>.<event>") to it, so an event consumed by several services
+# (e.g. saga-order-cancelled: product + payment) reaches each of them.
 SAGA_EXCHANGE = 'saga-events'
 SERVICE_NAME = 'order-service'
 
@@ -125,6 +123,10 @@ def start_saga_consumer():
                             order.status = 'processing'
                             order.save(update_fields=['status', 'updated_at'])
                             logger.info(f"Order {order_id} set to processing (Saga completed successfully)")
+                            # Paid (or COD accepted) and stock reserved: now it is a purchase.
+                            from order_app.utils import track_behavior
+                            for item in order.items.all():
+                                track_behavior(user_id=order.user_id, product_id=item.product_id, action='purchase')
                         else:
                             logger.info(f"Ignoring {routing_key} for Order {order_id} in status {order.status}")
                     
@@ -147,7 +149,7 @@ def start_saga_consumer():
                 pass
 
     def _run():
-        # Reconnect forever instead of recursing (the old self-call grew the stack on every failure).
+        # Reconnect forever (a loop, not recursion, so failures do not grow the stack).
         while True:
             _consume_once()
             time.sleep(5)
