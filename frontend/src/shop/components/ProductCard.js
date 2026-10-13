@@ -45,7 +45,7 @@ export default function ProductCard({ product }) {
   return (
     <Link
       to={`/products/${product.id}`}
-      onClick={() => user && aiApi.track(user.id, product.id, 'click')}
+      onClick={() => user && aiApi.track(product.id, 'click')}
       className="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/70 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60"
     >
       <div className="relative aspect-square overflow-hidden bg-slate-100">

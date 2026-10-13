@@ -13,7 +13,7 @@ class ActionType(str, Enum):
 
 
 class BehaviorEvent(BaseModel):
-    user_id: int
+    user_id: Optional[int] = None  # taken from the JWT for client calls; set by internal services
     product_id: Optional[int] = None
     action: ActionType
 

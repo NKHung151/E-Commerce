@@ -76,6 +76,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             resp = requests.get(
                 f"{settings.AI_SERVICE_URL}/recommend",
                 params={'user_id': user_id, 'top_n': AI_RECOMMEND_TOP_N},
+                # Recommendations for an arbitrary user_id are only served to services.
+                headers={'X-Internal-Token': settings.INTERNAL_SERVICE_TOKEN},
                 timeout=3,
             )
             if resp.status_code == 200:
@@ -92,7 +94,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         - category_id: Filter by category
         - min_price: Minimum price
         - max_price: Maximum price
-        - user_id: Personalized recommendation sorting
+        - personalized=1: AI-personalised ordering for the logged-in user (from the JWT)
         """
         # Prefetch detail relations in the same query to avoid N+1 lookups in the serializer.
         queryset = Product.objects.select_related(*DETAIL_RELATIONS)
@@ -103,8 +105,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         params = self.request.query_params
 
-        user_id = params.get('user_id')
-        if user_id:
+        # The user comes from the token, never from a query parameter: the ordering
+        # reveals what that user has been browsing.
+        user_id = getattr(self.request, 'auth_payload', {}).get('user_id')
+        if user_id and params.get('personalized') in ('1', 'true'):
             ordered_ids = self._personalized_ids(user_id)
             if ordered_ids:
                 # Order by AI score first, then by the default `-views`

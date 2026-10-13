@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     # JWT (must match user-service)
     JWT_SECRET: str = "shared-jwt-secret"
     JWT_ALGORITHM: str = "HS256"
+    # Shared secret of service-to-service calls (X-Internal-Token), same as the Django services
+    INTERNAL_SERVICE_TOKEN: str = "internal-service-secret"
 
     # LLM for the chatbot: "openai" (needs OPENAI_API_KEY) or "ollama"
     LLM_PROVIDER: str = "ollama"

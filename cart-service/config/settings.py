@@ -88,6 +88,7 @@ REST_FRAMEWORK = {
 JWT_SECRET = config('JWT_SECRET', default='shared-jwt-secret')
 PRODUCT_SERVICE_URL = config('PRODUCT_SERVICE_URL', default='http://product-service:8002')
 AI_SERVICE_URL = config('AI_SERVICE_URL', default='http://ai-service:8007')
+INTERNAL_SERVICE_TOKEN = config('INTERNAL_SERVICE_TOKEN', default='internal-service-secret')
 
 LOGGING = {
     'version': 1,

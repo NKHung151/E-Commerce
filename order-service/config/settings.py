@@ -92,6 +92,7 @@ PRODUCT_SERVICE_URL = config('PRODUCT_SERVICE_URL', default='http://product-serv
 PAYMENT_SERVICE_URL = config('PAYMENT_SERVICE_URL', default='http://payment-service:8005')
 SHIPPING_SERVICE_URL = config('SHIPPING_SERVICE_URL', default='http://shipping-service:8006')
 AI_SERVICE_URL = config('AI_SERVICE_URL', default='http://ai-service:8007')
+INTERNAL_SERVICE_TOKEN = config('INTERNAL_SERVICE_TOKEN', default='internal-service-secret')
 
 LOGGING = {
     'version': 1,

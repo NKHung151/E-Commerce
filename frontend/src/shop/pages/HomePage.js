@@ -92,7 +92,7 @@ function Categories() {
 export default function HomePage() {
   const { user } = useAuth();
   const popular = useAsync(() => catalogApi.products({ page_size: 8 }).then((d) => d.results), [], { initial: [] });
-  const forYou = useAsync(() => aiApi.recommend(user.id, 8), [user?.id], { initial: [], enabled: !!user });
+  const forYou = useAsync(() => aiApi.recommend(8), [user?.id], { initial: [], enabled: !!user });
 
   const viewAll = (
     <Link to="/products" className="flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700">

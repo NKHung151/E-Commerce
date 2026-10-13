@@ -15,7 +15,7 @@ export const authApi = {
 
 export const catalogApi = {
   categories: () => fetchAllPages(api, '/categories/'),
-  /** params: page, page_size, search, category_id, min_price, max_price, user_id */
+  /** params: page, page_size, search, category_id, min_price, max_price, personalized */
   products: (params) => api.get('/products/', { params }).then((r) => r.data),
   /** increment_view also records a "view" behaviour server-side for logged-in users. */
   product: (id, { countView = false } = {}) =>
@@ -43,15 +43,14 @@ export const reviewApi = {
   remove: (id) => api.delete(`/comments/${id}/`),
 };
 
+// The user is always taken from the bearer token by ai-service, never sent explicitly.
 export const aiApi = {
-  recommend: (userId, topN = 8) =>
-    ai.get('/recommend', { params: { user_id: userId, top_n: topN } }).then((r) => listOf(r.data.products)),
+  recommend: (topN = 8) => ai.get('/recommend', { params: { top_n: topN } }).then((r) => listOf(r.data.products)),
   similar: (productId, topN = 8) =>
     ai.get('/recommend/similar', { params: { product_id: productId, top_n: topN } }).then((r) => listOf(r.data.products)),
   boughtTogether: (productId, topN = 3) =>
     ai.get('/recommend/bought-together', { params: { product_id: productId, top_n: topN } }).then((r) => listOf(r.data.products)),
   /** Fire-and-forget; views and add-to-cart are already tracked by the backend. */
-  track: (userId, productId, action) =>
-    ai.post('/behavior/track', { user_id: userId, product_id: productId, action }).catch(() => {}),
-  chat: (userId, message) => ai.post('/chatbot', { user_id: userId || 0, message }).then((r) => r.data),
+  track: (productId, action) => ai.post('/behavior/track', { product_id: productId, action }).catch(() => {}),
+  chat: (message) => ai.post('/chatbot', { message }).then((r) => r.data),
 };

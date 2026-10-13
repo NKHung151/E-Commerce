@@ -4,8 +4,7 @@ from pydantic import BaseModel
 
 
 class ChatRequest(BaseModel):
-    message: str
-    user_id: int = 0  # informational; orders are looked up from the JWT, not this id
+    message: str  # the user (for order questions) comes from the JWT, never from the body
 
 
 class ProductCard(BaseModel):

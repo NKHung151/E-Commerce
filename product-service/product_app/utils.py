@@ -61,7 +61,9 @@ def track_behavior(user_id, product_id, action, timestamp=None):
                 "action": action,
                 "timestamp": timestamp or datetime.utcnow().isoformat()
             }
-            requests.post(url, json=payload, timeout=2.0)
+            # ai-service only accepts events for arbitrary users from services.
+            requests.post(url, json=payload, timeout=2.0,
+                          headers={'X-Internal-Token': settings.INTERNAL_SERVICE_TOKEN})
             logger.info(f'[AI-Tracker-HTTP-Fallback] Tracked {action} for user {user_id} on product {product_id}')
         except Exception as http_err:
             logger.warning(f'[AI-Tracker-HTTP-Fallback] Failed to track behavior via HTTP: {http_err}')

@@ -1,6 +1,7 @@
 import logging
 from typing import Optional
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
+from middleware.auth import get_optional_user, is_internal_service, token_user_id
 from schemas.recommend_schema import RecommendResponse
 from services.hybrid_service import get_recommendations, to_summaries
 from db.neo4j_client import neo4j_client
@@ -13,10 +14,17 @@ router = APIRouter()
 
 @router.get("", response_model=RecommendResponse)
 async def recommend(
-    user_id: Optional[int] = Query(None),
+    user_id: Optional[int] = Query(None, description="Only honoured for internal service calls"),
     top_n: int = Query(10, ge=1, le=50),
-    context: str = Query("")
+    context: str = Query(""),
+    user: Optional[dict] = Depends(get_optional_user),
+    internal: bool = Depends(is_internal_service),
 ):
+    # Recommendations reveal what a user has been browsing: clients only get their own
+    # (user from the JWT, anonymous = generic list). product-service, which personalises
+    # listings for the user it already authenticated, passes user_id with the internal token.
+    if not internal:
+        user_id = token_user_id(user)
     products, source = await get_recommendations(user_id, top_n, context)
     return RecommendResponse(user_id=user_id, products=products, source=source)
 

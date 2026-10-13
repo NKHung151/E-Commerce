@@ -127,7 +127,8 @@ services:
     environment:
       - RABBITMQ_HOST=rabbitmq
       - NEO4J_URI=bolt://neo4j:7687
-    ports: ["8007:8007"]
+    # No published port: clients go through the gateway, admin tasks run inside the
+    # container (docker exec ... scripts/bootstrap.py), Prometheus scrapes the network.
     env_file: ../ai-service/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"

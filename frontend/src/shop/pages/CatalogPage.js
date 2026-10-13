@@ -28,8 +28,8 @@ export default function CatalogPage() {
         category_id: category,
         min_price: min,
         max_price: max,
-        // Logged-in users get AI-personalised ordering from product-service.
-        user_id: user?.id,
+        // Logged-in users get AI-personalised ordering (product-service reads the user from the JWT).
+        personalized: user ? 1 : undefined,
       }),
     [page, search, category, min, max, user?.id]
   );

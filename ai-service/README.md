@@ -6,7 +6,7 @@ tìm kiếm ngữ nghĩa và trợ lý mua sắm (chatbot) tiếng Việt.
 | | |
 |---|---|
 | **Loại** | Microservice, REST API (FastAPI / Python 3.11) |
-| **Cổng** | `8007` (nội bộ); public qua API Gateway `:8080` cho `/recommend`, `/chatbot`, `/behavior/track` |
+| **Cổng** | `8007`, chỉ trong mạng Docker (không publish ra host); public qua API Gateway `:8080` cho `/recommend`, `/chatbot`, `/behavior/track` |
 | **Phụ thuộc bắt buộc** | product-service |
 | **Phụ thuộc tuỳ chọn** | Neo4j, Ollama/OpenAI, RabbitMQ, order-service. Thiếu thành phần nào thì chức năng tương ứng tạm tắt |
 | **Lưu trữ** | Volume `ai-service/data/` (log hành vi, index, checkpoint, cache model) |
@@ -204,12 +204,18 @@ restart. Thời gian chạy trên dữ liệu demo khoảng 40 giây.
 ### 5.5 Kiểm tra
 
 ```bash
-curl "http://localhost:8080/recommend?user_id=48&top_n=5"        # source: lstm+graph+rag
+curl "http://localhost:8080/recommend?top_n=5"                                   # ẩn danh: source = fallback
+curl "http://localhost:8080/recommend?top_n=5" -H "Authorization: Bearer <JWT>"  # cá nhân hoá: lstm+graph+rag
 curl -X POST http://localhost:8080/chatbot -H "Content-Type: application/json" \
      -d '{"message":"laptop chơi game dưới 25 triệu"}'
 ```
 
-Trạng thái chi tiết của từng thành phần: `GET /admin/stats` (xem [mục 8.3](#83-giám-sát)).
+Trạng thái chi tiết của từng thành phần (`GET /admin/stats`, xem [mục 8.3](#83-giám-sát)): cổng 8007
+không mở ra host, nên dùng lệnh sau, cũng là lệnh `bootstrap.py` chạy khi kết thúc:
+
+```bash
+docker exec ecommerce-ai-service-1 python -c "import sys; sys.path.insert(0, 'scripts'); from bootstrap import reload_service; reload_service()"
+```
 
 ---
 
@@ -223,7 +229,8 @@ Trạng thái chi tiết của từng thành phần: `GET /admin/stats` (xem [m�
 | `ORDER_SERVICE_URL` | `http://order-service:8004` | Tra cứu đơn hàng cho chatbot |
 | `RABBITMQ_HOST` | `rabbitmq` | Broker nhận sự kiện hành vi |
 | `NEO4J_URI` / `NEO4J_USER` / `NEO4J_PASSWORD` | `bolt://neo4j:7687` / `neo4j` / `12345678` | Đồ thị gợi ý |
-| `JWT_SECRET` / `JWT_ALGORITHM` | `shared-jwt-secret` / `HS256` | Xác thực admin, phải trùng user-service |
+| `JWT_SECRET` / `JWT_ALGORITHM` | `shared-jwt-secret` / `HS256` | Xác thực người dùng và admin, **phải trùng user-service** (sai → mọi token bị 401 `Invalid token`) |
+| `INTERNAL_SERVICE_TOKEN` | `internal-service-secret` | Secret cho các lệnh gọi giữa service, phải trùng các service Django |
 | `LLM_PROVIDER` | `ollama` | `ollama` hoặc `openai` |
 | `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://ollama:11434` / `qwen2.5:3b` | |
 | `OPENAI_API_KEY` | (trống) | Bắt buộc khi `LLM_PROVIDER=openai` |
@@ -239,15 +246,15 @@ Trạng thái chi tiết của từng thành phần: `GET /admin/stats` (xem [m�
 
 ## 7. Tham chiếu API
 
-Tài liệu OpenAPI tương tác: `http://localhost:8007/docs`.
+Tài liệu OpenAPI tương tác: `/docs` của service (trong mạng Docker, hoặc `http://localhost:8007/docs` khi chạy local).
 
 | Method | Path | Xác thực | Mô tả |
 |---|---|---|---|
-| GET | `/recommend` | — | Gợi ý cá nhân hoá |
+| GET | `/recommend` | JWT (tuỳ chọn) hoặc `X-Internal-Token` | Gợi ý cá nhân hoá |
 | GET | `/recommend/similar` | — | Sản phẩm tương tự |
 | GET | `/recommend/bought-together` | — | Thường được mua cùng |
 | POST | `/chatbot` | Bearer JWT (tuỳ chọn) | Trợ lý mua sắm |
-| POST | `/behavior/track` | — | Ghi một sự kiện hành vi |
+| POST | `/behavior/track` | JWT hoặc `X-Internal-Token` | Ghi một sự kiện hành vi |
 | POST | `/admin/rebuild-index` | JWT `role=admin` | Xây lại FAISS và node sản phẩm |
 | POST | `/admin/reload` | JWT `role=admin` | Nạp lại FAISS và LSTM từ đĩa |
 | GET | `/admin/stats` | JWT `role=admin` | Trạng thái các thành phần |
@@ -256,9 +263,14 @@ Tài liệu OpenAPI tương tác: `http://localhost:8007/docs`.
 
 ### `GET /recommend`
 
+Người được gợi ý **lấy từ JWT**: có token thì nhận gợi ý của chính mình, không có token thì nhận
+danh sách chung (`fallback`). Tham số `user_id` chỉ có tác dụng khi request mang `X-Internal-Token`
+(product-service dùng để sắp xếp danh sách cho người dùng mà nó đã xác thực); với client thường, tham
+số này bị bỏ qua, vì gợi ý tiết lộ lịch sử duyệt web của người đó.
+
 | Tham số | Kiểu | Mặc định | Mô tả |
 |---|---|---|---|
-| `user_id` | int | — | Bỏ trống: trả về sản phẩm mới nhất |
+| `user_id` | int | — | Chỉ dùng cho gọi nội bộ (xem trên) |
 | `top_n` | int 1–50 | 10 | Số sản phẩm |
 | `context` | string | `""` | Câu truy vấn ngữ nghĩa; mặc định dùng tên món người dùng xem gần nhất |
 
@@ -304,8 +316,16 @@ Các giá trị `intent`: `product_discovery`, `product_details`, `promotion`, `
 ### `POST /behavior/track`
 
 ```json
-{"user_id": 48, "product_id": 36, "action": "view"}   // action: view | click | add_to_cart | purchase | open_chatbot
+{"product_id": 36, "action": "click"}
 ```
+
+| Bên gọi | Xác thực | `user_id` | `action` cho phép |
+|---|---|---|---|
+| Trình duyệt | JWT (bắt buộc, không có → 401) | Lấy từ token, giá trị trong body bị bỏ qua | `view`, `click`, `open_chatbot` (khác → 403) |
+| Service nội bộ (dự phòng khi RabbitMQ lỗi) | `X-Internal-Token` | Bắt buộc trong body | Tất cả, gồm `add_to_cart`, `purchase` |
+
+`add_to_cart` và `purchase` chỉ do cart-service và order-service ghi, nên client không thể tạo lượt mua
+giả để đẩy sản phẩm lên mục gợi ý.
 
 ---
 
@@ -367,9 +387,12 @@ Thư mục `data/` không được commit và không được đưa vào image (
 | Endpoint quản trị | JWT HS256 (chung secret với user-service) và `role=admin` |
 | Tra cứu đơn hàng qua chatbot | Chuyển tiếp JWT của người dùng; order-service lọc theo người trong token, không theo id từ client |
 | Ngữ cảnh gửi cho LLM | Chỉ chứa tên, giá, danh mục, mô tả; không có id, URL hay dữ liệu cá nhân |
-| `POST /behavior/track` | **Không xác thực**: client có thể ghi sự kiện cho `user_id` bất kỳ (xem mục 13) |
+| `GET /recommend` | Người dùng lấy từ JWT; `user_id` tuỳ ý chỉ được chấp nhận kèm `X-Internal-Token` |
+| `POST /behavior/track` | Bắt buộc JWT, `user_id` lấy từ token; `add_to_cart` / `purchase` chỉ nhận từ service nội bộ |
+| Gọi giữa các service | Header `X-Internal-Token` (`INTERNAL_SERVICE_TOKEN`, so sánh bằng `hmac.compare_digest`) |
+| Danh sách sản phẩm cá nhân hoá | product-service dùng `?personalized=1` và lấy người dùng từ JWT, không nhận `user_id` trên URL |
 | CORS | `allow_origins=["*"]` không kèm credentials; gateway giới hạn origin cho preflight |
-| Cổng 8007 | Đang publish ra host để chạy bootstrap/admin; nên đóng khi triển khai production |
+| Cổng 8007 | Không publish ra host; `/docs`, `/metrics`, `/admin/*` chỉ truy cập được trong mạng Docker |
 | Secret | `.env` không commit; đổi `JWT_SECRET` và `NEO4J_PASSWORD` mặc định khi triển khai |
 
 ---
@@ -448,7 +471,8 @@ scripts/bootstrap.py        Pipeline index → graph → lstm → reload
 | Log `FAISS index was built with …` | Đã đổi model embedding | `bootstrap.py index` |
 | Log `LSTM checkpoint not found` | Chưa huấn luyện | `bootstrap.py lstm` (cần ≥ 100 sự kiện) |
 | `bootstrap.py index` báo không có sản phẩm | product-service trống hoặc chưa migrate | Chạy migration / thêm sản phẩm |
-| `/recommend` luôn trả `fallback` | Người dùng mới, hoặc chưa có index / đồ thị | Bình thường với người dùng mới; chạy `bootstrap.py` |
+| `/recommend` luôn trả `fallback` | Không gửi JWT, người dùng mới, hoặc chưa có index / đồ thị | Gửi `Authorization: Bearer`; với người dùng mới thì bình thường; chạy `bootstrap.py` |
+| Token thật bị 401 `Invalid token` | `JWT_SECRET` của ai-service khác user-service | Đặt cùng giá trị trong `ai-service/.env` |
 | Chatbot trả lời "tôi đang bận xử lý" | Không gọi được LLM | Kiểm tra container `ollama`, `OLLAMA_BASE_URL`, `ollama list` |
 | Câu chatbot đầu tiên chậm ~15 s | Ollama giải phóng model sau 5 phút không dùng | Bình thường; có thể đặt `OLLAMA_KEEP_ALIVE` cho container ollama |
 | Gợi ý có điểm nhưng danh sách rỗng | Id sản phẩm trong log không còn tồn tại | Đồng bộ danh mục với log; chạy lại `bootstrap.py` |
@@ -462,7 +486,6 @@ scripts/bootstrap.py        Pipeline index → graph → lstm → reload
 | Giới hạn | Ảnh hưởng | Hướng xử lý đề xuất |
 |---|---|---|
 | Log hành vi là file CSV | Không phù hợp nhiều replica; dung lượng tăng liên tục | Chuyển sang PostgreSQL / ClickHouse hoặc lưu theo partition |
-| `/behavior/track` không xác thực | Có thể ghi sự kiện giả mạo | Lấy `user_id` từ JWT, bỏ trường trong body |
 | LSTM chỉ biết sản phẩm có trong lúc huấn luyện | Sản phẩm mới chưa được LSTM gợi ý (FAISS và đồ thị vẫn gợi ý được) | Huấn luyện lại định kỳ |
 | FAISS xây lại toàn bộ | Chi phí tăng tuyến tính với danh mục | Cập nhật tăng dần (`add_with_ids`) hoặc chuyển sang `IndexHNSW` khi trên 100K sản phẩm |
 | LLM 3B đôi khi quá thận trọng | Có thể trả "không có sản phẩm phù hợp" dù thẻ gợi ý vẫn đúng | Dùng model lớn hơn hoặc OpenAI |

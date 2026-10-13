@@ -99,7 +99,7 @@ export default function ChatWidget() {
     setOpen((o) => {
       if (!o) {
         setUnread(0);
-        if (user) aiApi.track(user.id, null, 'open_chatbot');
+        if (user) aiApi.track(null, 'open_chatbot');
       }
       return !o;
     });
@@ -113,7 +113,7 @@ export default function ChatWidget() {
       setMessages((m) => [...m, { role: 'user', text: content }]);
       setSending(true);
       try {
-        const res = await aiApi.chat(user?.id, content);
+        const res = await aiApi.chat(content);
         setMessages((m) => [...m, { role: 'bot', text: res.reply || '…', products: res.products || [] }]);
       } catch {
         setMessages((m) => [...m, { role: 'bot', text: 'Xin lỗi, mình đang gặp sự cố kết nối. Bạn thử lại sau nhé.', error: true }]);
