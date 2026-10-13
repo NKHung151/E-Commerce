@@ -11,7 +11,10 @@ export function AuthProvider({ store, loginRequest, allowedRoles, children }) {
   const [user, setUser] = useState(() => userFromToken(store.access));
 
   // Stay in sync when the token is refreshed or cleared (e.g. refresh token expired).
-  useEffect(() => store.subscribe(() => setUser(userFromToken(store.access))), [store]);
+  useEffect(() => {
+    // Return the unsubscribe function as the effect cleanup.
+    return store.subscribe(() => setUser(userFromToken(store.access)));
+  }, [store]);
 
   const login = useCallback(
     async (username, password) => {

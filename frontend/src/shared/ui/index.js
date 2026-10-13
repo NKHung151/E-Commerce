@@ -10,3 +10,5 @@ export { FeedbackProvider, Modal, useToast, useConfirm } from './feedback';
 export { ProductImage, Price, Stars, StarInput, QuantityStepper } from './product';
 export { Logo } from './Logo';
 export { AuthShell, AuthAside } from './AuthShell';
+export { ErrorBoundary } from './ErrorBoundary';
+export { RouteOutlet, ROUTER_FUTURE } from './RouteOutlet';

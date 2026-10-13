@@ -1,13 +1,15 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
-import { Outlet, useLocation } from 'react-router-dom';
-import { Logo, PageLoader } from '../../shared/ui';
+import { useLocation } from 'react-router-dom';
+import { Logo, RouteOutlet } from '../../shared/ui';
 import Sidebar from './Sidebar';
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { pathname } = useLocation();
-  useEffect(() => setDrawerOpen(false), [pathname]);
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -32,9 +34,7 @@ export default function Layout() {
           <Logo />
         </header>
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <Suspense fallback={<PageLoader />}>
-            <Outlet />
-          </Suspense>
+          <RouteOutlet />
         </main>
       </div>
     </div>

@@ -1,6 +1,5 @@
-import React, { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
-import { PageLoader } from '../../shared/ui';
+import React from 'react';
+import { RouteOutlet } from '../../shared/ui';
 import ChatWidget from '../components/ChatWidget';
 import Footer from './Footer';
 import Header from './Header';
@@ -10,9 +9,7 @@ export default function ShopLayout() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
+        <RouteOutlet />
       </main>
       <Footer />
       <ChatWidget />

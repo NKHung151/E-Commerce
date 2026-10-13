@@ -10,7 +10,9 @@ function SearchBox({ className }) {
   const [params] = useSearchParams();
   const [value, setValue] = useState(params.get('search') || '');
 
-  useEffect(() => setValue(params.get('search') || ''), [params]);
+  useEffect(() => {
+    setValue(params.get('search') || '');
+  }, [params]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -31,7 +33,9 @@ function useDropdown() {
   const ref = useRef(null);
   const { pathname } = useLocation();
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
   useEffect(() => {
     const onClick = (e) => ref.current && !ref.current.contains(e.target) && setOpen(false);
     document.addEventListener('mousedown', onClick);

@@ -34,7 +34,9 @@ export default function CatalogPage() {
     [page, search, category, min, max, user?.id]
   );
 
-  useEffect(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [page]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
 
   const activeCategory = categories.find((c) => String(c.id) === category);
   const hasFilters = Boolean(search || category || min || max);

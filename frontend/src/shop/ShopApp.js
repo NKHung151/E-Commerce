@@ -1,6 +1,7 @@
 import React, { lazy, useEffect } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../shared/auth/AuthProvider';
+import { ROUTER_FUTURE } from '../shared/ui';
 import { authApi, shopTokens } from './api';
 import { CartProvider } from './context/CartContext';
 import ShopLayout from './layout/ShopLayout';
@@ -17,7 +18,9 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return null;
 }
 
@@ -29,7 +32,7 @@ function RequireAuth() {
 
 export default function ShopApp() {
   return (
-    <BrowserRouter>
+    <BrowserRouter future={ROUTER_FUTURE}>
       <AuthProvider store={shopTokens} loginRequest={authApi.login}>
         <CartProvider>
           <ScrollToTop />

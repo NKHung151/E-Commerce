@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../shared/auth/AuthProvider';
+import { ROUTER_FUTURE } from '../shared/ui';
 import { authApi, backofficeTokens } from './api';
 import Layout from './layout/Layout';
 import LoginPage from './pages/LoginPage';
@@ -34,7 +35,7 @@ function AdminOnly() {
 /** Shared back office for staff (/staff) and admins (/admin). */
 export default function BackofficeApp({ basename }) {
   return (
-    <BrowserRouter basename={basename}>
+    <BrowserRouter basename={basename} future={ROUTER_FUTURE}>
       <AuthProvider store={backofficeTokens} loginRequest={authApi.login} allowedRoles={BACKOFFICE_ROLES}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

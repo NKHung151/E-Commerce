@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { FeedbackProvider, PageLoader } from './shared/ui';
+import { ErrorBoundary, FeedbackProvider, PageLoader } from './shared/ui';
 
 // Two independent apps with separate sessions. The back office is code-split so
 // shoppers never download it.
@@ -13,10 +13,12 @@ export default function App() {
   const backofficeBase = BACKOFFICE_PREFIXES.find((p) => path === p || path.startsWith(`${p}/`));
 
   return (
-    <FeedbackProvider>
-      <Suspense fallback={<PageLoader />}>
-        {backofficeBase ? <BackofficeApp basename={backofficeBase} /> : <ShopApp />}
-      </Suspense>
-    </FeedbackProvider>
+    <ErrorBoundary>
+      <FeedbackProvider>
+        <Suspense fallback={<PageLoader />}>
+          {backofficeBase ? <BackofficeApp basename={backofficeBase} /> : <ShopApp />}
+        </Suspense>
+      </FeedbackProvider>
+    </ErrorBoundary>
   );
 }
