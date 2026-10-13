@@ -1,3 +1,5 @@
+import requests
+from django.conf import settings
 from rest_framework import serializers
 from .models import Comment
 
@@ -14,8 +16,18 @@ class CommentSerializer(serializers.ModelSerializer):
     def validate_comment_text(self, value):
         value = value.strip()
         if not value:
-            raise serializers.ValidationError('Comment cannot be empty')
+            raise serializers.ValidationError('Nội dung đánh giá không được để trống')
         return value
+
+    def validate(self, attrs):
+        if self.instance is None:  # creating
+            user_id = self.context['request'].auth_payload['user_id']
+            product_id = attrs['product_id']
+            if Comment.objects.filter(user_id=user_id, product_id=product_id).exists():
+                raise serializers.ValidationError('Bạn đã đánh giá sản phẩm này, hãy sửa đánh giá cũ')
+            if not _product_exists(product_id):
+                raise serializers.ValidationError('Sản phẩm không tồn tại')
+        return attrs
 
     def update(self, instance, validated_data):
         # A review cannot be moved to another product (the old product's rating
@@ -24,12 +36,17 @@ class CommentSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def create(self, validated_data):
-        request = self.context.get('request')
-        # request.user is the decoded JWT payload dictionary returned by JWTAuthentication
-        if request and hasattr(request, 'user') and isinstance(request.user, dict):
-            validated_data['user_id'] = request.user.get('user_id')
-            validated_data['username'] = request.user.get('username', 'Anonymous')
-        else:
-            validated_data['user_id'] = 0
-            validated_data['username'] = 'Anonymous'
+        # The author always comes from the JWT (create requires a logged-in user).
+        payload = self.context['request'].auth_payload
+        validated_data['user_id'] = payload['user_id']
+        validated_data['username'] = payload.get('username', '')
         return super().create(validated_data)
+
+
+def _product_exists(product_id):
+    """True unless product-service says 404 (an unreachable product-service does not block reviews)."""
+    try:
+        resp = requests.get(f'{settings.PRODUCT_SERVICE_URL}/api/v1/products/{product_id}/', timeout=3)
+        return resp.status_code != 404
+    except requests.RequestException:
+        return True

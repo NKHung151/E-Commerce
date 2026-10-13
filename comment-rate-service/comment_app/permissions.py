@@ -49,8 +49,7 @@ class IsCommentOwnerOrAdmin(BasePermission):
     Object-level permission to allow only owners of a comment or admins to delete/modify it.
     """
     def has_permission(self, request, view):
-        # Must be authenticated to perform write/delete
-        # (the old check `getattr(...) is not None` was always True, even for anonymous users)
+        # Must be authenticated to perform write/delete.
         return bool(getattr(request, 'auth_payload', None))
 
     def has_object_permission(self, request, view, obj):

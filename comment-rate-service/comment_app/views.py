@@ -52,8 +52,11 @@ class CommentViewSet(viewsets.ModelViewSet):
         VIRTUAL_COUNT = 5
         VIRTUAL_RATING = 5.0
 
-        avg_rating = (total_real_stars + VIRTUAL_COUNT * VIRTUAL_RATING) / (total_real_count + VIRTUAL_COUNT)
-        avg_rating = round(avg_rating, 2)
+        if total_real_count == 0:
+            avg_rating = 0  # no reviews left: "not rated yet", not a perfect 5.0 from the prior
+        else:
+            avg_rating = (total_real_stars + VIRTUAL_COUNT * VIRTUAL_RATING) / (total_real_count + VIRTUAL_COUNT)
+            avg_rating = round(avg_rating, 2)
 
         # Send HTTP request to product-service (internal endpoint, authenticated by shared token)
         try:

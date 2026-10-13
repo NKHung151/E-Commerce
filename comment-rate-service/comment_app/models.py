@@ -20,6 +20,10 @@ class Comment(models.Model):
             models.Index(fields=['product_id']),
             models.Index(fields=['user_id']),
         ]
+        constraints = [
+            # One review per customer and product (edit it instead of posting another).
+            models.UniqueConstraint(fields=['user_id', 'product_id'], name='uniq_review_per_user_product'),
+        ]
 
     def __str__(self):
         return f"User {self.username} rated product {self.product_id} with {self.rating} stars"

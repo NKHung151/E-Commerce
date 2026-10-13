@@ -69,7 +69,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-LANGUAGE_CODE = 'en-us'
+# Validation messages are shown to customers on the storefront.
+LANGUAGE_CODE = 'vi'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
