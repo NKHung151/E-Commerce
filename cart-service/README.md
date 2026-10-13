@@ -32,11 +32,13 @@ All endpoints require JWT authentication (IsCustomerOrAbove permission).
   - Returns: Cart with all items
 
 - `POST /api/v1/cart/add_item/` - Add item to cart
-  - Body: `{"product_id": 1, "quantity": 2, "unit_price": "29.99"}`
+  - Body: `{"product_id": 1, "quantity": 2}`
+  - Price, availability and stock come from product-service (a client price is ignored); the total
+    quantity in the cart may not exceed the stock. 503 if product-service is unreachable.
   - Returns: Created CartItem
 
 - `PUT /api/v1/cart/update_item/` - Update cart item quantity
-  - Body: `{"product_id": 1, "quantity": 5}`
+  - Body: `{"product_id": 1, "quantity": 5}` (0 removes the item); checked against the stock, price refreshed
   - Returns: Updated CartItem
 
 - `DELETE /api/v1/cart/remove_item/` - Remove item from cart
@@ -93,8 +95,7 @@ curl -X POST http://localhost:8080/api/v1/cart/add_item/ \
   -H "Authorization: Bearer <access_token>" \
   -d '{
     "product_id": 1,
-    "quantity": 2,
-    "unit_price": "29.99"
+    "quantity": 2
   }'
 ```
 

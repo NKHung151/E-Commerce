@@ -1,5 +1,5 @@
 import logging
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 import requests
 from django.conf import settings
@@ -33,26 +33,39 @@ def _parse_quantity(value, allow_zero=False):
 
 
 class ProductLookupError(Exception):
-    pass
+    def __init__(self, message, status):
+        super().__init__(message)
+        self.status = status
 
 
 def fetch_product(product_id):
-    """Fetch the authoritative product record from product-service.
+    """The authoritative product record from product-service (price, stock, availability).
 
-    Returns the product dict, None if product-service is unreachable,
-    and raises ProductLookupError if the product does not exist.
+    Raises ProductLookupError (404 unknown product, 503 product-service unreachable).
+    The cart never trusts a price or stock sent by the client.
     """
     try:
-        resp = requests.get(f'{settings.PRODUCT_SERVICE_URL}/api/v1/products/{product_id}/', timeout=3)
+        resp = requests.get(f'{settings.PRODUCT_SERVICE_URL}/api/v1/products/{int(product_id)}/', timeout=3)
+    except (TypeError, ValueError):
+        raise ProductLookupError('Sản phẩm không tồn tại', 404)
     except requests.RequestException as e:
         logger.warning(f'[cart-service] product-service unreachable: {e}')
-        return None
+        raise ProductLookupError('Không lấy được thông tin sản phẩm, vui lòng thử lại sau', 503)
     if resp.status_code == 404:
-        raise ProductLookupError('Product not found')
+        raise ProductLookupError('Sản phẩm không tồn tại', 404)
     if resp.status_code != 200:
         logger.warning(f'[cart-service] product-service returned {resp.status_code} for product {product_id}')
-        return None
+        raise ProductLookupError('Không lấy được thông tin sản phẩm, vui lòng thử lại sau', 503)
     return resp.json()
+
+
+def check_stock(product, quantity):
+    """Error response if `quantity` units of the product cannot be ordered, else None."""
+    if not product.get('is_available', True) or product.get('stock', 0) <= 0:
+        return error_response('Sản phẩm đã hết hàng', 400)
+    if quantity > product['stock']:
+        return error_response(f'Chỉ còn {product["stock"]} sản phẩm trong kho', 400)
+    return None
 
 
 class CartViewSet(viewsets.ViewSet):
@@ -85,31 +98,21 @@ class CartViewSet(viewsets.ViewSet):
         if not product_id:
             return error_response('product_id is required', 400)
         if quantity is None:
-            return error_response(f'quantity must be an integer between 1 and {MAX_ITEM_QUANTITY}', 400)
+            return error_response(f'Số lượng phải từ 1 đến {MAX_ITEM_QUANTITY}', 400)
 
-        # Price comes from product-service, never from the client. The client value is
-        # only used as a fallback when product-service is temporarily unreachable
-        # (order-service re-prices every item at checkout anyway).
         try:
             product = fetch_product(product_id)
         except ProductLookupError as e:
-            return error_response(str(e), 404)
-
-        if product is not None:
-            if not product.get('is_available', True):
-                return error_response('Product is not available', 400)
-            unit_price = product.get('price')
-        else:
-            unit_price = request.data.get('unit_price')
-
-        try:
-            unit_price = Decimal(str(unit_price))
-        except (InvalidOperation, ValueError):
-            return error_response('Could not determine product price', 400)
-
-        logger.info(f'[cart-service] Adding {quantity}x product {product_id} to cart for user {user_id}')
+            return error_response(str(e), e.status)
+        unit_price = Decimal(str(product['price']))
 
         cart = self.get_or_create_cart(user_id)
+        in_cart = CartItem.objects.filter(cart=cart, product_id=product_id).values_list('quantity', flat=True).first() or 0
+        stock_error = check_stock(product, in_cart + quantity)
+        if stock_error:
+            return stock_error
+
+        logger.info(f'[cart-service] Adding {quantity}x product {product_id} to cart for user {user_id}')
         with transaction.atomic():
             cart_item, created = CartItem.objects.select_for_update().get_or_create(
                 cart=cart,
@@ -133,8 +136,7 @@ class CartViewSet(viewsets.ViewSet):
         quantity = _parse_quantity(request.data.get('quantity'), allow_zero=True)
 
         if not product_id or quantity is None:
-            return error_response(
-                f'product_id and quantity (0-{MAX_ITEM_QUANTITY}) are required', 400)
+            return error_response(f'product_id và số lượng (0-{MAX_ITEM_QUANTITY}) là bắt buộc', 400)
 
         logger.info(f'[cart-service] Updating product {product_id} quantity to {quantity} for user {user_id}')
 
@@ -142,14 +144,24 @@ class CartViewSet(viewsets.ViewSet):
         try:
             cart_item = CartItem.objects.get(cart=cart, product_id=product_id)
         except CartItem.DoesNotExist:
-            return error_response('Item not found in cart', 404)
+            return error_response('Sản phẩm không có trong giỏ hàng', 404)
 
         if quantity == 0:
             cart_item.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+        try:
+            product = fetch_product(product_id)
+        except ProductLookupError as e:
+            return error_response(str(e), e.status)
+        stock_error = check_stock(product, quantity)
+        if stock_error:
+            return stock_error
+
+        # Refresh the price too, so the cart shows what checkout will charge.
         cart_item.quantity = quantity
-        cart_item.save(update_fields=['quantity', 'updated_at'])
+        cart_item.unit_price = Decimal(str(product['price']))
+        cart_item.save(update_fields=['quantity', 'unit_price', 'updated_at'])
         return Response(CartItemSerializer(cart_item).data)
 
     @action(detail=False, methods=['delete'])
@@ -164,7 +176,7 @@ class CartViewSet(viewsets.ViewSet):
 
         deleted, _ = CartItem.objects.filter(cart__user_id=user_id, product_id=product_id).delete()
         if not deleted:
-            return error_response('Item not found in cart', 404)
+            return error_response('Sản phẩm không có trong giỏ hàng', 404)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=['delete'])
