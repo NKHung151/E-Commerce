@@ -69,3 +69,29 @@ def track_behavior(user_id, product_id, action, timestamp=None):
             logger.warning(f'[AI-Tracker-HTTP-Fallback] Failed to track behavior via HTTP: {http_err}')
 
     threading.Thread(target=_send, daemon=True).start()
+
+
+def notify_catalog_changed():
+    """Ask ai-service to re-embed the catalogue after a product was created, edited or deleted.
+
+    Without this, new products stay invisible to semantic search and the chatbot until
+    someone rebuilds the index by hand. Sent after the transaction commits (so ai-service
+    reads the new data) from a background thread (so the admin request never waits);
+    ai-service coalesces bursts of changes into one rebuild.
+    """
+    import threading
+    import requests
+    from django.conf import settings
+    from django.db import transaction
+
+    def _send():
+        try:
+            requests.post(
+                f"{settings.AI_SERVICE_URL}/admin/rebuild-index",
+                headers={'X-Internal-Token': settings.INTERNAL_SERVICE_TOKEN},
+                timeout=3,
+            )
+        except requests.RequestException as e:
+            logger.warning(f'[product-service] Could not notify ai-service of a catalogue change: {e}')
+
+    transaction.on_commit(lambda: threading.Thread(target=_send, daemon=True).start())

@@ -22,7 +22,7 @@ from .serializers import (
     OfficeSuppliesSerializer
 )
 from .permissions import JWTAuthentication, IsStaffOrAdmin, IsAdminRole, IsInternalService
-from .utils import error_response, track_behavior
+from .utils import error_response, notify_catalog_changed, track_behavior
 from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
@@ -33,6 +33,25 @@ AI_RECOMMEND_TOP_N = 50
 
 def health_check(request):
     return JsonResponse({"status": "ok", "service": "product-service"})
+
+
+class CatalogChangeNotifyMixin:
+    """Tell ai-service when products change through the API (create / edit / delete).
+
+    Done here rather than with model signals: the order saga saves products to adjust
+    stock, and stock does not affect what the AI indexes.
+    """
+    def perform_create(self, serializer):
+        super().perform_create(serializer)
+        notify_catalog_changed()
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        notify_catalog_changed()
+
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+        notify_catalog_changed()
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -56,7 +75,7 @@ def _parse_decimal(value):
         return None
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(CatalogChangeNotifyMixin, viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     authentication_classes = [JWTAuthentication]
     pagination_class = StandardResultsSetPagination
@@ -220,7 +239,7 @@ class AdminProductViewSet(ProductViewSet):
         return super().get_permissions()
 
 
-class ProductCategoryViewSet(viewsets.ModelViewSet):
+class ProductCategoryViewSet(CatalogChangeNotifyMixin, viewsets.ModelViewSet):
     """Base viewset for category-specific product models (Book, Electronics, ...).
 
     Subclasses set `model`, `serializer_class` and `search_fields`

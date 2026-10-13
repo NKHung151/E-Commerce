@@ -1,22 +1,39 @@
-from fastapi import APIRouter, Depends
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException
 
 from config import settings
 from db.faiss_client import faiss_client
 from db.neo4j_client import neo4j_client
-from middleware.auth import require_roles
+from middleware.auth import get_optional_user, is_internal_service
 from models.lstm_inference import lstm_inference
-from services.indexing_service import build_product_index
-
-# Index rebuilds are expensive and rewrite the graph: admin JWT required
-# (ai-service port 8007 is published by docker-compose).
-router = APIRouter(dependencies=[Depends(require_roles("admin"))])
+from services.indexing_service import schedule_rebuild
 
 
-@router.post("/rebuild-index")
+async def require_admin_or_service(
+    user: Optional[dict] = Depends(get_optional_user), internal: bool = Depends(is_internal_service)
+):
+    """Admin JWT, or a service carrying X-Internal-Token (product-service on catalogue changes)."""
+    if internal:
+        return
+    if user is None:
+        raise HTTPException(status_code=401, detail="Missing token")
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+
+router = APIRouter(dependencies=[Depends(require_admin_or_service)])
+
+
+@router.post("/rebuild-index", status_code=202)
 async def rebuild_index():
-    """Re-embed the current catalogue into FAISS and upsert product nodes in Neo4j."""
-    indexed = await build_product_index()
-    return {"status": "ok", "products_indexed": indexed}
+    """Re-embed the catalogue into FAISS and upsert product nodes in Neo4j, in the background.
+
+    Called by product-service after every product change; bursts are coalesced into one
+    rebuild. Progress shows up in /admin/stats (faiss_products).
+    """
+    schedule_rebuild()
+    return {"status": "scheduled"}
 
 
 @router.post("/reload")

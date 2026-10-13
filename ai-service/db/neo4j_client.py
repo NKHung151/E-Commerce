@@ -47,6 +47,12 @@ class Neo4jClient:
                 rows=products[i:i + batch_size],
             )
 
+    async def prune_products(self, keep_ids: list):
+        """Delete product nodes (and their edges) that are no longer in the catalogue."""
+        rows = await self.run(
+            "MATCH (p:Product) WHERE NOT p.id IN $ids DETACH DELETE p RETURN count(p) AS deleted", ids=keep_ids)
+        return rows[0]["deleted"] if rows else 0
+
     async def record_event(self, user_id: int, product_id: int, action: str,
                            name: str = None, category: str = None, price: float = None):
         """Upsert user + product and count the interaction, in one round trip.

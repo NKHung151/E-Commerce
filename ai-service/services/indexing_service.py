@@ -53,6 +53,38 @@ async def build_product_index(sync_graph: bool = True) -> int:
             {"id": p["id"], "name": p["name"], "category": category_name(p), "price": float(p.get("price", 0))}
             for p in products
         ])
+        # Deleted products must not keep being recommended from the graph.
+        await neo4j_client.prune_products(ids)
 
     logger.info(f"Indexed {len(ids)} products")
     return len(ids)
+
+
+# ── Catalogue-change rebuilds ──────────────────────────────────────────────
+# product-service notifies after every product create / update / delete. Bursts (an
+# admin editing ten products) are coalesced: the rebuild starts once no change has
+# arrived for REBUILD_DEBOUNCE seconds, and a change during a rebuild triggers one more.
+REBUILD_DEBOUNCE = 3.0
+_pending = False
+_worker = None
+
+
+async def _rebuild_worker():
+    global _pending
+    while _pending:
+        _pending = False
+        await asyncio.sleep(REBUILD_DEBOUNCE)
+        if _pending:
+            continue  # more changes arrived while waiting
+        try:
+            await build_product_index()
+        except Exception as e:
+            logger.error(f"Catalogue rebuild failed: {e}")
+
+
+def schedule_rebuild():
+    """Queue a debounced index rebuild; returns immediately."""
+    global _pending, _worker
+    _pending = True
+    if _worker is None or _worker.done():
+        _worker = asyncio.create_task(_rebuild_worker())
