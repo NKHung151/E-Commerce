@@ -17,7 +17,7 @@ All order amounts use DecimalField for precision.
 ## Models
 - **Order**
   - Fields: id, user_id (indexed), total_price (DecimalField), status, address, created_at, updated_at
-  - Status choices: pending_payment, paid, cancelled
+  - Status: pending, processing, shipped, delivered, cancelled
   - Relationship: One-to-many with OrderItem
 
 - **OrderItem**
@@ -99,7 +99,7 @@ docker-compose up order-service
 
 ### Create Order
 ```bash
-curl -X POST http://localhost:8080/api/v1/orders/create/ \
+curl -X POST http://localhost:8080/api/v1/orders/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
